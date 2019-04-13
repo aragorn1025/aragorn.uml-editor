@@ -7,76 +7,104 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import javax.swing.JButton;
 import aragorn.math.geometry.Coordinate2D;
-import aragorn.math.geometry.Polygon2D;
+import aragorn.math.geometry.LineSegment2D;
+import aragorn.math.geometry.Oval;
+import aragorn.math.geometry.Paintable;
 import aragorn.math.geometry.Polyline2D;
 
 @SuppressWarnings("serial")
 abstract class XmlButton extends JButton {
 
+	static class AssociationLine extends XmlButton {
+
+		private static final LineSegment2D icon = new LineSegment2D(new Point2D.Double(0, 4), new Point2D.Double(8, 4));
+
+		AssociationLine() {
+			super("association line");
+		}
+
+		@Override
+		protected Paintable getIconn() {
+			return XmlButton.AssociationLine.icon;
+		}
+	}
+
+	static class Class extends XmlButton {
+
+		private static final Polyline2D icon = new Polyline2D(new Point2D.Double(0, 5), new Point2D.Double(0, 1), new Point2D.Double(8, 1), new Point2D.Double(8, 7),
+				new Point2D.Double(0, 7), new Point2D.Double(0, 5), new Point2D.Double(8, 5), new Point2D.Double(8, 3), new Point2D.Double(0, 3));
+
+		Class() {
+			super("class");
+		}
+
+		@Override
+		protected Paintable getIconn() {
+			return XmlButton.Class.icon;
+		}
+	}
+
+	static class CompositionLine extends XmlButton {
+
+		private static final Polyline2D icon = new Polyline2D(new Point2D.Double(8, 4), new Point2D.Double(4, 4), new Point2D.Double(2, 2), new Point2D.Double(0, 4),
+				new Point2D.Double(2, 6), new Point2D.Double(4, 4));
+
+		CompositionLine() {
+			super("composition line");
+		}
+
+		@Override
+		protected Paintable getIconn() {
+			return XmlButton.CompositionLine.icon;
+		}
+	}
+
+	static class GeneralizationLine extends XmlButton {
+
+		private static final Polyline2D icon = new Polyline2D(new Point2D.Double(8, 4), new Point2D.Double(2, 4), new Point2D.Double(2, 2), new Point2D.Double(0, 4),
+				new Point2D.Double(2, 6), new Point2D.Double(2, 4));
+
+		GeneralizationLine() {
+			super("generalization line");
+		}
+
+		@Override
+		protected Paintable getIconn() {
+			return XmlButton.GeneralizationLine.icon;
+		}
+	}
+
 	static class Select extends XmlButton {
 
-		private static final Polygon2D icon = new Polygon2D(new Point2D.Double(0, 0), new Point2D.Double(0, 1020), new Point2D.Double(250, 770),
-				new Point2D.Double(414, 1098), new Point2D.Double(558, 1026), new Point2D.Double(405, 720), new Point2D.Double(720, 720));
+		private static final Polyline2D icon = new Polyline2D(new Point2D.Double(189, 0), new Point2D.Double(189, 1020), new Point2D.Double(439, 770),
+				new Point2D.Double(603, 1098), new Point2D.Double(747, 1026), new Point2D.Double(594, 720), new Point2D.Double(909, 720), new Point2D.Double(189, 0));
 
 		Select() {
 			super("select");
 		}
 
 		@Override
-		protected void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			Polygon2D p = getShiftIcon();
-			double d = Math.max(p.getBounds().getWidth(), p.getBounds().getHeight()) * 5 / 4;
-			p.draw(g, new Coordinate2D(new Point2D.Double(0, 0), getLength() / d, -getLength() / d));
-		}
-
-		private Polygon2D getShiftIcon() {
-			Rectangle2D bounds = XmlButton.Select.icon.getBounds();
-			double d = Math.abs(bounds.getWidth() - bounds.getHeight());
-			double dx = 2 * (bounds.getHeight() - bounds.getWidth() + d) + Math.max(bounds.getWidth(), bounds.getHeight());
-			double dy = 2 * (bounds.getWidth() - bounds.getHeight() + d) + Math.max(bounds.getWidth(), bounds.getHeight());
-			Polyline2D shift_icon = new Polyline2D();
-			for (int i = 0; i < XmlButton.Select.icon.getPointNumber(); i++) {
-				Point2D p = XmlButton.Select.icon.getPoint(i);
-				shift_icon.addPoint(p.getX() * 8 + dx, p.getY() * 8 + dy);
-			}
-			return new Polygon2D(shift_icon);
-		}
-	}
-
-	static class AssociationLine extends XmlButton {
-
-		AssociationLine() {
-			super("association line");
-		}
-	}
-
-	static class GeneralizationLine extends XmlButton {
-
-		GeneralizationLine() {
-			super("generalization line");
-		}
-	}
-
-	static class CompositionLine extends XmlButton {
-
-		CompositionLine() {
-			super("composition line");
-		}
-	}
-
-	static class Class extends XmlButton {
-
-		Class() {
-			super("class");
+		protected Paintable getIconn() {
+			return XmlButton.Select.icon;
 		}
 	}
 
 	static class UseCase extends XmlButton {
 
+		private static final Oval icon = new Oval(new Point2D.Double(4, 4), 8, 6);
+
 		UseCase() {
 			super("use case");
 		}
+
+		@Override
+		protected Paintable getIconn() {
+			return XmlButton.UseCase.icon;
+		}
+	}
+
+	private static String encode(Color color) {
+		return Integer.toHexString(color.getRGB()).substring(2);
 	}
 
 	private Color tool_tip_text_color = Color.DARK_GRAY;
@@ -87,25 +115,40 @@ abstract class XmlButton extends JButton {
 		setToolTipTextColor(Color.DARK_GRAY);
 	}
 
-	protected void setSize(int length) {
+	public Coordinate2D getFitCoordinate(int margin) {
+		Dimension button_size = getSize();
+		double unit = Math.min((button_size.width - 2.0 * margin) / getIconn().getBounds().getWidth(),
+				(button_size.getHeight() - 2.0 * margin) / getIconn().getBounds().getHeight());
+		double ox = button_size.getWidth() / 2.0 - unit * (getIconn().getBounds().getWidth() / 2.0 + getIconn().getBounds().getX());
+		double oy = button_size.getHeight() / 2.0 - unit * (getIconn().getBounds().getHeight() / 2.0 + getIconn().getBounds().getY());
+		return new Coordinate2D(new Point2D.Double(ox, oy), unit, -unit);
+	}
+
+	protected Rectangle2D.Double getIconBounds() {
+		double length = Math.max(getIconn().getBounds().getWidth(), getIconn().getBounds().getHeight());
+		return new Rectangle2D.Double(0, 0, length, length);
+	}
+
+	protected abstract Paintable getIconn();
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		getIconn().draw(g, getFitCoordinate(Math.min(getWidth(), getHeight()) / 10));
+	}
+
+	private void setSize(int length) {
 		Dimension size = new Dimension(length, length);
 		setMinimumSize(size);
 		setPreferredSize(size);
 	}
 
-	protected int getLength() {
-		return Math.min(getWidth(), getHeight());
+	@Override
+	public void setToolTipText(String text) {
+		super.setToolTipText("<html><p><font color=\"#" + encode(tool_tip_text_color) + "\" size=\"4\" face=\"SansSerif\">" + text + "</font></p></html>");
 	}
 
 	public void setToolTipTextColor(Color color) {
 		this.tool_tip_text_color = color;
-	}
-
-	private static String encode(Color color) {
-		return Integer.toHexString(color.getRGB()).substring(2);
-	}
-
-	public void setToolTipText(String text) {
-		super.setToolTipText("<html><p><font color=\"#" + encode(tool_tip_text_color) + "\" size=\"4\" face=\"SansSerif\">" + text + "</font></p></html>");
 	}
 }
