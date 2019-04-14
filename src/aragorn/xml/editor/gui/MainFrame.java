@@ -2,11 +2,16 @@ package aragorn.xml.editor.gui;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiPanel;
 
 @SuppressWarnings("serial")
 public class MainFrame extends GuiFrame {
+
+	private ButtonPanel button_panel = new ButtonPanel();
+
+	private CanvasArea canvas_area = new CanvasArea(this);
 
 	public MainFrame() {
 		super(new Dimension(800, 450), false);
@@ -14,9 +19,19 @@ public class MainFrame extends GuiFrame {
 		setTitle("XML Editor");
 		setJMenuBar(new MainMenuBar(this));
 
+		int margin = 10;
 		GuiPanel content_pane = new GuiPanel();
-		content_pane.addComponent(new EditPanel(), 0, 0, 1, 1, 0, 1, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL);
-		content_pane.addComponent(new CanvasPanel(), 1, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
+		content_pane.setDefaultMargin(0);
+		content_pane.addComponent(button_panel, 0, 0, 1, 1, 0, 1, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL);
+		content_pane.addComponent(canvas_area, 1, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(margin, 0, margin, margin));
 		setContentPane(content_pane);
+	}
+
+	ButtonPanel getButtonPanel() {
+		return button_panel;
+	}
+
+	CanvasArea getCanvasArea() {
+		return canvas_area;
 	}
 }
