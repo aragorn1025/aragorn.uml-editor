@@ -1,31 +1,33 @@
 package aragorn.xml.editor.objects;
 
-import java.awt.Graphics;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D.Double;
-import aragorn.math.geometry.Coordinate2D;
 import aragorn.math.geometry.Oval;
 import aragorn.math.geometry.Paintable;
 
 public class UmlUseCase extends UmlBasicObject {
 
-	protected UmlUseCase(Point reference_point) {
-		super(reference_point);
-	}
-
-	public static final Paintable BUTTON_ICON = new Oval(new Point2D.Double(4, 4), 8, 6);
+	public static final Paintable BUTTON_ICON = new UmlUseCase(new Point(0, 1), new Dimension(8, 6));
 
 	public static final String NAME = "use case";
+	
+	/**
+	 * The default size of the object.<br>
+	 * Strongly recommend to set the width as the multiple of 2 and set the height as the multiple of 2. TODO the javadoc should be rewrite correctly.
+	 */
+	private final static Dimension DEFAULT_SIZE = new Dimension(84, 48);
 
-	@Override
-	public void draw(Graphics g, Coordinate2D c) {
-		// TODO Auto-generated method stub
+	public UmlUseCase(Point reference_point) {
+		this(reference_point, UmlUseCase.DEFAULT_SIZE);
+	}
+
+	private UmlUseCase(Point reference_point, Dimension size) {
+		super(reference_point, size);
 	}
 
 	@Override
-	public Double getBounds() {
-		// TODO Auto-generated method stub
-		return null;
+	protected Paintable getIcon() {
+		return new Oval(new Point2D.Double(getBounds().getCenterX(), getBounds().getCenterY()), getBounds().getWidth(), getBounds().getHeight());
 	}
 }

@@ -2,6 +2,7 @@ package aragorn.xml.editor.gui;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.event.MouseInputAdapter;
@@ -61,6 +62,15 @@ class CanvasArea extends Canvas {
 	void addUmlObject(UmlObject uml_object) {
 		if (uml_object != null) {
 			list.add(uml_object);
+			repaint();
+		}
+	}
+
+	@Override
+	public void paint(Graphics g) {
+		g.setColor(Color.WHITE);
+		for (UmlObject uml_object : list) {
+			uml_object.draw(g, null);
 		}
 	}
 }

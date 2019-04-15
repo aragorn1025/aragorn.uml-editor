@@ -49,8 +49,7 @@ abstract class XmlButton extends JToggleButton {
 
 		@Override
 		UmlObject clickedAction(Point point) {
-			System.out.printf("Create an UML object, class, at (%.0f, %.0f).%n", point.getX(), point.getY());
-			return super.clickedAction(point); // TODO
+			return new UmlClass(point);
 		}
 	}
 
@@ -136,8 +135,7 @@ abstract class XmlButton extends JToggleButton {
 
 		@Override
 		UmlObject clickedAction(Point point) {
-			System.out.printf("Create an UML basic object, use case, at (%.0f, %.0f).%n", point.getX(), point.getY());
-			return super.clickedAction(point); // TODO
+			return new UmlUseCase(point);
 		}
 	}
 
