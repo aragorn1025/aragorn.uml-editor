@@ -7,67 +7,94 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import javax.swing.JToggleButton;
 import aragorn.math.geometry.Coordinate2D;
-import aragorn.math.geometry.LineSegment2D;
-import aragorn.math.geometry.Oval;
 import aragorn.math.geometry.Paintable;
 import aragorn.math.geometry.Polygon2D;
-import aragorn.math.geometry.Polyline2D;
+import aragorn.xml.editor.objects.UmlAssociationLine;
+import aragorn.xml.editor.objects.UmlClass;
+import aragorn.xml.editor.objects.UmlCompositionLine;
+import aragorn.xml.editor.objects.UmlGeneralizationLine;
+import aragorn.xml.editor.objects.UmlObject;
+import aragorn.xml.editor.objects.UmlUseCase;
 
 @SuppressWarnings("serial")
 abstract class XmlButton extends JToggleButton {
 
 	static class AssociationLine extends XmlButton {
 
-		private static final Paintable ICON = new LineSegment2D(new Point2D.Double(0, 4), new Point2D.Double(8, 4));
-
 		AssociationLine() {
-			super("association line", XmlButton.AssociationLine.ICON);
+			super(UmlAssociationLine.NAME, UmlAssociationLine.BUTTON_ICON);
 		}
 
 		@Override
-		void clickedAction(Point point) { // TODO
+		UmlObject pressedAction(Point point) {
+			return super.pressedAction(point); // TODO
+		}
+
+		@Override
+		UmlObject draggedAction(Point point) {
+			return super.draggedAction(point); // TODO
+		}
+
+		@Override
+		UmlObject releasedAction(Point point) {
+			return super.releasedAction(point); // TODO
 		}
 	}
 
 	static class Class extends XmlButton {
 
-		private static final Paintable ICON = new Polyline2D(new Point2D.Double(0, 5), new Point2D.Double(0, 1), new Point2D.Double(8, 1), new Point2D.Double(8, 7),
-				new Point2D.Double(0, 7), new Point2D.Double(0, 5), new Point2D.Double(8, 5), new Point2D.Double(8, 3), new Point2D.Double(0, 3));
-
 		Class() {
-			super("class", XmlButton.Class.ICON);
+			super(UmlClass.NAME, UmlClass.BUTTON_ICON);
 		}
 
 		@Override
-		void clickedAction(Point point) { // TODO
+		UmlObject clickedAction(Point point) {
+			System.out.printf("Create an UML object, class, at (%.0f, %.0f).%n", point.getX(), point.getY());
+			return super.clickedAction(point); // TODO
 		}
 	}
 
 	static class CompositionLine extends XmlButton {
 
-		private static final Paintable ICON = new Polyline2D(new Point2D.Double(10, 5), new Point2D.Double(4, 5), new Point2D.Double(2, 3), new Point2D.Double(0, 5),
-				new Point2D.Double(2, 7), new Point2D.Double(4, 5));
-
 		CompositionLine() {
-			super("composition line", XmlButton.CompositionLine.ICON);
+			super(UmlCompositionLine.NAME, UmlCompositionLine.BUTTON_ICON);
 		}
 
 		@Override
-		void clickedAction(Point point) { // TODO
+		UmlObject pressedAction(Point point) {
+			return super.pressedAction(point); // TODO
+		}
+
+		@Override
+		UmlObject draggedAction(Point point) {
+			return super.draggedAction(point); // TODO
+		}
+
+		@Override
+		UmlObject releasedAction(Point point) {
+			return super.releasedAction(point); // TODO
 		}
 	}
 
 	static class GeneralizationLine extends XmlButton {
 
-		private static final Paintable ICON = new Polyline2D(new Point2D.Double(8, 4), new Point2D.Double(2, 4), new Point2D.Double(2, 2), new Point2D.Double(0, 4),
-				new Point2D.Double(2, 6), new Point2D.Double(2, 4));
-
 		GeneralizationLine() {
-			super("generalization line", XmlButton.GeneralizationLine.ICON);
+			super(UmlGeneralizationLine.NAME, UmlGeneralizationLine.BUTTON_ICON);
 		}
 
 		@Override
-		void clickedAction(Point point) { // TODO
+		UmlObject pressedAction(Point point) {
+			return super.pressedAction(point); // TODO
+		}
+
+		@Override
+		UmlObject draggedAction(Point point) {
+			return super.draggedAction(point); // TODO
+		}
+
+		@Override
+		UmlObject releasedAction(Point point) {
+			return super.releasedAction(point); // TODO
 		}
 	}
 
@@ -81,21 +108,36 @@ abstract class XmlButton extends JToggleButton {
 		}
 
 		@Override
-		void clickedAction(Point point) { // TODO
-			System.out.println(point);
+		UmlObject clickedAction(Point point) {
+			return super.clickedAction(point); // TODO
+		}
+
+		@Override
+		UmlObject pressedAction(Point point) {
+			return super.pressedAction(point); // TODO
+		}
+
+		@Override
+		UmlObject draggedAction(Point point) {
+			return super.draggedAction(point); // TODO
+		}
+
+		@Override
+		UmlObject releasedAction(Point point) {
+			return super.releasedAction(point); // TODO
 		}
 	}
 
 	static class UseCase extends XmlButton {
 
-		private static final Paintable ICON = new Oval(new Point2D.Double(4, 4), 8, 6);
-
 		UseCase() {
-			super("use case", XmlButton.UseCase.ICON);
+			super(UmlUseCase.NAME, UmlUseCase.BUTTON_ICON);
 		}
 
 		@Override
-		void clickedAction(Point point) { // TODO
+		UmlObject clickedAction(Point point) {
+			System.out.printf("Create an UML basic object, use case, at (%.0f, %.0f).%n", point.getX(), point.getY());
+			return super.clickedAction(point); // TODO
 		}
 	}
 
@@ -117,7 +159,21 @@ abstract class XmlButton extends JToggleButton {
 		setToolTipText(this.function_name);
 	}
 
-	abstract void clickedAction(Point point);
+	UmlObject clickedAction(Point point) {
+		return null;
+	}
+
+	UmlObject pressedAction(Point point) {
+		return null;
+	}
+
+	UmlObject draggedAction(Point point) {
+		return null;
+	}
+
+	UmlObject releasedAction(Point point) {
+		return null;
+	}
 
 	private Coordinate2D getFitCoordinate(int margin) {
 		Dimension button_size = getSize();

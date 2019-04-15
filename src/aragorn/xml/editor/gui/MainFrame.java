@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiPanel;
+import aragorn.xml.editor.objects.UmlObject;
 
 @SuppressWarnings("serial")
 public class MainFrame extends GuiFrame {
@@ -27,11 +28,11 @@ public class MainFrame extends GuiFrame {
 		setContentPane(content_pane);
 	}
 
-	ButtonPanel getButtonPanel() {
-		return button_panel;
+	XmlButton getSelectedButton() {
+		return button_panel.getSelectedButton();
 	}
 
-	CanvasArea getCanvasArea() {
-		return canvas_area;
+	void addUmlObject(UmlObject uml_object) {
+		canvas_area.addUmlObject(uml_object);
 	}
 }
