@@ -10,23 +10,6 @@ import aragorn.xml.editor.objects.UmlObject;
 @SuppressWarnings("serial")
 class CanvasArea extends Canvas {
 
-	private ArrayList<UmlObject> list = new ArrayList<UmlObject>();
-
-	CanvasArea(MainFrame parent) {
-		super();
-		setBackground(Color.BLACK);
-
-		MouseInputAdapter adapter = new CanvasMouseInputAdapter(parent);
-		addMouseListener(adapter);
-		addMouseMotionListener(adapter);
-	}
-
-	void addUmlObject(UmlObject uml_object) {
-		if (uml_object != null) {
-			list.add(uml_object);
-		}
-	}
-
 	private static class CanvasMouseInputAdapter extends MouseInputAdapter {
 
 		private MainFrame parent;
@@ -61,6 +44,23 @@ class CanvasArea extends Canvas {
 			if (parent.getSelectedButton() == null)
 				return;
 			parent.addUmlObject(parent.getSelectedButton().releasedAction(event.getPoint()));
+		}
+	}
+
+	private ArrayList<UmlObject> list = new ArrayList<UmlObject>();
+
+	CanvasArea(MainFrame parent) {
+		super();
+		setBackground(Color.BLACK);
+
+		MouseInputAdapter adapter = new CanvasMouseInputAdapter(parent);
+		addMouseListener(adapter);
+		addMouseMotionListener(adapter);
+	}
+
+	void addUmlObject(UmlObject uml_object) {
+		if (uml_object != null) {
+			list.add(uml_object);
 		}
 	}
 }

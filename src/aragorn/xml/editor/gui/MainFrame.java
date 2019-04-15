@@ -28,11 +28,11 @@ public class MainFrame extends GuiFrame {
 		setContentPane(content_pane);
 	}
 
-	XmlButton getSelectedButton() {
-		return button_panel.getSelectedButton();
-	}
-
 	void addUmlObject(UmlObject uml_object) {
 		canvas_area.addUmlObject(uml_object);
+	}
+
+	XmlButton getSelectedButton() {
+		return button_panel.getSelectedButton();
 	}
 }

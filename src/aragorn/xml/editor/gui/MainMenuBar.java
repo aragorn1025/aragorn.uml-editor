@@ -9,14 +9,9 @@ import aragorn.gui.action.listener.CloseGuiFrameActionListener;
 @SuppressWarnings("serial")
 class MainMenuBar extends GuiMenuBar {
 
-	MainMenuBar(MainFrame parent) {
-		super(parent);
-	}
-
-	@Override
-	protected void editMenuBar() {
-		add(MainMenuBar.getFileMenu(parent));
-		add(MainMenuBar.getEditMenu());
+	private static GuiMenu getEditMenu() {
+		GuiMenu val = new GuiMenu("Edit");
+		return val;
 	}
 
 	private static GuiMenu getFileMenu(GuiFrame parent) {
@@ -26,8 +21,13 @@ class MainMenuBar extends GuiMenuBar {
 		return val;
 	}
 
-	private static GuiMenu getEditMenu() {
-		GuiMenu val = new GuiMenu("Edit");
-		return val;
+	MainMenuBar(MainFrame parent) {
+		super(parent);
+	}
+
+	@Override
+	protected void editMenuBar() {
+		add(MainMenuBar.getFileMenu(parent));
+		add(MainMenuBar.getEditMenu());
 	}
 }

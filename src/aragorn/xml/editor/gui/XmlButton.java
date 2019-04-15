@@ -26,13 +26,13 @@ abstract class XmlButton extends JToggleButton {
 		}
 
 		@Override
-		UmlObject pressedAction(Point point) {
-			return super.pressedAction(point); // TODO
+		UmlObject draggedAction(Point point) {
+			return super.draggedAction(point); // TODO
 		}
 
 		@Override
-		UmlObject draggedAction(Point point) {
-			return super.draggedAction(point); // TODO
+		UmlObject pressedAction(Point point) {
+			return super.pressedAction(point); // TODO
 		}
 
 		@Override
@@ -61,13 +61,13 @@ abstract class XmlButton extends JToggleButton {
 		}
 
 		@Override
-		UmlObject pressedAction(Point point) {
-			return super.pressedAction(point); // TODO
+		UmlObject draggedAction(Point point) {
+			return super.draggedAction(point); // TODO
 		}
 
 		@Override
-		UmlObject draggedAction(Point point) {
-			return super.draggedAction(point); // TODO
+		UmlObject pressedAction(Point point) {
+			return super.pressedAction(point); // TODO
 		}
 
 		@Override
@@ -83,13 +83,13 @@ abstract class XmlButton extends JToggleButton {
 		}
 
 		@Override
-		UmlObject pressedAction(Point point) {
-			return super.pressedAction(point); // TODO
+		UmlObject draggedAction(Point point) {
+			return super.draggedAction(point); // TODO
 		}
 
 		@Override
-		UmlObject draggedAction(Point point) {
-			return super.draggedAction(point); // TODO
+		UmlObject pressedAction(Point point) {
+			return super.pressedAction(point); // TODO
 		}
 
 		@Override
@@ -113,13 +113,13 @@ abstract class XmlButton extends JToggleButton {
 		}
 
 		@Override
-		UmlObject pressedAction(Point point) {
-			return super.pressedAction(point); // TODO
+		UmlObject draggedAction(Point point) {
+			return super.draggedAction(point); // TODO
 		}
 
 		@Override
-		UmlObject draggedAction(Point point) {
-			return super.draggedAction(point); // TODO
+		UmlObject pressedAction(Point point) {
+			return super.pressedAction(point); // TODO
 		}
 
 		@Override
@@ -163,15 +163,7 @@ abstract class XmlButton extends JToggleButton {
 		return null;
 	}
 
-	UmlObject pressedAction(Point point) {
-		return null;
-	}
-
 	UmlObject draggedAction(Point point) {
-		return null;
-	}
-
-	UmlObject releasedAction(Point point) {
 		return null;
 	}
 
@@ -190,6 +182,14 @@ abstract class XmlButton extends JToggleButton {
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(isSelected() ? Color.WHITE : Color.BLACK);
 		icon.draw(g, getFitCoordinate(Math.min(getWidth(), getHeight()) / 10));
+	}
+
+	UmlObject pressedAction(Point point) {
+		return null;
+	}
+
+	UmlObject releasedAction(Point point) {
+		return null;
 	}
 
 	private void setSize(int length) {
