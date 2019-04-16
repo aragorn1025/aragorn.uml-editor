@@ -3,6 +3,7 @@ package aragorn.xml.editor.objects;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import aragorn.math.geometry.Paintable;
 import aragorn.math.geometry.Polyline2D;
 
@@ -12,10 +13,7 @@ public class UmlClass extends UmlBasicObject {
 
 	public static final String NAME = "class";
 
-	/**
-	 * The default size of the object.<br>
-	 * Strongly recommend to set the height as the multiple of 3. TODO the javadoc should be rewrite correctly.
-	 */
+	/** The default size of the object. It is strongly recommend to set the height as the multiple of 3. */
 	private final static Dimension DEFAULT_SIZE = new Dimension(84, 90);
 
 	public UmlClass(Point reference_point) {
@@ -47,5 +45,14 @@ public class UmlClass extends UmlBasicObject {
 		val.addPoint(new Point2D.Double(x[0], y[0]));
 		val.addPoint(new Point2D.Double(x[0], y[2]));
 		return val;
+	}
+
+	@Override
+	protected boolean isSurround(Double point) {
+		if (point.getX() < getBounds().getMinX() || point.getX() > getBounds().getMaxX())
+			return false;
+		if (point.getY() < getBounds().getMinY() || point.getY() > getBounds().getMaxY())
+			return false;
+		return true;
 	}
 }

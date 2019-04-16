@@ -1,8 +1,8 @@
 package aragorn.xml.editor.objects;
 
-public enum UmlConnectionPort {
+enum UmlConnectionPort {
 	TOP,
 	LEFT,
-	DOWN,
+	BOTTOM,
 	RIGHT;
 }

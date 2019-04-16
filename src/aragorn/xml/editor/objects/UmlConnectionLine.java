@@ -10,7 +10,7 @@ import aragorn.util.MathVector2D;
 
 abstract class UmlConnectionLine implements UmlObject {
 
-	/** The minimum length of the segment. Strongly recommend to be the multiple of 2. TODO the javadoc should be rewrite correctly. */
+	/** The minimum length of the segment. It is strongly recommend to set it as the multiple of 2. */
 	private static final int MIN_SEGMENT_LENGTH = 4;
 
 	private Point starting_point;
@@ -48,7 +48,7 @@ abstract class UmlConnectionLine implements UmlObject {
 		switch (ending_connection_port) {
 			case TOP:
 				return getEndArrow(new MathVector2D(0, 2 * UmlConnectionLine.MIN_SEGMENT_LENGTH), new MathVector2D(UmlConnectionLine.MIN_SEGMENT_LENGTH, 0));
-			case DOWN:
+			case BOTTOM:
 				return getEndArrow(new MathVector2D(0, -2 * UmlConnectionLine.MIN_SEGMENT_LENGTH), new MathVector2D(-UmlConnectionLine.MIN_SEGMENT_LENGTH, 0));
 			case RIGHT:
 				return getEndArrow(new MathVector2D(-2 * UmlConnectionLine.MIN_SEGMENT_LENGTH, 0), new MathVector2D(0, UmlConnectionLine.MIN_SEGMENT_LENGTH));
