@@ -19,7 +19,7 @@ abstract class UmlBasicObject implements UmlObject {
 
 	private double connection_port_icon_vertical_gap = 0;
 
-	private double connection_port_icon_length = 4; // TODO should be tested
+	private double connection_port_icon_length = 4;
 
 	protected UmlBasicObject(Point reference_point, Dimension size) {
 		this.bounds = new Rectangle2D.Double(reference_point.getX(), reference_point.getY(), size.getWidth(), size.getHeight());
@@ -28,11 +28,58 @@ abstract class UmlBasicObject implements UmlObject {
 	@Override
 	public void draw(Graphics g, Coordinate2D c) {
 		getIcon().draw(g, c);
-		if (selected) {
+		if (isSelected()) {
 			Paintable.fillRectangle(g, c, getConnectPortReferencePoint(UmlConnectionPort.TOP), connection_port_icon_length, connection_port_icon_length);
 			Paintable.fillRectangle(g, c, getConnectPortReferencePoint(UmlConnectionPort.LEFT), connection_port_icon_length, connection_port_icon_length);
 			Paintable.fillRectangle(g, c, getConnectPortReferencePoint(UmlConnectionPort.BOTTOM), connection_port_icon_length, connection_port_icon_length);
 			Paintable.fillRectangle(g, c, getConnectPortReferencePoint(UmlConnectionPort.RIGHT), connection_port_icon_length, connection_port_icon_length);
+		}
+	}
+
+	@Override
+	public Rectangle2D.Double getBounds() {
+		return bounds;
+	}
+
+	protected double getConnectionPortIconLength() {
+		return connection_port_icon_length;
+	}
+
+	public Point2D.Double getConnectPort(Point point) {
+		if (!isSurround(new Point2D.Double(point.getX(), point.getY())))
+			return null;
+		double t = (point.getX() - bounds.getMinX()) / bounds.getWidth();
+		if (t <= 0.5) {
+			if (point.getY() <= bounds.getMinY() + t * bounds.getHeight())
+				return getConnectPort(UmlConnectionPort.TOP);
+			if (point.getY() > bounds.getMinY() + (1 - t) * bounds.getHeight())
+				return getConnectPort(UmlConnectionPort.BOTTOM);
+			return getConnectPort(UmlConnectionPort.LEFT);
+		} else {
+			if (point.getY() <= bounds.getMinY() + (1 - t) * bounds.getHeight())
+				return getConnectPort(UmlConnectionPort.TOP);
+			if (point.getY() > bounds.getMinY() + t * bounds.getHeight())
+				return getConnectPort(UmlConnectionPort.BOTTOM);
+			return getConnectPort(UmlConnectionPort.RIGHT);
+		}
+	}
+
+	private Point2D.Double getConnectPort(UmlConnectionPort connection_port) {
+		switch (connection_port) {
+			case TOP:
+				System.out.println("TOP"); // TODO testing
+				return new Point2D.Double(bounds.getX() + bounds.getWidth() / 2.0, bounds.getY());
+			case LEFT:
+				System.out.println("LEFT");
+				return new Point2D.Double(bounds.getX(), bounds.getY() + bounds.getHeight() / 2.0);
+			case BOTTOM:
+				System.out.println("BOTTOM");
+				return new Point2D.Double(bounds.getX() + bounds.getWidth() / 2.0, bounds.getY() + bounds.getHeight());
+			case RIGHT:
+				System.out.println("RIGHT");
+				return new Point2D.Double(bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight() / 2.0);
+			default:
+				throw new InternalError("Unknown error.");
 		}
 	}
 
@@ -54,38 +101,13 @@ abstract class UmlBasicObject implements UmlObject {
 		}
 	}
 
-	@Override
-	public Rectangle2D.Double getBounds() {
-		return bounds;
-	}
-
-	private Point2D.Double getConnectPort(UmlConnectionPort connection_port) {
-		switch (connection_port) {
-			case TOP:
-				return new Point2D.Double(bounds.getX() + bounds.getWidth() / 2.0, bounds.getY());
-			case LEFT:
-				return new Point2D.Double(bounds.getX(), bounds.getY() + bounds.getHeight() / 2.0);
-			case BOTTOM:
-				return new Point2D.Double(bounds.getX() + bounds.getWidth() / 2.0, bounds.getY() + bounds.getHeight());
-			case RIGHT:
-				return new Point2D.Double(bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight() / 2.0);
-			default:
-				throw new InternalError("Unknown error.");
-		}
-	}
-
 	protected abstract Paintable getIcon();
 
-	@SuppressWarnings("unused")
 	private boolean isSelected() {
 		return selected;
 	}
 
 	protected abstract boolean isSurround(Point2D.Double point);
-
-	protected double getConnectionPortIconLength() {
-		return connection_port_icon_length;
-	}
 
 	protected void setConnectionPortIconHorizontalGap(double connection_port_icon_horizontal_gap) {
 		this.connection_port_icon_horizontal_gap = connection_port_icon_horizontal_gap;

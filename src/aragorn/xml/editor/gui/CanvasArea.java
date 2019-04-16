@@ -3,60 +3,22 @@ package aragorn.xml.editor.gui;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import javax.swing.event.MouseInputAdapter;
 import aragorn.xml.editor.objects.UmlObject;
 
 @SuppressWarnings("serial")
 class CanvasArea extends Canvas {
 
-	private static class CanvasMouseInputAdapter extends MouseInputAdapter {
-
-		private MainFrame parent;
-
-		CanvasMouseInputAdapter(MainFrame parent) {
-			this.parent = parent;
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent event) {
-			if (parent.getSelectedButton() == null)
-				return;
-			parent.addUmlObject(parent.getSelectedButton().clickedAction(event.getPoint()));
-		}
-
-		@Override
-		public void mouseDragged(MouseEvent event) {
-			if (parent.getSelectedButton() == null)
-				return;
-			parent.addUmlObject(parent.getSelectedButton().draggedAction(event.getPoint()));
-		}
-
-		@Override
-		public void mousePressed(MouseEvent event) {
-			if (parent.getSelectedButton() == null)
-				return;
-			parent.addUmlObject(parent.getSelectedButton().pressedAction(event.getPoint()));
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent event) {
-			if (parent.getSelectedButton() == null)
-				return;
-			parent.addUmlObject(parent.getSelectedButton().releasedAction(event.getPoint()));
-		}
-	}
-
 	private ArrayList<UmlObject> list = new ArrayList<UmlObject>();
+
+	MainFrame parent;
+
+	private CanvasMouseAdapter mouse_adapter = null;
 
 	CanvasArea(MainFrame parent) {
 		super();
+		this.parent = parent;
 		setBackground(Color.BLACK);
-
-		MouseInputAdapter adapter = new CanvasMouseInputAdapter(parent);
-		addMouseListener(adapter);
-		addMouseMotionListener(adapter);
 	}
 
 	void addUmlObject(UmlObject uml_object) {
@@ -66,11 +28,39 @@ class CanvasArea extends Canvas {
 		}
 	}
 
+	/** @deprecated */
+	UmlObject getUmlObject(int index) {
+		return list.get(index);
+	}
+
+	/** @deprecated */
+	int getUmlObjectsNumber() {
+		return list.size();
+	}
+
 	@Override
-	public void paint(Graphics g) {
+	public final void paint(Graphics g) {
 		g.setColor(Color.WHITE);
 		for (UmlObject uml_object : list) {
 			uml_object.draw(g, null);
 		}
+	}
+
+	void setCanvasMouseAdapter(CanvasMouseAdapter mouse_adapter) { // TODO
+		if (mouse_adapter == null)
+			return;
+		System.out.println("Here2");
+		if (this.mouse_adapter == mouse_adapter)
+			return;
+		System.out.println("Here3");
+		if (this.mouse_adapter != null) {
+			removeMouseListener(this.mouse_adapter);
+			removeMouseMotionListener(this.mouse_adapter);
+			this.mouse_adapter = null;
+		}
+		this.mouse_adapter = mouse_adapter;
+		addMouseListener(this.mouse_adapter);
+		addMouseMotionListener(this.mouse_adapter);
+		System.out.println("Here4");
 	}
 }

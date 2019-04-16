@@ -8,27 +8,22 @@ import aragorn.gui.GuiPanel;
 @SuppressWarnings("serial")
 class ButtonPanel extends GuiPanel {
 
-	private ButtonGroup group = new ButtonGroup();
-
-	private XmlButton[] buttons = new XmlButton[] {	new XmlButton.Select(), new XmlButton.AssociationLine(), new XmlButton.GeneralizationLine(),
-													new XmlButton.CompositionLine(), new XmlButton.Class(), new XmlButton.UseCase() };
-
-	ButtonPanel() {
+	ButtonPanel(CanvasArea canvas_area) {
 		super();
 		setDefaultMargin(10);
+
+		XmlButton[] buttons = new XmlButton[6];
+		ButtonGroup group = new ButtonGroup();
+		buttons[0] = new XmlButton.Select(canvas_area, new CanvasMouseAdapter.Select(canvas_area));
+		buttons[1] = new XmlButton.AssociationLine(canvas_area, new CanvasMouseAdapter.AssociationLine(canvas_area));
+		buttons[2] = new XmlButton.GeneralizationLine(canvas_area, new CanvasMouseAdapter.GeneralizationLine(canvas_area));
+		buttons[3] = new XmlButton.CompositionLine(canvas_area, new CanvasMouseAdapter.CompositionLine(canvas_area));
+		buttons[4] = new XmlButton.Class(canvas_area, new CanvasMouseAdapter.Class(canvas_area));
+		buttons[5] = new XmlButton.UseCase(canvas_area, new CanvasMouseAdapter.UseCase(canvas_area));
 		for (int i = 0; i < buttons.length; i++) {
 			group.add(buttons[i]);
 			addComponent(buttons[i], 0, i, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
 		}
 		addComponent(new JPanel(), 0, buttons.length, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
-	}
-
-	XmlButton getSelectedButton() {
-		for (XmlButton button : buttons) {
-			if (button.isSelected()) {
-				return button;
-			}
-		}
-		return null;
 	}
 }

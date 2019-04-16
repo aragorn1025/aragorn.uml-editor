@@ -3,7 +3,8 @@ package aragorn.xml.editor.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import javax.swing.JToggleButton;
 import aragorn.math.geometry.Coordinate2D;
@@ -13,87 +14,36 @@ import aragorn.xml.editor.objects.UmlAssociationLine;
 import aragorn.xml.editor.objects.UmlClass;
 import aragorn.xml.editor.objects.UmlCompositionLine;
 import aragorn.xml.editor.objects.UmlGeneralizationLine;
-import aragorn.xml.editor.objects.UmlObject;
 import aragorn.xml.editor.objects.UmlUseCase;
 
 @SuppressWarnings("serial")
-abstract class XmlButton extends JToggleButton {
+class XmlButton extends JToggleButton implements ActionListener {
 
 	static class AssociationLine extends XmlButton {
 
-		AssociationLine() {
-			super(UmlAssociationLine.NAME, UmlAssociationLine.BUTTON_ICON);
-		}
-
-		@Override
-		UmlObject draggedAction(Point point) {
-			return super.draggedAction(point); // TODO
-		}
-
-		@Override
-		UmlObject pressedAction(Point point) {
-			return super.pressedAction(point); // TODO
-		}
-
-		@Override
-		UmlObject releasedAction(Point point) {
-			return super.releasedAction(point); // TODO
+		AssociationLine(CanvasArea canvas_area, CanvasMouseAdapter mouse_adapter) {
+			super(canvas_area, mouse_adapter, UmlAssociationLine.NAME, UmlAssociationLine.BUTTON_ICON);
 		}
 	}
 
 	static class Class extends XmlButton {
 
-		Class() {
-			super(UmlClass.NAME, UmlClass.BUTTON_ICON);
-		}
-
-		@Override
-		UmlObject clickedAction(Point point) {
-			return new UmlClass(point);
+		Class(CanvasArea canvas_area, CanvasMouseAdapter mouse_adapter) {
+			super(canvas_area, mouse_adapter, UmlClass.NAME, UmlClass.BUTTON_ICON);
 		}
 	}
 
 	static class CompositionLine extends XmlButton {
 
-		CompositionLine() {
-			super(UmlCompositionLine.NAME, UmlCompositionLine.BUTTON_ICON);
-		}
-
-		@Override
-		UmlObject draggedAction(Point point) {
-			return super.draggedAction(point); // TODO
-		}
-
-		@Override
-		UmlObject pressedAction(Point point) {
-			return super.pressedAction(point); // TODO
-		}
-
-		@Override
-		UmlObject releasedAction(Point point) {
-			return super.releasedAction(point); // TODO
+		CompositionLine(CanvasArea canvas_area, CanvasMouseAdapter mouse_adapter) {
+			super(canvas_area, mouse_adapter, UmlCompositionLine.NAME, UmlCompositionLine.BUTTON_ICON);
 		}
 	}
 
 	static class GeneralizationLine extends XmlButton {
 
-		GeneralizationLine() {
-			super(UmlGeneralizationLine.NAME, UmlGeneralizationLine.BUTTON_ICON);
-		}
-
-		@Override
-		UmlObject draggedAction(Point point) {
-			return super.draggedAction(point); // TODO
-		}
-
-		@Override
-		UmlObject pressedAction(Point point) {
-			return super.pressedAction(point); // TODO
-		}
-
-		@Override
-		UmlObject releasedAction(Point point) {
-			return super.releasedAction(point); // TODO
+		GeneralizationLine(CanvasArea canvas_area, CanvasMouseAdapter mouse_adapter) {
+			super(canvas_area, mouse_adapter, UmlGeneralizationLine.NAME, UmlGeneralizationLine.BUTTON_ICON);
 		}
 	}
 
@@ -102,40 +52,15 @@ abstract class XmlButton extends JToggleButton {
 		private static final Paintable ICON = new Polygon2D(new Point2D.Double(189, 0), new Point2D.Double(189, 1020), new Point2D.Double(439, 770),
 				new Point2D.Double(603, 1098), new Point2D.Double(747, 1026), new Point2D.Double(594, 720), new Point2D.Double(909, 720));
 
-		Select() {
-			super("select", XmlButton.Select.ICON);
-		}
-
-		@Override
-		UmlObject clickedAction(Point point) {
-			return super.clickedAction(point); // TODO
-		}
-
-		@Override
-		UmlObject draggedAction(Point point) {
-			return super.draggedAction(point); // TODO
-		}
-
-		@Override
-		UmlObject pressedAction(Point point) {
-			return super.pressedAction(point); // TODO
-		}
-
-		@Override
-		UmlObject releasedAction(Point point) {
-			return super.releasedAction(point); // TODO
+		Select(CanvasArea canvas_area, CanvasMouseAdapter mouse_adapter) {
+			super(canvas_area, mouse_adapter, "select", XmlButton.Select.ICON);
 		}
 	}
 
 	static class UseCase extends XmlButton {
 
-		UseCase() {
-			super(UmlUseCase.NAME, UmlUseCase.BUTTON_ICON);
-		}
-
-		@Override
-		UmlObject clickedAction(Point point) {
-			return new UmlUseCase(point);
+		UseCase(CanvasArea canvas_area, CanvasMouseAdapter mouse_adapter) {
+			super(canvas_area, mouse_adapter, UmlUseCase.NAME, UmlUseCase.BUTTON_ICON);
 		}
 	}
 
@@ -149,20 +74,24 @@ abstract class XmlButton extends JToggleButton {
 
 	private Paintable icon;
 
-	protected XmlButton(String function_name, Paintable icon) {
+	private CanvasArea canvas_area;
+
+	private CanvasMouseAdapter mouse_adapter;
+
+	protected XmlButton(CanvasArea canvas_area, CanvasMouseAdapter mouse_adapter, String function_name, Paintable icon) {
+		this.canvas_area = canvas_area;
+		this.mouse_adapter = mouse_adapter;
 		this.function_name = function_name;
 		this.icon = icon;
 
 		setSize(50);
 		setToolTipText(this.function_name);
+		addActionListener(this);
 	}
 
-	UmlObject clickedAction(Point point) {
-		return null;
-	}
-
-	UmlObject draggedAction(Point point) {
-		return null;
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		canvas_area.setCanvasMouseAdapter(mouse_adapter);
 	}
 
 	private Coordinate2D getFitCoordinate(int margin) {
@@ -174,20 +103,12 @@ abstract class XmlButton extends JToggleButton {
 	}
 
 	@Override
-	protected void paintComponent(Graphics g) {
+	protected final void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(isSelected() ? Color.BLACK : Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(isSelected() ? Color.WHITE : Color.BLACK);
 		icon.draw(g, getFitCoordinate(Math.min(getWidth(), getHeight()) / 10));
-	}
-
-	UmlObject pressedAction(Point point) {
-		return null;
-	}
-
-	UmlObject releasedAction(Point point) {
-		return null;
 	}
 
 	private void setSize(int length) {
@@ -197,7 +118,7 @@ abstract class XmlButton extends JToggleButton {
 	}
 
 	@Override
-	public void setToolTipText(String text) {
+	public final void setToolTipText(String text) {
 		super.setToolTipText("<html><p><font color=\"#" + encode(tool_tip_text_color) + "\" size=\"4\" face=\"SansSerif\">" + text + "</font></p></html>");
 	}
 }
