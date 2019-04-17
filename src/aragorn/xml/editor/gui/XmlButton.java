@@ -21,29 +21,29 @@ class XmlButton extends JToggleButton implements ActionListener {
 
 	static class AssociationLine extends XmlButton {
 
-		AssociationLine(CanvasArea canvas_area, CanvasMouseAdapter mouse_adapter) {
-			super(canvas_area, mouse_adapter, UmlAssociationLine.NAME, UmlAssociationLine.BUTTON_ICON);
+		AssociationLine(CanvasArea canvas_area) {
+			super(canvas_area, new CanvasMouseAdapter.AssociationLine(canvas_area), UmlAssociationLine.NAME, UmlAssociationLine.BUTTON_ICON);
 		}
 	}
 
 	static class Class extends XmlButton {
 
-		Class(CanvasArea canvas_area, CanvasMouseAdapter mouse_adapter) {
-			super(canvas_area, mouse_adapter, UmlClass.NAME, UmlClass.BUTTON_ICON);
+		Class(CanvasArea canvas_area) {
+			super(canvas_area, new CanvasMouseAdapter.Class(canvas_area), UmlClass.NAME, UmlClass.BUTTON_ICON);
 		}
 	}
 
 	static class CompositionLine extends XmlButton {
 
-		CompositionLine(CanvasArea canvas_area, CanvasMouseAdapter mouse_adapter) {
-			super(canvas_area, mouse_adapter, UmlCompositionLine.NAME, UmlCompositionLine.BUTTON_ICON);
+		CompositionLine(CanvasArea canvas_area) {
+			super(canvas_area, new CanvasMouseAdapter.CompositionLine(canvas_area), UmlCompositionLine.NAME, UmlCompositionLine.BUTTON_ICON);
 		}
 	}
 
 	static class GeneralizationLine extends XmlButton {
 
-		GeneralizationLine(CanvasArea canvas_area, CanvasMouseAdapter mouse_adapter) {
-			super(canvas_area, mouse_adapter, UmlGeneralizationLine.NAME, UmlGeneralizationLine.BUTTON_ICON);
+		GeneralizationLine(CanvasArea canvas_area) {
+			super(canvas_area, new CanvasMouseAdapter.GeneralizationLine(canvas_area), UmlGeneralizationLine.NAME, UmlGeneralizationLine.BUTTON_ICON);
 		}
 	}
 
@@ -52,15 +52,15 @@ class XmlButton extends JToggleButton implements ActionListener {
 		private static final Paintable ICON = new Polygon2D(new Point2D.Double(189, 0), new Point2D.Double(189, 1020), new Point2D.Double(439, 770),
 				new Point2D.Double(603, 1098), new Point2D.Double(747, 1026), new Point2D.Double(594, 720), new Point2D.Double(909, 720));
 
-		Select(CanvasArea canvas_area, CanvasMouseAdapter mouse_adapter) {
-			super(canvas_area, mouse_adapter, "select", XmlButton.Select.ICON);
+		Select(CanvasArea canvas_area) {
+			super(canvas_area, new CanvasMouseAdapter.Select(canvas_area), "select", XmlButton.Select.ICON);
 		}
 	}
 
 	static class UseCase extends XmlButton {
 
-		UseCase(CanvasArea canvas_area, CanvasMouseAdapter mouse_adapter) {
-			super(canvas_area, mouse_adapter, UmlUseCase.NAME, UmlUseCase.BUTTON_ICON);
+		UseCase(CanvasArea canvas_area) {
+			super(canvas_area, new CanvasMouseAdapter.UseCase(canvas_area), UmlUseCase.NAME, UmlUseCase.BUTTON_ICON);
 		}
 	}
 

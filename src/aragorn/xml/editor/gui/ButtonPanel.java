@@ -14,12 +14,12 @@ class ButtonPanel extends GuiPanel {
 
 		XmlButton[] buttons = new XmlButton[6];
 		ButtonGroup group = new ButtonGroup();
-		buttons[0] = new XmlButton.Select(canvas_area, new CanvasMouseAdapter.Select(canvas_area));
-		buttons[1] = new XmlButton.AssociationLine(canvas_area, new CanvasMouseAdapter.AssociationLine(canvas_area));
-		buttons[2] = new XmlButton.GeneralizationLine(canvas_area, new CanvasMouseAdapter.GeneralizationLine(canvas_area));
-		buttons[3] = new XmlButton.CompositionLine(canvas_area, new CanvasMouseAdapter.CompositionLine(canvas_area));
-		buttons[4] = new XmlButton.Class(canvas_area, new CanvasMouseAdapter.Class(canvas_area));
-		buttons[5] = new XmlButton.UseCase(canvas_area, new CanvasMouseAdapter.UseCase(canvas_area));
+		buttons[0] = new XmlButton.Select(canvas_area);
+		buttons[1] = new XmlButton.AssociationLine(canvas_area);
+		buttons[2] = new XmlButton.GeneralizationLine(canvas_area);
+		buttons[3] = new XmlButton.CompositionLine(canvas_area);
+		buttons[4] = new XmlButton.Class(canvas_area);
+		buttons[5] = new XmlButton.UseCase(canvas_area);
 		for (int i = 0; i < buttons.length; i++) {
 			group.add(buttons[i]);
 			addComponent(buttons[i], 0, i, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);

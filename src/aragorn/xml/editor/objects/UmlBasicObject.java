@@ -9,7 +9,7 @@ import aragorn.math.geometry.Coordinate2D;
 import aragorn.math.geometry.Paintable;
 import aragorn.util.MathVector2D;
 
-abstract class UmlBasicObject implements UmlObject {
+public abstract class UmlBasicObject implements UmlObject {
 
 	private Rectangle2D.Double bounds;
 
@@ -28,7 +28,7 @@ abstract class UmlBasicObject implements UmlObject {
 	@Override
 	public void draw(Graphics g, Coordinate2D c) {
 		getIcon().draw(g, c);
-		if (isSelected()) {
+		if (selected) {
 			Paintable.fillRectangle(g, c, getConnectPortReferencePoint(UmlConnectionPort.TOP), connection_port_icon_length, connection_port_icon_length);
 			Paintable.fillRectangle(g, c, getConnectPortReferencePoint(UmlConnectionPort.LEFT), connection_port_icon_length, connection_port_icon_length);
 			Paintable.fillRectangle(g, c, getConnectPortReferencePoint(UmlConnectionPort.BOTTOM), connection_port_icon_length, connection_port_icon_length);
@@ -46,7 +46,7 @@ abstract class UmlBasicObject implements UmlObject {
 	}
 
 	public Point2D.Double getConnectPort(Point point) {
-		if (!isSurround(new Point2D.Double(point.getX(), point.getY())))
+		if (!isSurround(point))
 			return null;
 		double t = (point.getX() - bounds.getMinX()) / bounds.getWidth();
 		if (t <= 0.5) {
@@ -67,16 +67,12 @@ abstract class UmlBasicObject implements UmlObject {
 	private Point2D.Double getConnectPort(UmlConnectionPort connection_port) {
 		switch (connection_port) {
 			case TOP:
-				System.out.println("TOP"); // TODO testing
 				return new Point2D.Double(bounds.getX() + bounds.getWidth() / 2.0, bounds.getY());
 			case LEFT:
-				System.out.println("LEFT");
 				return new Point2D.Double(bounds.getX(), bounds.getY() + bounds.getHeight() / 2.0);
 			case BOTTOM:
-				System.out.println("BOTTOM");
 				return new Point2D.Double(bounds.getX() + bounds.getWidth() / 2.0, bounds.getY() + bounds.getHeight());
 			case RIGHT:
-				System.out.println("RIGHT");
 				return new Point2D.Double(bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight() / 2.0);
 			default:
 				throw new InternalError("Unknown error.");
@@ -103,8 +99,13 @@ abstract class UmlBasicObject implements UmlObject {
 
 	protected abstract Paintable getIcon();
 
+	@SuppressWarnings("unused") /** TODO maybe should be removed */
 	private boolean isSelected() {
 		return selected;
+	}
+
+	public boolean isSurround(Point point) {
+		return isSurround(new Point2D.Double(point.getX(), point.getY()));
 	}
 
 	protected abstract boolean isSurround(Point2D.Double point);
@@ -117,8 +118,7 @@ abstract class UmlBasicObject implements UmlObject {
 		this.connection_port_icon_vertical_gap = connection_port_icon_vertical_gap;
 	}
 
-	@SuppressWarnings("unused")
-	private void setSelected(boolean selected) {
+	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
 }

@@ -8,7 +8,7 @@ import aragorn.math.geometry.Coordinate2D;
 import aragorn.math.geometry.Paintable;
 import aragorn.util.MathVector2D;
 
-abstract class UmlConnectionLine implements UmlObject {
+public abstract class UmlConnectionLine implements UmlObject {
 
 	/** The minimum length of the segment. It is strongly recommend to set it as the multiple of 2. */
 	private static final int MIN_SEGMENT_LENGTH = 4;

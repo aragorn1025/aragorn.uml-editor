@@ -1,9 +1,9 @@
 package aragorn.xml.editor.gui;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputAdapter;
 import aragorn.xml.editor.objects.UmlClass;
-import aragorn.xml.editor.objects.UmlObject;
 import aragorn.xml.editor.objects.UmlUseCase;
 
 public class CanvasMouseAdapter extends MouseInputAdapter {
@@ -38,7 +38,7 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent event) {
-			addUmlObject(new UmlClass(event.getPoint()));
+			getParent().addUmlBasicObject(new UmlClass(event.getPoint()));
 		}
 	}
 
@@ -94,7 +94,13 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent event) {
-			// TODO
+			for (int i = 0; i < getParent().getUmlObjectsNumber(); i++) {
+				if (getParent().getUmlBasicObject(i).isSurround(event.getPoint())) {
+					getParent().setSelectedUmlBasicObject(i);
+					return;
+				}
+			}
+			getParent().setSelectedUmlBasicObject(CanvasArea.NO_SELECTED_UML_BASIC_OBJECT);
 		}
 
 		@Override
@@ -102,14 +108,21 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 			// TODO
 		}
 
+		Point pressed_point = null;
+
 		@Override
 		public void mousePressed(MouseEvent event) {
-			// TODO
+			pressed_point = event.getPoint();
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent event) {
-			// TODO
+			Point released_point = event.getPoint();
+			if (released_point.equals(pressed_point)) {
+				pressed_point = null;
+				return;
+			}
+			System.out.println("drag"); // TODO
 		}
 	}
 
@@ -121,7 +134,7 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent event) {
-			addUmlObject(new UmlUseCase(event.getPoint()));
+			getParent().addUmlBasicObject(new UmlUseCase(event.getPoint()));
 		}
 	}
 
@@ -131,7 +144,7 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 		this.parent = parent;
 	}
 
-	protected void addUmlObject(UmlObject uml_object) {
-		parent.addUmlObject(uml_object);
+	public CanvasArea getParent() {
+		return parent;
 	}
 }

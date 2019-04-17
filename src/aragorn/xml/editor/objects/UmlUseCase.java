@@ -3,7 +3,6 @@ package aragorn.xml.editor.objects;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import aragorn.math.geometry.Oval;
 import aragorn.math.geometry.Paintable;
 
@@ -32,7 +31,7 @@ public class UmlUseCase extends UmlBasicObject {
 	}
 
 	@Override
-	protected boolean isSurround(Double point) {
+	protected boolean isSurround(Point2D.Double point) {
 		return ((Oval) getIcon()).isSurround(point);
 	}
 }

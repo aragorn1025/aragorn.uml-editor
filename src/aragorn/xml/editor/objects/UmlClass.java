@@ -3,7 +3,6 @@ package aragorn.xml.editor.objects;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import aragorn.math.geometry.Paintable;
 import aragorn.math.geometry.Polyline2D;
 
@@ -48,7 +47,7 @@ public class UmlClass extends UmlBasicObject {
 	}
 
 	@Override
-	protected boolean isSurround(Double point) {
+	protected boolean isSurround(Point2D.Double point) {
 		if (point.getX() < getBounds().getMinX() || point.getX() > getBounds().getMaxX())
 			return false;
 		if (point.getY() < getBounds().getMinY() || point.getY() > getBounds().getMaxY())
