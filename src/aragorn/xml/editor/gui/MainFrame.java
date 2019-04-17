@@ -11,13 +11,13 @@ public class MainFrame extends GuiFrame {
 
 	private static class ContentPane extends GuiPanel {
 
-		private ContentPane(MainFrame parent) {
-			this(parent, 10);
+		private ContentPane() {
+			this(10);
 		}
 
-		private ContentPane(MainFrame parent, int margin) {
+		private ContentPane(int margin) {
 			setDefaultMargin(0);
-			CanvasArea canvas_area = new CanvasArea(parent);
+			CanvasArea canvas_area = new CanvasArea();
 			ButtonPanel button_panel = new ButtonPanel(canvas_area);
 			addComponent(button_panel, 0, 0, 1, 1, 0, 1, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL);
 			addComponent(canvas_area, 1, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(margin, 0, margin, margin));
@@ -26,7 +26,7 @@ public class MainFrame extends GuiFrame {
 
 	public MainFrame() {
 		super(new Dimension(800, 450), false);
-		setContentPane(new MainFrame.ContentPane(this));
+		setContentPane(new MainFrame.ContentPane());
 		setTitle("XML Editor");
 		setJMenuBar(new MainMenuBar(this));
 	}

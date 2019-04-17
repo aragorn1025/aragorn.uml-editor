@@ -36,6 +36,11 @@ public abstract class UmlBasicObject implements UmlObject {
 		}
 	}
 
+	public boolean isIn(Rectangle2D.Double bounds) {
+		return (this.bounds.getMinX() >= bounds.getMinX() && this.bounds.getMaxX() <= bounds.getMaxX() && this.getBounds().getMinY() >= bounds.getMinY()
+				&& this.getBounds().getMaxY() <= bounds.getMaxY());
+	}
+
 	@Override
 	public Rectangle2D.Double getBounds() {
 		return bounds;

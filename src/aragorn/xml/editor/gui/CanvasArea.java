@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import aragorn.math.geometry.Paintable;
 import aragorn.xml.editor.objects.UmlBasicObject;
@@ -13,23 +14,19 @@ import aragorn.xml.editor.objects.UmlObject;
 @SuppressWarnings("serial")
 class CanvasArea extends Canvas {
 
-	public static final int NO_SELECTED_UML_BASIC_OBJECT = -1;
-
 	private ArrayList<UmlConnectionLine> uml_connection_lines = new ArrayList<>();
 
 	private ArrayList<UmlBasicObject> uml_basic_objects = new ArrayList<>();
 
-	private int selected_uml_basic_object_index = NO_SELECTED_UML_BASIC_OBJECT;
-
-	/** TODO maybe should be remove. */
-	@SuppressWarnings("unused")
-	private MainFrame parent;
+	private ArrayList<UmlBasicObject> selected_uml_basic_objects = new ArrayList<>();
 
 	private CanvasMouseAdapter mouse_adapter = null;
 
-	CanvasArea(MainFrame parent) {
+	private Rectangle2D.Double dragged_block = null;
+
+	CanvasArea() {
 		super();
-		this.parent = parent;
+		setBackground(Color.BLACK);
 	}
 
 	void addUmlBasicObject(UmlBasicObject uml_basic_object) {
@@ -49,8 +46,6 @@ class CanvasArea extends Canvas {
 
 	@Override
 	public final void paint(Graphics g) {
-		g.setColor(Color.BLACK);
-		Paintable.fillRectangle(g, null, new Point2D.Double(), getWidth(), getHeight());
 		g.setColor(Color.WHITE);
 		for (UmlObject uml_object : uml_basic_objects) {
 			uml_object.draw(g, null);
@@ -58,6 +53,14 @@ class CanvasArea extends Canvas {
 		for (UmlObject uml_object : uml_connection_lines) {
 			uml_object.draw(g, null);
 		}
+		if (dragged_block == null)
+			return;
+		g.setColor(Color.GREEN);
+		Paintable.drawRectangle(g, null, new Point2D.Double(dragged_block.getX(), dragged_block.getY()), dragged_block.getWidth(), dragged_block.getHeight());
+	}
+
+	public void setDraggedBlock(Rectangle2D.Double dragged_block) {
+		this.dragged_block = dragged_block;
 	}
 
 	void setCanvasMouseAdapter(CanvasMouseAdapter mouse_adapter) {
@@ -75,16 +78,15 @@ class CanvasArea extends Canvas {
 		addMouseMotionListener(this.mouse_adapter);
 	}
 
-	public void setSelectedUmlBasicObject(int index) {
-		if (index == this.selected_uml_basic_object_index)
-			return;
-		if (this.selected_uml_basic_object_index != CanvasArea.NO_SELECTED_UML_BASIC_OBJECT) {
-			uml_basic_objects.get(this.selected_uml_basic_object_index).setSelected(false);
+	public void clearSelectedUmlBasicObjects() {
+		for (int i = 0; i < selected_uml_basic_objects.size(); i++) {
+			selected_uml_basic_objects.get(i).setSelected(false);
 		}
-		this.selected_uml_basic_object_index = index;
-		if (this.selected_uml_basic_object_index != CanvasArea.NO_SELECTED_UML_BASIC_OBJECT) {
-			uml_basic_objects.get(this.selected_uml_basic_object_index).setSelected(true);
-		}
-		repaint();
+		selected_uml_basic_objects.clear();
+	}
+
+	public void addSelectedUmlBasicObjects(UmlBasicObject uml_basic_object) {
+		uml_basic_object.setSelected(true);
+		selected_uml_basic_objects.add(uml_basic_object);
 	}
 }
