@@ -163,7 +163,7 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 		this.parent = parent;
 	}
 
-	public CanvasArea getParent() {
+	protected CanvasArea getParent() {
 		return parent;
 	}
 }

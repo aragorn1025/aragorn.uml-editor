@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import aragorn.math.geometry.Paintable;
+import aragorn.xml.editor.gui.CanvasActionListener.Group;
 import aragorn.xml.editor.objects.UmlBasicObject;
 import aragorn.xml.editor.objects.UmlConnectionLine;
 import aragorn.xml.editor.objects.UmlObject;
@@ -88,5 +89,13 @@ class CanvasArea extends Canvas {
 	public void addSelectedUmlBasicObjects(UmlBasicObject uml_basic_object) {
 		uml_basic_object.setSelected(true);
 		selected_uml_basic_objects.add(uml_basic_object);
+	}
+
+	public void group() {
+		System.out.println("Group"); // TODO
+	}
+
+	public void ungroup() {
+		System.out.println("Ungroup"); // TODO
 	}
 }

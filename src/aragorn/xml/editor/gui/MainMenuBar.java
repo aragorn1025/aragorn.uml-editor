@@ -1,16 +1,20 @@
 package aragorn.xml.editor.gui;
 
+import javax.swing.JMenuBar;
 import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiMenu;
-import aragorn.gui.GuiMenuBar;
 import aragorn.gui.GuiMenuItem;
 import aragorn.gui.action.listener.CloseGuiFrameActionListener;
 
 @SuppressWarnings("serial")
-class MainMenuBar extends GuiMenuBar {
+class MainMenuBar extends JMenuBar {
 
-	private static GuiMenu getEditMenu() {
+	private static GuiMenu getEditMenu(CanvasArea canvas_area) {
 		GuiMenu val = new GuiMenu("Edit");
+		val.add(new GuiMenuItem("Group"));
+		val.getItem(0).addActionListener(new CanvasActionListener.Group(canvas_area));
+		val.add(new GuiMenuItem("Ungroup"));
+		val.getItem(1).addActionListener(new CanvasActionListener.Ungroup(canvas_area));
 		return val;
 	}
 
@@ -21,13 +25,9 @@ class MainMenuBar extends GuiMenuBar {
 		return val;
 	}
 
-	MainMenuBar(MainFrame parent) {
-		super(parent);
-	}
-
-	@Override
-	protected void editMenuBar() {
+	MainMenuBar(MainFrame parent, CanvasArea canvas_area) {
+		super();
 		add(MainMenuBar.getFileMenu(parent));
-		add(MainMenuBar.getEditMenu());
+		add(MainMenuBar.getEditMenu(canvas_area));
 	}
 }
