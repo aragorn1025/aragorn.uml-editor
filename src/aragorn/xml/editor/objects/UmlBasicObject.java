@@ -21,8 +21,12 @@ public abstract class UmlBasicObject implements UmlObject {
 
 	private double connection_port_icon_length = 4;
 
+	protected UmlBasicObject(Rectangle2D.Double bounds) {
+		this.bounds = bounds;
+	}
+
 	protected UmlBasicObject(Point reference_point, Dimension size) {
-		this.bounds = new Rectangle2D.Double(reference_point.getX(), reference_point.getY(), size.getWidth(), size.getHeight());
+		this(new Rectangle2D.Double(reference_point.getX(), reference_point.getY(), size.getWidth(), size.getHeight()));
 	}
 
 	@Override
@@ -104,8 +108,7 @@ public abstract class UmlBasicObject implements UmlObject {
 
 	protected abstract Paintable getIcon();
 
-	@SuppressWarnings("unused") /** TODO maybe should be removed */
-	private boolean isSelected() {
+	protected boolean isSelected() {
 		return selected;
 	}
 
@@ -125,5 +128,9 @@ public abstract class UmlBasicObject implements UmlObject {
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+
+	public boolean isUngroupable() {
+		return false;
 	}
 }

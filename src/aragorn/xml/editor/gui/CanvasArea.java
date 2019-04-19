@@ -7,8 +7,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import aragorn.math.geometry.Paintable;
-import aragorn.xml.editor.gui.CanvasActionListener.Group;
 import aragorn.xml.editor.objects.UmlBasicObject;
+import aragorn.xml.editor.objects.UmlCompositeObject;
 import aragorn.xml.editor.objects.UmlConnectionLine;
 import aragorn.xml.editor.objects.UmlObject;
 
@@ -77,6 +77,8 @@ class CanvasArea extends Canvas {
 		this.mouse_adapter = mouse_adapter;
 		addMouseListener(this.mouse_adapter);
 		addMouseMotionListener(this.mouse_adapter);
+		clearSelectedUmlBasicObjects();
+		repaint();
 	}
 
 	public void clearSelectedUmlBasicObjects() {
@@ -92,10 +94,27 @@ class CanvasArea extends Canvas {
 	}
 
 	public void group() {
-		System.out.println("Group"); // TODO
+		if (selected_uml_basic_objects.size() == 0)
+			return;
+		UmlCompositeObject composite_object = new UmlCompositeObject(selected_uml_basic_objects);
+		for (int i = 0; i < selected_uml_basic_objects.size(); i++) {
+			uml_basic_objects.remove(selected_uml_basic_objects.get(i));
+		}
+		uml_basic_objects.add(composite_object);
+		addSelectedUmlBasicObjects(composite_object);
+		repaint();
 	}
 
 	public void ungroup() {
-		System.out.println("Ungroup"); // TODO
+		if (selected_uml_basic_objects.size() != 1 || !selected_uml_basic_objects.get(0).isUngroupable())
+			return;
+		UmlCompositeObject group = (UmlCompositeObject) selected_uml_basic_objects.get(0);
+		uml_basic_objects.remove(group);
+		selected_uml_basic_objects.clear();
+		for (UmlBasicObject sub_object : group.getSubObjects()) {
+			uml_basic_objects.add(sub_object);
+			selected_uml_basic_objects.add(sub_object);
+		}
+		repaint();
 	}
 }
