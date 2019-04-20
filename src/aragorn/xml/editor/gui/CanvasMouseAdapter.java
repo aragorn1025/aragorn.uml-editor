@@ -4,29 +4,41 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import javax.swing.event.MouseInputAdapter;
+import aragorn.xml.editor.objects.UmlBasicObject;
 import aragorn.xml.editor.objects.UmlClass;
+import aragorn.xml.editor.objects.UmlConnectionPort;
 import aragorn.xml.editor.objects.UmlUseCase;
 
 public class CanvasMouseAdapter extends MouseInputAdapter {
 
 	static class AssociationLine extends CanvasMouseAdapter {
 
+		private UmlBasicObject starting_object = null;
+
+		private UmlConnectionPort starting_connection_port = null;
+
 		AssociationLine(CanvasArea parent) {
 			super(parent);
 		}
 
 		@Override
-		public void mouseDragged(MouseEvent event) {
-			// TODO
-		}
-
-		@Override
 		public void mousePressed(MouseEvent event) {
-			// TODO
+			for (int i = 0; i < getParent().getUmlObjectsNumber(); i++) {
+				if (getParent().getUmlBasicObject(i).isSurround(event.getPoint())) {
+					starting_object = getParent().getUmlBasicObject(i);
+					starting_connection_port = getParent().getUmlBasicObject(i).getReferenceConnectPort(event.getPoint());
+					return;
+				}
+			}
+			starting_object = null;
+			starting_connection_port = null;
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent event) {
+			if (starting_object == null || starting_connection_port == null)
+				return;
+			Point released_point = event.getPoint();
 			// TODO
 		}
 	}
@@ -45,49 +57,47 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 
 	static class CompositionLine extends CanvasMouseAdapter {
 
+		private Point pressed_point = null;
+
 		CompositionLine(CanvasArea parent) {
 			super(parent);
 		}
 
 		@Override
-		public void mouseDragged(MouseEvent event) {
-			// TODO
-		}
-
-		@Override
 		public void mousePressed(MouseEvent event) {
-			// TODO
+			pressed_point = event.getPoint();
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent event) {
+			Point released_point = event.getPoint();
 			// TODO
 		}
 	}
 
 	static class GeneralizationLine extends CanvasMouseAdapter {
 
+		private Point pressed_point = null;
+
 		GeneralizationLine(CanvasArea parent) {
 			super(parent);
 		}
 
 		@Override
-		public void mouseDragged(MouseEvent event) {
-			// TODO
-		}
-
-		@Override
 		public void mousePressed(MouseEvent event) {
-			// TODO
+			pressed_point = event.getPoint();
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent event) {
+			Point released_point = event.getPoint();
 			// TODO
 		}
 	}
 
 	static class Select extends CanvasMouseAdapter {
+
+		private Point pressed_point = null;
 
 		Select(CanvasArea parent) {
 			super(parent);
@@ -114,8 +124,6 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 			getParent().setDraggedBlock(new Rectangle2D.Double(min_x, min_y, max_x - min_x, max_y - min_y));
 			getParent().repaint();
 		}
-
-		Point pressed_point = null;
 
 		@Override
 		public void mousePressed(MouseEvent event) {

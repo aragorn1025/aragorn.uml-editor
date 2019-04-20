@@ -21,12 +21,12 @@ public abstract class UmlBasicObject implements UmlObject {
 
 	private double connection_port_icon_length = 4;
 
-	protected UmlBasicObject(Rectangle2D.Double bounds) {
-		this.bounds = bounds;
-	}
-
 	protected UmlBasicObject(Point reference_point, Dimension size) {
 		this(new Rectangle2D.Double(reference_point.getX(), reference_point.getY(), size.getWidth(), size.getHeight()));
+	}
+
+	protected UmlBasicObject(Rectangle2D.Double bounds) {
+		this.bounds = bounds;
 	}
 
 	@Override
@@ -40,11 +40,6 @@ public abstract class UmlBasicObject implements UmlObject {
 		}
 	}
 
-	public boolean isIn(Rectangle2D.Double bounds) {
-		return (this.bounds.getMinX() >= bounds.getMinX() && this.bounds.getMaxX() <= bounds.getMaxX() && this.getBounds().getMinY() >= bounds.getMinY()
-				&& this.getBounds().getMaxY() <= bounds.getMaxY());
-	}
-
 	@Override
 	public Rectangle2D.Double getBounds() {
 		return bounds;
@@ -54,26 +49,7 @@ public abstract class UmlBasicObject implements UmlObject {
 		return connection_port_icon_length;
 	}
 
-	public Point2D.Double getConnectPort(Point point) {
-		if (!isSurround(point))
-			return null;
-		double t = (point.getX() - bounds.getMinX()) / bounds.getWidth();
-		if (t <= 0.5) {
-			if (point.getY() <= bounds.getMinY() + t * bounds.getHeight())
-				return getConnectPort(UmlConnectionPort.TOP);
-			if (point.getY() > bounds.getMinY() + (1 - t) * bounds.getHeight())
-				return getConnectPort(UmlConnectionPort.BOTTOM);
-			return getConnectPort(UmlConnectionPort.LEFT);
-		} else {
-			if (point.getY() <= bounds.getMinY() + (1 - t) * bounds.getHeight())
-				return getConnectPort(UmlConnectionPort.TOP);
-			if (point.getY() > bounds.getMinY() + t * bounds.getHeight())
-				return getConnectPort(UmlConnectionPort.BOTTOM);
-			return getConnectPort(UmlConnectionPort.RIGHT);
-		}
-	}
-
-	private Point2D.Double getConnectPort(UmlConnectionPort connection_port) {
+	public Point2D.Double getConnectPort(UmlConnectionPort connection_port) {
 		switch (connection_port) {
 			case TOP:
 				return new Point2D.Double(bounds.getX() + bounds.getWidth() / 2.0, bounds.getY());
@@ -108,6 +84,30 @@ public abstract class UmlBasicObject implements UmlObject {
 
 	protected abstract Paintable getIcon();
 
+	public UmlConnectionPort getReferenceConnectPort(Point point) {
+		if (!isSurround(point))
+			return null;
+		double t = (point.getX() - bounds.getMinX()) / bounds.getWidth();
+		if (t <= 0.5) {
+			if (point.getY() <= bounds.getMinY() + t * bounds.getHeight())
+				return UmlConnectionPort.TOP;
+			if (point.getY() > bounds.getMinY() + (1 - t) * bounds.getHeight())
+				return UmlConnectionPort.BOTTOM;
+			return UmlConnectionPort.LEFT;
+		} else {
+			if (point.getY() <= bounds.getMinY() + (1 - t) * bounds.getHeight())
+				return UmlConnectionPort.TOP;
+			if (point.getY() > bounds.getMinY() + t * bounds.getHeight())
+				return UmlConnectionPort.BOTTOM;
+			return UmlConnectionPort.RIGHT;
+		}
+	}
+
+	public boolean isIn(Rectangle2D.Double bounds) {
+		return (this.bounds.getMinX() >= bounds.getMinX() && this.bounds.getMaxX() <= bounds.getMaxX() && this.getBounds().getMinY() >= bounds.getMinY()
+				&& this.getBounds().getMaxY() <= bounds.getMaxY());
+	}
+
 	protected boolean isSelected() {
 		return selected;
 	}
@@ -117,6 +117,10 @@ public abstract class UmlBasicObject implements UmlObject {
 	}
 
 	protected abstract boolean isSurround(Point2D.Double point);
+
+	public boolean isUngroupable() {
+		return false;
+	}
 
 	protected void setConnectionPortIconHorizontalGap(double connection_port_icon_horizontal_gap) {
 		this.connection_port_icon_horizontal_gap = connection_port_icon_horizontal_gap;
@@ -128,9 +132,5 @@ public abstract class UmlBasicObject implements UmlObject {
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
-	}
-
-	public boolean isUngroupable() {
-		return false;
 	}
 }

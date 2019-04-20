@@ -75,6 +75,15 @@ public class UmlCompositeObject extends UmlBasicObject {
 		return new UmlCompositeObject.CompositeObject(sub_objects);
 	}
 
+	public UmlBasicObject[] getSubObjects() {
+		return sub_objects;
+	}
+
+	@Override
+	protected boolean isSelected() {
+		return sub_objects[0].isSelected();
+	}
+
 	@Override
 	protected boolean isSurround(Point2D.Double point) {
 		for (UmlBasicObject sub_object : sub_objects) {
@@ -86,24 +95,15 @@ public class UmlCompositeObject extends UmlBasicObject {
 	}
 
 	@Override
+	public boolean isUngroupable() {
+		return true;
+	}
+
+	@Override
 	public void setSelected(boolean selected) {
 		super.setSelected(false);
 		for (UmlBasicObject sub_object : sub_objects) {
 			sub_object.setSelected(selected);
 		}
-	}
-
-	@Override
-	protected boolean isSelected() {
-		return sub_objects[0].isSelected();
-	}
-
-	@Override
-	public boolean isUngroupable() {
-		return true;
-	}
-
-	public UmlBasicObject[] getSubObjects() {
-		return sub_objects;
 	}
 }

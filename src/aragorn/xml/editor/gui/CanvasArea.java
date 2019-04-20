@@ -30,11 +30,23 @@ class CanvasArea extends Canvas {
 		setBackground(Color.BLACK);
 	}
 
+	public void addSelectedUmlBasicObjects(UmlBasicObject uml_basic_object) {
+		uml_basic_object.setSelected(true);
+		selected_uml_basic_objects.add(uml_basic_object);
+	}
+
 	void addUmlBasicObject(UmlBasicObject uml_basic_object) {
 		if (uml_basic_object != null) {
 			uml_basic_objects.add(uml_basic_object);
 			repaint();
 		}
+	}
+
+	public void clearSelectedUmlBasicObjects() {
+		for (int i = 0; i < selected_uml_basic_objects.size(); i++) {
+			selected_uml_basic_objects.get(i).setSelected(false);
+		}
+		selected_uml_basic_objects.clear();
 	}
 
 	UmlBasicObject getUmlBasicObject(int index) {
@@ -43,6 +55,18 @@ class CanvasArea extends Canvas {
 
 	int getUmlObjectsNumber() {
 		return uml_basic_objects.size();
+	}
+
+	public void group() {
+		if (selected_uml_basic_objects.size() == 0)
+			return;
+		UmlCompositeObject composite_object = new UmlCompositeObject(selected_uml_basic_objects);
+		for (int i = 0; i < selected_uml_basic_objects.size(); i++) {
+			uml_basic_objects.remove(selected_uml_basic_objects.get(i));
+		}
+		uml_basic_objects.add(composite_object);
+		addSelectedUmlBasicObjects(composite_object);
+		repaint();
 	}
 
 	@Override
@@ -58,10 +82,6 @@ class CanvasArea extends Canvas {
 			return;
 		g.setColor(Color.GREEN);
 		Paintable.drawRectangle(g, null, new Point2D.Double(dragged_block.getX(), dragged_block.getY()), dragged_block.getWidth(), dragged_block.getHeight());
-	}
-
-	public void setDraggedBlock(Rectangle2D.Double dragged_block) {
-		this.dragged_block = dragged_block;
 	}
 
 	void setCanvasMouseAdapter(CanvasMouseAdapter mouse_adapter) {
@@ -81,28 +101,8 @@ class CanvasArea extends Canvas {
 		repaint();
 	}
 
-	public void clearSelectedUmlBasicObjects() {
-		for (int i = 0; i < selected_uml_basic_objects.size(); i++) {
-			selected_uml_basic_objects.get(i).setSelected(false);
-		}
-		selected_uml_basic_objects.clear();
-	}
-
-	public void addSelectedUmlBasicObjects(UmlBasicObject uml_basic_object) {
-		uml_basic_object.setSelected(true);
-		selected_uml_basic_objects.add(uml_basic_object);
-	}
-
-	public void group() {
-		if (selected_uml_basic_objects.size() == 0)
-			return;
-		UmlCompositeObject composite_object = new UmlCompositeObject(selected_uml_basic_objects);
-		for (int i = 0; i < selected_uml_basic_objects.size(); i++) {
-			uml_basic_objects.remove(selected_uml_basic_objects.get(i));
-		}
-		uml_basic_objects.add(composite_object);
-		addSelectedUmlBasicObjects(composite_object);
-		repaint();
+	public void setDraggedBlock(Rectangle2D.Double dragged_block) {
+		this.dragged_block = dragged_block;
 	}
 
 	public void ungroup() {
