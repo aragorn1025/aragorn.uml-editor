@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import aragorn.math.geometry.Paintable;
 import aragorn.xml.editor.objects.UmlBasicObject;
 import aragorn.xml.editor.objects.UmlCompositeObject;
@@ -25,6 +26,8 @@ class CanvasArea extends Canvas {
 
 	private Rectangle2D.Double dragged_block = null;
 
+	private int depth_counter = -1;
+
 	CanvasArea() {
 		super();
 		setBackground(Color.BLACK);
@@ -37,6 +40,8 @@ class CanvasArea extends Canvas {
 
 	void addUmlBasicObject(UmlBasicObject uml_basic_object) {
 		if (uml_basic_object != null) {
+			uml_basic_object.setDepth(depth_counter);
+			depth_counter = uml_basic_object.getDepth() - 1;
 			uml_basic_objects.add(uml_basic_object);
 			repaint();
 		}
@@ -72,12 +77,18 @@ class CanvasArea extends Canvas {
 	@Override
 	public final void paint(Graphics g) {
 		g.setColor(Color.WHITE);
-		for (UmlObject uml_object : uml_basic_objects) {
-			uml_object.draw(g, null);
-		}
 		for (UmlObject uml_object : uml_connection_lines) {
 			uml_object.draw(g, null);
 		}
+		Collections.sort(uml_basic_objects, Collections.reverseOrder());
+		for (UmlBasicObject uml_object : uml_basic_objects) {
+			g.setColor(Color.BLACK);
+			uml_object.drawBackground(g, null);
+			g.setColor(Color.WHITE);
+			uml_object.draw(g, null);
+			System.out.println(uml_object.getDepth()); // TODO
+		}
+		System.out.println();
 		if (dragged_block == null)
 			return;
 		g.setColor(Color.GREEN);

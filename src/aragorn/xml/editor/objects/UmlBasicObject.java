@@ -1,6 +1,5 @@
 package aragorn.xml.editor.objects;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -9,103 +8,129 @@ import aragorn.math.geometry.Coordinate2D;
 import aragorn.math.geometry.Paintable;
 import aragorn.util.MathVector2D;
 
-public abstract class UmlBasicObject implements UmlObject {
+public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, UmlObject {
 
-	private Rectangle2D.Double bounds;
+	private static final int MIN_DEPTH = 0;
+
+	public static final int MAX_DEPTH = 99;
+
+	private double x;
+
+	private double y;
+
+	private double width;
+
+	private double height;
 
 	private boolean selected = false;
 
-	private double connection_port_icon_horizontal_gap = 0;
+	private double connection_port_horizontal_gap = 0;
 
-	private double connection_port_icon_vertical_gap = 0;
+	private double connection_port_vertical_gap = 0;
 
-	private double connection_port_icon_length = 4;
+	private double connection_port_length = 4;
 
-	protected UmlBasicObject(Point reference_point, Dimension size) {
-		this(new Rectangle2D.Double(reference_point.getX(), reference_point.getY(), size.getWidth(), size.getHeight()));
+	private int depth;
+
+	protected UmlBasicObject() {
+		this(0, 0, 0, 0, MIN_DEPTH);
 	}
 
-	protected UmlBasicObject(Rectangle2D.Double bounds) {
-		this.bounds = bounds;
+	protected UmlBasicObject(double x, double y, double width, double height, int depth) {
+		setLocation(x, y);
+		this.width = width;
+		this.height = height;
+		setDepth(depth);
+	}
+
+	@Override
+	public int compareTo(UmlBasicObject compared_uml_basic_object) {
+		return this.depth - compared_uml_basic_object.depth;
 	}
 
 	@Override
 	public void draw(Graphics g, Coordinate2D c) {
-		getIcon().draw(g, c);
-		if (selected) {
-			Paintable.fillRectangle(g, c, getConnectPortReferencePoint(UmlConnectionPort.TOP), connection_port_icon_length, connection_port_icon_length);
-			Paintable.fillRectangle(g, c, getConnectPortReferencePoint(UmlConnectionPort.LEFT), connection_port_icon_length, connection_port_icon_length);
-			Paintable.fillRectangle(g, c, getConnectPortReferencePoint(UmlConnectionPort.BOTTOM), connection_port_icon_length, connection_port_icon_length);
-			Paintable.fillRectangle(g, c, getConnectPortReferencePoint(UmlConnectionPort.RIGHT), connection_port_icon_length, connection_port_icon_length);
+		drawBody(g, c);
+		if (isSelected() && !isUngroupable()) {
+			drawConnectPort(g, c);
 		}
+	}
+
+	public abstract void drawBackground(Graphics g, Coordinate2D c);
+
+	protected abstract void drawBody(Graphics g, Coordinate2D c);
+
+	private void drawConnectPort(Graphics g, Coordinate2D c) {
+		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlConnectionPort.TOP), connection_port_length, connection_port_length);
+		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlConnectionPort.LEFT), connection_port_length, connection_port_length);
+		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlConnectionPort.BOTTOM), connection_port_length, connection_port_length);
+		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlConnectionPort.RIGHT), connection_port_length, connection_port_length);
 	}
 
 	@Override
 	public Rectangle2D.Double getBounds() {
-		return bounds;
+		return new Rectangle2D.Double(x, y, width, height);
 	}
 
-	protected double getConnectionPortIconLength() {
-		return connection_port_icon_length;
-	}
-
-	public Point2D.Double getConnectPort(UmlConnectionPort connection_port) {
+	private Point2D.Double getConnectionPort(UmlConnectionPort connection_port) {
 		switch (connection_port) {
 			case TOP:
-				return new Point2D.Double(bounds.getX() + bounds.getWidth() / 2.0, bounds.getY());
+				return new Point2D.Double(x + width / 2.0, y);
 			case LEFT:
-				return new Point2D.Double(bounds.getX(), bounds.getY() + bounds.getHeight() / 2.0);
+				return new Point2D.Double(x, y + height / 2.0);
 			case BOTTOM:
-				return new Point2D.Double(bounds.getX() + bounds.getWidth() / 2.0, bounds.getY() + bounds.getHeight());
+				return new Point2D.Double(x + width / 2.0, y + height);
 			case RIGHT:
-				return new Point2D.Double(bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight() / 2.0);
+				return new Point2D.Double(x + width, y + height / 2.0);
 			default:
 				throw new InternalError("Unknown error.");
 		}
 	}
 
-	private Point2D.Double getConnectPortReferencePoint(UmlConnectionPort connection_port) {
-		double length = connection_port_icon_length;
-		MathVector2D gap_v_vector = new MathVector2D(0, connection_port_icon_vertical_gap);
-		MathVector2D gap_h_vector = new MathVector2D(connection_port_icon_horizontal_gap, 0);
+	Point2D.Double getConnectionPortCenter(UmlConnectionPort connection_port) {
 		switch (connection_port) {
 			case TOP:
-				return MathVector2D.add(getConnectPort(UmlConnectionPort.TOP), gap_v_vector, new MathVector2D(-0.5 * length, -length));
+				return MathVector2D.add(getConnectionPort(connection_port), new MathVector2D(0, -connection_port_length / 2.0 + connection_port_vertical_gap));
 			case LEFT:
-				return MathVector2D.add(getConnectPort(UmlConnectionPort.LEFT), gap_h_vector, new MathVector2D(-length, -length / 2.0));
+				return MathVector2D.add(getConnectionPort(connection_port), new MathVector2D(-connection_port_length / 2.0 + connection_port_horizontal_gap, 0));
 			case BOTTOM:
-				return MathVector2D.add(getConnectPort(UmlConnectionPort.BOTTOM), gap_v_vector.getNegative(), new MathVector2D(-length / 2.0, 0));
+				return MathVector2D.add(getConnectionPort(connection_port), new MathVector2D(0, connection_port_length / 2.0 - connection_port_vertical_gap));
 			case RIGHT:
-				return MathVector2D.add(getConnectPort(UmlConnectionPort.RIGHT), gap_h_vector.getNegative(), new MathVector2D(0, -length / 2.0));
+				return MathVector2D.add(getConnectionPort(connection_port), new MathVector2D(connection_port_length / 2.0 - connection_port_horizontal_gap, 0));
 			default:
 				throw new InternalError("Unknown error.");
 		}
 	}
 
-	protected abstract Paintable getIcon();
+	protected double getConnectionPortLength() {
+		return connection_port_length;
+	}
 
-	public UmlConnectionPort getReferenceConnectPort(Point point) {
+	private Point2D.Double getConnectionPortReferencePoint(UmlConnectionPort connection_port) {
+		return MathVector2D.add(getConnectionPortCenter(connection_port), MathVector2D.getScalarMultiply(new MathVector2D(1, 1), -connection_port_length / 2.0));
+	}
+
+	public UmlConnectionPort getCorrespondingConnectPort(Point point) {
 		if (!isSurround(point))
 			return null;
-		double t = (point.getX() - bounds.getMinX()) / bounds.getWidth();
+		double t = (point.getX() - x) / width;
 		if (t <= 0.5) {
-			if (point.getY() <= bounds.getMinY() + t * bounds.getHeight())
+			if (point.getY() <= y + t * height)
 				return UmlConnectionPort.TOP;
-			if (point.getY() > bounds.getMinY() + (1 - t) * bounds.getHeight())
+			if (point.getY() > y + (1 - t) * height)
 				return UmlConnectionPort.BOTTOM;
 			return UmlConnectionPort.LEFT;
 		} else {
-			if (point.getY() <= bounds.getMinY() + (1 - t) * bounds.getHeight())
+			if (point.getY() <= y + (1 - t) * height)
 				return UmlConnectionPort.TOP;
-			if (point.getY() > bounds.getMinY() + t * bounds.getHeight())
+			if (point.getY() > y + t * height)
 				return UmlConnectionPort.BOTTOM;
 			return UmlConnectionPort.RIGHT;
 		}
 	}
 
-	public boolean isIn(Rectangle2D.Double bounds) {
-		return (this.bounds.getMinX() >= bounds.getMinX() && this.bounds.getMaxX() <= bounds.getMaxX() && this.getBounds().getMinY() >= bounds.getMinY()
-				&& this.getBounds().getMaxY() <= bounds.getMaxY());
+	public int getDepth() {
+		return depth;
 	}
 
 	protected boolean isSelected() {
@@ -118,19 +143,38 @@ public abstract class UmlBasicObject implements UmlObject {
 
 	protected abstract boolean isSurround(Point2D.Double point);
 
+	public boolean isSurroundedBy(Rectangle2D.Double bounds) {
+		return (x >= bounds.getMinX() && x + width <= bounds.getMaxX() && y >= bounds.getMinY() && y + height <= bounds.getMaxY());
+	}
+
 	public boolean isUngroupable() {
 		return false;
 	}
 
-	protected void setConnectionPortIconHorizontalGap(double connection_port_icon_horizontal_gap) {
-		this.connection_port_icon_horizontal_gap = connection_port_icon_horizontal_gap;
+	protected void setConnectionPortIconHorizontalGap(double connection_port_horizontal_gap) {
+		this.connection_port_horizontal_gap = connection_port_horizontal_gap;
 	}
 
-	protected void setConnectionPortIconVerticalGap(double connection_port_icon_vertical_gap) {
-		this.connection_port_icon_vertical_gap = connection_port_icon_vertical_gap;
+	protected void setConnectionPortIconVerticalGap(double connection_port_vertical_gap) {
+		this.connection_port_vertical_gap = connection_port_vertical_gap;
+	}
+
+	public void setDepth(int depth) {
+		int diff = UmlBasicObject.MAX_DEPTH - UmlBasicObject.MIN_DEPTH + 1;
+		this.depth = ((depth - UmlBasicObject.MIN_DEPTH) % diff + diff) % diff + UmlBasicObject.MIN_DEPTH;
+	}
+
+	protected void setLocation(double x, double y) {
+		this.x = x;
+		this.y = y;
 	}
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+
+	void setSize(double width, double height) {
+		this.width = width;
+		this.height = height;
 	}
 }

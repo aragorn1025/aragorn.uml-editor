@@ -26,7 +26,7 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 			for (int i = 0; i < getParent().getUmlObjectsNumber(); i++) {
 				if (getParent().getUmlBasicObject(i).isSurround(event.getPoint())) {
 					starting_object = getParent().getUmlBasicObject(i);
-					starting_connection_port = getParent().getUmlBasicObject(i).getReferenceConnectPort(event.getPoint());
+					starting_connection_port = getParent().getUmlBasicObject(i).getCorrespondingConnectPort(event.getPoint());
 					return;
 				}
 			}
@@ -51,13 +51,11 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent event) {
-			getParent().addUmlBasicObject(new UmlClass(event.getPoint()));
+			getParent().addUmlBasicObject(new UmlClass(event.getPoint(), 0)); // TODO depth should be set
 		}
 	}
 
 	static class CompositionLine extends CanvasMouseAdapter {
-
-		private Point pressed_point = null;
 
 		CompositionLine(CanvasArea parent) {
 			super(parent);
@@ -65,7 +63,7 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 
 		@Override
 		public void mousePressed(MouseEvent event) {
-			pressed_point = event.getPoint();
+			defaultMousePressed(event);
 		}
 
 		@Override
@@ -77,15 +75,13 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 
 	static class GeneralizationLine extends CanvasMouseAdapter {
 
-		private Point pressed_point = null;
-
 		GeneralizationLine(CanvasArea parent) {
 			super(parent);
 		}
 
 		@Override
 		public void mousePressed(MouseEvent event) {
-			pressed_point = event.getPoint();
+			defaultMousePressed(event);
 		}
 
 		@Override
@@ -96,8 +92,6 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 	}
 
 	static class Select extends CanvasMouseAdapter {
-
-		private Point pressed_point = null;
 
 		Select(CanvasArea parent) {
 			super(parent);
@@ -116,39 +110,39 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 
 		@Override
 		public void mouseDragged(MouseEvent event) {
-			Point released_point = event.getPoint();
-			double min_x = Math.min(pressed_point.getX(), released_point.getX());
-			double min_y = Math.min(pressed_point.getY(), released_point.getY());
-			double max_x = Math.max(pressed_point.getX(), released_point.getX());
-			double max_y = Math.max(pressed_point.getY(), released_point.getY());
+			double min_x = Math.min(getMousePressedPoint().getX(), event.getPoint().getX());
+			double min_y = Math.min(getMousePressedPoint().getY(), event.getPoint().getY());
+			double max_x = Math.max(getMousePressedPoint().getX(), event.getPoint().getX());
+			double max_y = Math.max(getMousePressedPoint().getY(), event.getPoint().getY());
 			getParent().setDraggedBlock(new Rectangle2D.Double(min_x, min_y, max_x - min_x, max_y - min_y));
 			getParent().repaint();
 		}
 
 		@Override
 		public void mousePressed(MouseEvent event) {
-			pressed_point = event.getPoint();
+			super.defaultMousePressed(event);
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent event) {
 			getParent().setDraggedBlock(null);
-			Point released_point = event.getPoint();
-			if (released_point.equals(pressed_point)) {
-				pressed_point = null;
+			Point mouse_released_point = event.getPoint();
+			if (mouse_released_point.equals(getMousePressedPoint())) {
+				resetMousePressedPoint();
 				return;
 			}
 			getParent().clearSelectedUmlBasicObjects();
-			double min_x = Math.min(pressed_point.getX(), released_point.getX());
-			double min_y = Math.min(pressed_point.getY(), released_point.getY());
-			double max_x = Math.max(pressed_point.getX(), released_point.getX());
-			double max_y = Math.max(pressed_point.getY(), released_point.getY());
+			double min_x = Math.min(getMousePressedPoint().getX(), mouse_released_point.getX());
+			double min_y = Math.min(getMousePressedPoint().getY(), mouse_released_point.getY());
+			double max_x = Math.max(getMousePressedPoint().getX(), mouse_released_point.getX());
+			double max_y = Math.max(getMousePressedPoint().getY(), mouse_released_point.getY());
 			Rectangle2D.Double bounds = new Rectangle2D.Double(min_x, min_y, max_x - min_x, max_y - min_y);
 			for (int i = 0; i < getParent().getUmlObjectsNumber(); i++) {
-				if (getParent().getUmlBasicObject(i).isIn(bounds)) {
+				if (getParent().getUmlBasicObject(i).isSurroundedBy(bounds)) {
 					getParent().addSelectedUmlBasicObjects(getParent().getUmlBasicObject(i));
 				}
 			}
+			resetMousePressedPoint();
 			getParent().repaint();
 		}
 	}
@@ -161,17 +155,37 @@ public class CanvasMouseAdapter extends MouseInputAdapter {
 
 		@Override
 		public void mouseClicked(MouseEvent event) {
-			getParent().addUmlBasicObject(new UmlUseCase(event.getPoint()));
+			getParent().addUmlBasicObject(new UmlUseCase(event.getPoint(), 0)); // TODO depth should be set
 		}
 	}
 
 	private CanvasArea parent;
 
+	private Point mouse_pressed_point = null;
+
 	protected CanvasMouseAdapter(CanvasArea parent) {
 		this.parent = parent;
 	}
 
+	protected void defaultMousePressed(MouseEvent event) {
+		super.mousePressed(event);
+		mouse_pressed_point = event.getPoint();
+	}
+
+	protected void defaultMouseReleased(MouseEvent event) {
+		super.mouseReleased(event);
+		// TODO
+	}
+
+	protected Point getMousePressedPoint() {
+		return mouse_pressed_point;
+	}
+
 	protected CanvasArea getParent() {
 		return parent;
+	}
+
+	protected void resetMousePressedPoint() {
+		this.mouse_pressed_point = null;
 	}
 }

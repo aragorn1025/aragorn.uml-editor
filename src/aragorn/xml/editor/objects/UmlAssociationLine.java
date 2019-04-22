@@ -1,6 +1,7 @@
 package aragorn.xml.editor.objects;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import aragorn.math.geometry.LineSegment2D;
 import aragorn.math.geometry.Paintable;
 import aragorn.util.MathVector2D;
@@ -17,12 +18,7 @@ public class UmlAssociationLine extends UmlConnectionLine {
 	}
 
 	@Override
-	protected Paintable getEndingArrow(MathVector2D parallel_vector, MathVector2D normal_vector) {
-		return new LineSegment2D(MathVector2D.add(getEndingPoint(), parallel_vector.getNegative()), getEndingPoint());
-	}
-
-	@Override
-	protected Paintable getStartingArrow(MathVector2D parallel_vector, MathVector2D normal_vector) {
-		return new LineSegment2D(MathVector2D.add(getStartingPoint(), parallel_vector), getStartingPoint());
+	protected Paintable getArrow(Double ending_point, MathVector2D parallel_vector, MathVector2D normal_vector) {
+		return new LineSegment2D(MathVector2D.add(ending_point, parallel_vector.getNegative()), ending_point);
 	}
 }
