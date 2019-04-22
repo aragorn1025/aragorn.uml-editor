@@ -8,10 +8,10 @@ import aragorn.math.geometry.LineSegment2D;
 import aragorn.math.geometry.Paintable;
 import aragorn.util.MathVector2D;
 
-public abstract class UmlConnectionLine implements UmlObject {
+public abstract class UmlConnectionLine implements Paintable {
 
 	/** The minimum length of the segment. It is strongly recommend to set it as the multiple of 2. */
-	private static final int MIN_SEGMENT_LENGTH = 4;
+	private static final int MIN_SEGMENT_LENGTH = 16;
 
 	private UmlConnectionPort starting_connection_port;
 
@@ -36,8 +36,8 @@ public abstract class UmlConnectionLine implements UmlObject {
 	}
 
 	private Paintable getArrow() {
-		Point2D.Double starting_point = starting_object.getConnectionPortCenter(starting_connection_port);
-		Point2D.Double ending_point = ending_object.getConnectionPortCenter(ending_connection_port);
+		Point2D.Double starting_point = starting_object.getConnectionPort(starting_connection_port);
+		Point2D.Double ending_point = ending_object.getConnectionPort(ending_connection_port);
 		MathVector2D parallel_vector = new MathVector2D(starting_point, ending_point);
 		MathVector2D parallel_unit_vector = parallel_vector.getScalarMultiply(1 / parallel_vector.getLength());
 		MathVector2D normal_unit_vector = new MathVector2D(-parallel_unit_vector.getY(), parallel_unit_vector.getX());
@@ -58,8 +58,8 @@ public abstract class UmlConnectionLine implements UmlObject {
 	}
 
 	private Paintable getTail() {
-		Point2D.Double starting_point = starting_object.getConnectionPortCenter(starting_connection_port);
-		Point2D.Double ending_point = ending_object.getConnectionPortCenter(ending_connection_port);
+		Point2D.Double starting_point = starting_object.getConnectionPort(starting_connection_port);
+		Point2D.Double ending_point = ending_object.getConnectionPort(ending_connection_port);
 		MathVector2D parallel_vector = new MathVector2D(starting_point, ending_point);
 		MathVector2D parallel_unit_vector = parallel_vector.getScalarMultiply(1 / parallel_vector.getLength());
 		return new LineSegment2D(starting_point, MathVector2D.add(parallel_vector, parallel_unit_vector.getScalarMultiply(MIN_SEGMENT_LENGTH).getNegative()));

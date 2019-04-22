@@ -8,11 +8,11 @@ import aragorn.math.geometry.Coordinate2D;
 import aragorn.math.geometry.Paintable;
 import aragorn.util.MathVector2D;
 
-public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, UmlObject {
+public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, Paintable {
 
 	private static final int MIN_DEPTH = 0;
 
-	public static final int MAX_DEPTH = 99;
+	private static final int MAX_DEPTH = 99;
 
 	private double x;
 
@@ -32,15 +32,17 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, UmlO
 
 	private int depth;
 
+	private String name = null;
+
 	protected UmlBasicObject() {
-		this(0, 0, 0, 0, MIN_DEPTH);
+		this(0, 0, 0, 0);
 	}
 
-	protected UmlBasicObject(double x, double y, double width, double height, int depth) {
+	protected UmlBasicObject(double x, double y, double width, double height) {
 		setLocation(x, y);
 		this.width = width;
 		this.height = height;
-		setDepth(depth);
+		setDepth(UmlBasicObject.MIN_DEPTH);
 	}
 
 	@Override
@@ -72,7 +74,7 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, UmlO
 		return new Rectangle2D.Double(x, y, width, height);
 	}
 
-	private Point2D.Double getConnectionPort(UmlConnectionPort connection_port) {
+	Point2D.Double getConnectionPort(UmlConnectionPort connection_port) {
 		switch (connection_port) {
 			case TOP:
 				return new Point2D.Double(x + width / 2.0, y);
@@ -87,7 +89,7 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, UmlO
 		}
 	}
 
-	Point2D.Double getConnectionPortCenter(UmlConnectionPort connection_port) {
+	private Point2D.Double getConnectionPortCenter(UmlConnectionPort connection_port) {
 		switch (connection_port) {
 			case TOP:
 				return MathVector2D.add(getConnectionPort(connection_port), new MathVector2D(0, -connection_port_length / 2.0 + connection_port_vertical_gap));
@@ -133,6 +135,14 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, UmlO
 		return depth;
 	}
 
+	public Point2D.Double getLocation() {
+		return new Point2D.Double(x, y);
+	}
+
+	public String getName() {
+		return name;
+	}
+
 	protected boolean isSelected() {
 		return selected;
 	}
@@ -164,9 +174,13 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, UmlO
 		this.depth = ((depth - UmlBasicObject.MIN_DEPTH) % diff + diff) % diff + UmlBasicObject.MIN_DEPTH;
 	}
 
-	protected void setLocation(double x, double y) {
+	public void setLocation(double x, double y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setSelected(boolean selected) {

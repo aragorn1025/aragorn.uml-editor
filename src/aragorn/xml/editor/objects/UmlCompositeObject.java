@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import aragorn.math.geometry.Coordinate2D;
 
 public class UmlCompositeObject extends UmlBasicObject {
@@ -22,7 +23,7 @@ public class UmlCompositeObject extends UmlBasicObject {
 		for (int i = 0; i < this.sub_objects.length; i++) {
 			this.sub_objects[i] = sub_objects.get(i);
 		}
-		Arrays.sort(this.sub_objects); // TODO
+		Arrays.sort(this.sub_objects, Collections.reverseOrder());
 
 		double x_min = this.sub_objects[0].getBounds().getMinX();
 		double x_max = this.sub_objects[0].getBounds().getMaxX();
@@ -48,7 +49,7 @@ public class UmlCompositeObject extends UmlBasicObject {
 
 	@Override
 	protected void drawBody(Graphics g, Coordinate2D c) {
-		Arrays.sort(sub_objects);
+		Arrays.sort(sub_objects, Collections.reverseOrder());
 		for (UmlBasicObject sub_object : sub_objects) {
 			g.setColor(Color.BLACK);
 			sub_object.drawBackground(g, null);

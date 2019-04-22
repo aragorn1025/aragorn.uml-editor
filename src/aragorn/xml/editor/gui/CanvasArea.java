@@ -11,7 +11,6 @@ import aragorn.math.geometry.Paintable;
 import aragorn.xml.editor.objects.UmlBasicObject;
 import aragorn.xml.editor.objects.UmlCompositeObject;
 import aragorn.xml.editor.objects.UmlConnectionLine;
-import aragorn.xml.editor.objects.UmlObject;
 
 @SuppressWarnings("serial")
 class CanvasArea extends Canvas {
@@ -28,12 +27,15 @@ class CanvasArea extends Canvas {
 
 	private int depth_counter = -1;
 
-	CanvasArea() {
+	private MainFrame parent;
+
+	CanvasArea(MainFrame parent) {
 		super();
+		this.parent = parent;
 		setBackground(Color.BLACK);
 	}
 
-	public void addSelectedUmlBasicObjects(UmlBasicObject uml_basic_object) {
+	void addSelectedUmlBasicObjects(UmlBasicObject uml_basic_object) {
 		uml_basic_object.setSelected(true);
 		selected_uml_basic_objects.add(uml_basic_object);
 	}
@@ -47,11 +49,30 @@ class CanvasArea extends Canvas {
 		}
 	}
 
-	public void clearSelectedUmlBasicObjects() {
+	void addUmlConnectionLine(UmlConnectionLine uml_connection_line) {
+		if (uml_connection_line != null) {
+			uml_connection_lines.add(uml_connection_line);
+			repaint();
+		}
+	}
+
+	void clearSelectedUmlBasicObjects() {
 		for (int i = 0; i < selected_uml_basic_objects.size(); i++) {
 			selected_uml_basic_objects.get(i).setSelected(false);
 		}
 		selected_uml_basic_objects.clear();
+	}
+
+	public MainFrame getParent() {
+		return parent;
+	}
+
+	UmlBasicObject getSelectedUmlBasicObject(int index) {
+		return selected_uml_basic_objects.get(index);
+	}
+
+	int getSelectedUmlObjectsNumber() {
+		return selected_uml_basic_objects.size();
 	}
 
 	UmlBasicObject getUmlBasicObject(int index) {
@@ -62,7 +83,7 @@ class CanvasArea extends Canvas {
 		return uml_basic_objects.size();
 	}
 
-	public void group() {
+	void group() {
 		if (selected_uml_basic_objects.size() == 0)
 			return;
 		UmlCompositeObject composite_object = new UmlCompositeObject(selected_uml_basic_objects);
@@ -76,19 +97,17 @@ class CanvasArea extends Canvas {
 
 	@Override
 	public final void paint(Graphics g) {
-		g.setColor(Color.WHITE);
-		for (UmlObject uml_object : uml_connection_lines) {
-			uml_object.draw(g, null);
-		}
 		Collections.sort(uml_basic_objects, Collections.reverseOrder());
 		for (UmlBasicObject uml_object : uml_basic_objects) {
 			g.setColor(Color.BLACK);
 			uml_object.drawBackground(g, null);
 			g.setColor(Color.WHITE);
 			uml_object.draw(g, null);
-			System.out.println(uml_object.getDepth()); // TODO
 		}
-		System.out.println();
+		g.setColor(Color.WHITE);
+		for (UmlConnectionLine uml_object : uml_connection_lines) {
+			uml_object.draw(g, null);
+		}
 		if (dragged_block == null)
 			return;
 		g.setColor(Color.GREEN);
@@ -112,11 +131,11 @@ class CanvasArea extends Canvas {
 		repaint();
 	}
 
-	public void setDraggedBlock(Rectangle2D.Double dragged_block) {
+	void setDraggedBlock(Rectangle2D.Double dragged_block) {
 		this.dragged_block = dragged_block;
 	}
 
-	public void ungroup() {
+	void ungroup() {
 		if (selected_uml_basic_objects.size() != 1 || !selected_uml_basic_objects.get(0).isUngroupable())
 			return;
 		UmlCompositeObject group = (UmlCompositeObject) selected_uml_basic_objects.get(0);

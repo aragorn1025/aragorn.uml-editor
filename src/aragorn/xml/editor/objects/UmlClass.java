@@ -11,19 +11,19 @@ import aragorn.math.geometry.Polyline2D;
 
 public class UmlClass extends UmlBasicObject {
 
-	public static final Paintable BUTTON_ICON = new UmlClass(0, 1, 8, 6, 0); // TODO depth should be checked
+	public static final Paintable BUTTON_ICON = new UmlClass(0, 1, 8, 6);
 
 	public static final String NAME = "class";
 
 	/** The default size of the object. It is strongly recommend to set the height as the multiple of 3. */
 	private final static Dimension DEFAULT_SIZE = new Dimension(84, 90);
 
-	private UmlClass(double x, double y, double width, double height, int depth) {
-		super(x, y, width, height, depth);
+	private UmlClass(double x, double y, double width, double height) {
+		super(x, y, width, height);
 	}
 
-	public UmlClass(Point point, int depth) {
-		this(point.getX(), point.getY(), UmlClass.DEFAULT_SIZE.getWidth(), UmlClass.DEFAULT_SIZE.getHeight(), depth);
+	public UmlClass(Point point) {
+		this(point.getX(), point.getY(), UmlClass.DEFAULT_SIZE.getWidth(), UmlClass.DEFAULT_SIZE.getHeight());
 	}
 
 	@Override

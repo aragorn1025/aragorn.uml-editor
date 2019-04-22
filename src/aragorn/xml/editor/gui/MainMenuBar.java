@@ -15,6 +15,9 @@ class MainMenuBar extends JMenuBar {
 		val.getItem(0).addActionListener(new CanvasActionListener.Group(canvas_area));
 		val.add(new GuiMenuItem("Ungroup"));
 		val.getItem(1).addActionListener(new CanvasActionListener.Ungroup(canvas_area));
+		val.addSeparator();
+		val.add(new GuiMenuItem("Change Basic Object Name"));
+		val.getItem(3).addActionListener(new CanvasActionListener.ChangeBasicObjectName(canvas_area));
 		return val;
 	}
 

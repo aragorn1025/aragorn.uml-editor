@@ -38,7 +38,7 @@ public class MainFrame extends GuiFrame {
 	private MainFrame(int margin) {
 		super(new Dimension(800, 450), false);
 
-		CanvasArea canvas_area = new CanvasArea();
+		CanvasArea canvas_area = new CanvasArea(this);
 		GuiPanel button_panel = MainFrame.getButtonPanel(canvas_area);
 
 		GuiPanel content_pane = new GuiPanel();
