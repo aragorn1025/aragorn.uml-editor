@@ -39,7 +39,8 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, Pain
 	}
 
 	protected UmlBasicObject(double x, double y, double width, double height) {
-		setLocation(x, y);
+		this.x = x;
+		this.y = y;
 		this.width = width;
 		this.height = height;
 		setDepth(UmlBasicObject.MIN_DEPTH);

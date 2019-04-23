@@ -37,7 +37,7 @@ public class UmlCompositeObject extends UmlBasicObject {
 			y_max = Math.max(y_max, this.sub_objects[i].getBounds().getMaxY());
 			depth_max = Math.max(depth_max, this.sub_objects[i].getDepth());
 		}
-		setLocation(x_min, y_min);
+		super.setLocation(x_min, y_min);
 		setSize(x_max - x_min, y_max - y_min);
 		setDepth(depth_max);
 	}
@@ -80,6 +80,17 @@ public class UmlCompositeObject extends UmlBasicObject {
 	@Override
 	public boolean isUngroupable() {
 		return true;
+	}
+
+	@Override
+	public void setLocation(double x, double y) {
+		Point2D.Double initial_location = getLocation();
+		double dx = x - initial_location.getX();
+		double dy = y - initial_location.getY();
+		super.setLocation(x, y);
+		for (UmlBasicObject sub_object : sub_objects) {
+			sub_object.setLocation(sub_object.getLocation().getX() + dx, sub_object.getLocation().getY() + dy);
+		}
 	}
 
 	@Override
