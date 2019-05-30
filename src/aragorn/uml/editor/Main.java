@@ -1,7 +1,7 @@
-package aragorn.xml.editor;
+package aragorn.uml.editor;
 
 import aragorn.gui.GuiFrame;
-import aragorn.xml.editor.gui.MainFrame;
+import aragorn.uml.editor.gui.MainFrame;
 
 class Main {
 

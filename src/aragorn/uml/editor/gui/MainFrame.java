@@ -1,4 +1,4 @@
-package aragorn.xml.editor.gui;
+package aragorn.uml.editor.gui;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -15,14 +15,14 @@ public class MainFrame extends GuiFrame {
 		GuiPanel button_panel = new GuiPanel();
 		button_panel.setDefaultMargin(10);
 
-		XmlButton[] buttons = new XmlButton[6];
+		UmlButton[] buttons = new UmlButton[6];
 		ButtonGroup group = new ButtonGroup();
-		buttons[0] = new XmlButton.Select(canvas_area);
-		buttons[1] = new XmlButton.AssociationLine(canvas_area);
-		buttons[2] = new XmlButton.GeneralizationLine(canvas_area);
-		buttons[3] = new XmlButton.CompositionLine(canvas_area);
-		buttons[4] = new XmlButton.Class(canvas_area);
-		buttons[5] = new XmlButton.UseCase(canvas_area);
+		buttons[0] = new UmlButton.Select(canvas_area);
+		buttons[1] = new UmlButton.AssociationLine(canvas_area);
+		buttons[2] = new UmlButton.GeneralizationLine(canvas_area);
+		buttons[3] = new UmlButton.CompositionLine(canvas_area);
+		buttons[4] = new UmlButton.Class(canvas_area);
+		buttons[5] = new UmlButton.UseCase(canvas_area);
 		for (int i = 0; i < buttons.length; i++) {
 			group.add(buttons[i]);
 			button_panel.addComponent(buttons[i], 0, i, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);

@@ -1,4 +1,4 @@
-package aragorn.xml.editor.objects;
+package aragorn.uml.editor.objects;
 
 import java.awt.Graphics;
 import java.awt.geom.Point2D;

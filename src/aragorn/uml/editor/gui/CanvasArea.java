@@ -1,4 +1,4 @@
-package aragorn.xml.editor.gui;
+package aragorn.uml.editor.gui;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -8,9 +8,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import aragorn.math.geometry.Paintable;
-import aragorn.xml.editor.objects.UmlBasicObject;
-import aragorn.xml.editor.objects.UmlCompositeObject;
-import aragorn.xml.editor.objects.UmlConnectionLine;
+import aragorn.uml.editor.objects.UmlBasicObject;
+import aragorn.uml.editor.objects.UmlCompositeObject;
+import aragorn.uml.editor.objects.UmlConnectionLine;
 
 @SuppressWarnings("serial")
 class CanvasArea extends Canvas {

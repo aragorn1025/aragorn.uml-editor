@@ -1,4 +1,4 @@
-package aragorn.xml.editor.objects;
+package aragorn.uml.editor.objects;
 
 public enum UmlConnectionPort {
 	TOP,

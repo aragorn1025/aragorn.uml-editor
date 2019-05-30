@@ -1,4 +1,4 @@
-package aragorn.xml.editor.gui;
+package aragorn.uml.editor.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

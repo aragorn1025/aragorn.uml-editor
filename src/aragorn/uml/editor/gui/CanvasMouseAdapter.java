@@ -1,18 +1,18 @@
-package aragorn.xml.editor.gui;
+package aragorn.uml.editor.gui;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import javax.swing.event.MouseInputAdapter;
+import aragorn.uml.editor.objects.UmlAssociationLine;
+import aragorn.uml.editor.objects.UmlBasicObject;
+import aragorn.uml.editor.objects.UmlClass;
+import aragorn.uml.editor.objects.UmlCompositionLine;
+import aragorn.uml.editor.objects.UmlConnectionPort;
+import aragorn.uml.editor.objects.UmlGeneralizationLine;
+import aragorn.uml.editor.objects.UmlUseCase;
 import aragorn.util.MathVector2D;
-import aragorn.xml.editor.objects.UmlAssociationLine;
-import aragorn.xml.editor.objects.UmlBasicObject;
-import aragorn.xml.editor.objects.UmlClass;
-import aragorn.xml.editor.objects.UmlCompositionLine;
-import aragorn.xml.editor.objects.UmlConnectionPort;
-import aragorn.xml.editor.objects.UmlGeneralizationLine;
-import aragorn.xml.editor.objects.UmlUseCase;
 
 class CanvasMouseAdapter extends MouseInputAdapter {
 

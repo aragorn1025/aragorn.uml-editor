@@ -1,4 +1,4 @@
-package aragorn.xml.editor.objects;
+package aragorn.uml.editor.objects;
 
 import java.awt.Color;
 import java.awt.Graphics;

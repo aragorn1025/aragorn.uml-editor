@@ -1,4 +1,4 @@
-package aragorn.xml.editor.gui;
+package aragorn.uml.editor.gui;
 
 import javax.swing.JMenuBar;
 import aragorn.gui.GuiFrame;
