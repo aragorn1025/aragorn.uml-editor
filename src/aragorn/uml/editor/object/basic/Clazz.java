@@ -1,4 +1,4 @@
-package aragorn.uml.editor.objects;
+package aragorn.uml.editor.object.basic;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -8,22 +8,23 @@ import java.awt.geom.Rectangle2D;
 import aragorn.math.geometry.Coordinate2D;
 import aragorn.math.geometry.Paintable;
 import aragorn.math.geometry.Polyline2D;
+import aragorn.uml.editor.object.UmlBasicObject;
 
-public class UmlClass extends UmlBasicObject {
+public class Clazz extends UmlBasicObject {
 
-	public static final Paintable BUTTON_ICON = new UmlClass(0, 1, 8, 6);
+	public static final Paintable BUTTON_ICON = new Clazz(0, 1, 8, 6);
 
 	public static final String NAME = "class";
 
 	/** The default size of the object. It is strongly recommend to set the height as the multiple of 3. */
 	private final static Dimension DEFAULT_SIZE = new Dimension(84, 90);
 
-	private UmlClass(double x, double y, double width, double height) {
+	private Clazz(double x, double y, double width, double height) {
 		super(x, y, width, height);
 	}
 
-	public UmlClass(Point point) {
-		this(point.getX(), point.getY(), UmlClass.DEFAULT_SIZE.getWidth(), UmlClass.DEFAULT_SIZE.getHeight());
+	public Clazz(Point point) {
+		this(point.getX(), point.getY(), Clazz.DEFAULT_SIZE.getWidth(), Clazz.DEFAULT_SIZE.getHeight());
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class UmlClass extends UmlBasicObject {
 	}
 
 	@Override
-	protected boolean isSurround(Point2D.Double point) {
+	public boolean isSurround(Point2D.Double point) {
 		Rectangle2D.Double bounds = getBounds();
 		return (point.getX() >= bounds.getMinX() && point.getX() <= bounds.getMaxX() && point.getY() >= bounds.getMinY() && point.getY() <= bounds.getMaxY());
 	}

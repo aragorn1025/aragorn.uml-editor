@@ -9,60 +9,9 @@ import java.awt.geom.Point2D;
 import javax.swing.JToggleButton;
 import aragorn.math.geometry.Coordinate2D;
 import aragorn.math.geometry.Paintable;
-import aragorn.math.geometry.Polygon2D;
-import aragorn.uml.editor.objects.UmlAssociationLine;
-import aragorn.uml.editor.objects.UmlClass;
-import aragorn.uml.editor.objects.UmlCompositionLine;
-import aragorn.uml.editor.objects.UmlGeneralizationLine;
-import aragorn.uml.editor.objects.UmlUseCase;
 
 @SuppressWarnings("serial")
-class UmlButton extends JToggleButton implements ActionListener {
-
-	static class AssociationLine extends UmlButton {
-
-		AssociationLine(CanvasArea canvas_area) {
-			super(canvas_area, new CanvasMouseAdapter.AssociationLine(canvas_area), UmlAssociationLine.NAME, UmlAssociationLine.BUTTON_ICON);
-		}
-	}
-
-	static class Class extends UmlButton {
-
-		Class(CanvasArea canvas_area) {
-			super(canvas_area, new CanvasMouseAdapter.Class(canvas_area), UmlClass.NAME, UmlClass.BUTTON_ICON);
-		}
-	}
-
-	static class CompositionLine extends UmlButton {
-
-		CompositionLine(CanvasArea canvas_area) {
-			super(canvas_area, new CanvasMouseAdapter.CompositionLine(canvas_area), UmlCompositionLine.NAME, UmlCompositionLine.BUTTON_ICON);
-		}
-	}
-
-	static class GeneralizationLine extends UmlButton {
-
-		GeneralizationLine(CanvasArea canvas_area) {
-			super(canvas_area, new CanvasMouseAdapter.GeneralizationLine(canvas_area), UmlGeneralizationLine.NAME, UmlGeneralizationLine.BUTTON_ICON);
-		}
-	}
-
-	static class Select extends UmlButton {
-
-		private static final Paintable ICON = new Polygon2D(new Point2D.Double(189, 0), new Point2D.Double(189, 1020), new Point2D.Double(439, 770),
-				new Point2D.Double(603, 1098), new Point2D.Double(747, 1026), new Point2D.Double(594, 720), new Point2D.Double(909, 720));
-
-		Select(CanvasArea canvas_area) {
-			super(canvas_area, new CanvasMouseAdapter.Select(canvas_area), "select", UmlButton.Select.ICON);
-		}
-	}
-
-	static class UseCase extends UmlButton {
-
-		UseCase(CanvasArea canvas_area) {
-			super(canvas_area, new CanvasMouseAdapter.UseCase(canvas_area), UmlUseCase.NAME, UmlUseCase.BUTTON_ICON);
-		}
-	}
+public class UmlButton extends JToggleButton implements ActionListener {
 
 	private static String encode(Color color) {
 		return Integer.toHexString(color.getRGB()).substring(2);
@@ -74,11 +23,11 @@ class UmlButton extends JToggleButton implements ActionListener {
 
 	private Paintable icon;
 
-	private CanvasArea canvas_area;
+	private UmlCanvas canvas_area;
 
-	private CanvasMouseAdapter mouse_adapter;
+	private UmlMode mouse_adapter;
 
-	protected UmlButton(CanvasArea canvas_area, CanvasMouseAdapter mouse_adapter, String function_name, Paintable icon) {
+	protected UmlButton(UmlCanvas canvas_area, UmlMode mouse_adapter, String function_name, Paintable icon) {
 		this.canvas_area = canvas_area;
 		this.mouse_adapter = mouse_adapter;
 		this.function_name = function_name;

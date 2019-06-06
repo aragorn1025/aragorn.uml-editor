@@ -1,4 +1,4 @@
-package aragorn.uml.editor.objects;
+package aragorn.uml.editor.object;
 
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
@@ -8,21 +8,21 @@ import aragorn.math.geometry.LineSegment2D;
 import aragorn.math.geometry.Paintable;
 import aragorn.util.MathVector2D;
 
-public abstract class UmlConnectionLine implements Paintable {
+public abstract class UmlLineObject extends UmlObject {
 
 	/** The minimum length of the segment. It is strongly recommend to set it as the multiple of 2. */
 	private static final int MIN_SEGMENT_LENGTH = 16;
 
-	private UmlConnectionPort starting_connection_port;
+	private UmlPort starting_connection_port;
 
-	private UmlConnectionPort ending_connection_port;
+	private UmlPort ending_connection_port;
 
 	private UmlBasicObject starting_object;
 
 	private UmlBasicObject ending_object;
 
-	protected UmlConnectionLine(UmlBasicObject starting_object, UmlConnectionPort starting_connection_port, UmlBasicObject ending_object,
-			UmlConnectionPort ending_connection_port) {
+	protected UmlLineObject(UmlBasicObject starting_object, UmlPort starting_connection_port, UmlBasicObject ending_object,
+			UmlPort ending_connection_port) {
 		this.starting_object = starting_object;
 		this.ending_object = ending_object;
 		this.starting_connection_port = starting_connection_port;

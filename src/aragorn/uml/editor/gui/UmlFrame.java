@@ -7,22 +7,28 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import aragorn.gui.GuiFrame;
 import aragorn.gui.GuiPanel;
+import aragorn.uml.editor.gui.button.AssociationLineButton;
+import aragorn.uml.editor.gui.button.ClazzButton;
+import aragorn.uml.editor.gui.button.CompositionLineButton;
+import aragorn.uml.editor.gui.button.GeneralizationLineButton;
+import aragorn.uml.editor.gui.button.SelectButton;
+import aragorn.uml.editor.gui.button.UseCaseButton;
 
 @SuppressWarnings("serial")
-public class MainFrame extends GuiFrame {
+public class UmlFrame extends GuiFrame {
 
-	private static GuiPanel getButtonPanel(CanvasArea canvas_area) {
+	private static GuiPanel getButtonPanel(UmlCanvas canvas_area) {
 		GuiPanel button_panel = new GuiPanel();
 		button_panel.setDefaultMargin(10);
 
 		UmlButton[] buttons = new UmlButton[6];
 		ButtonGroup group = new ButtonGroup();
-		buttons[0] = new UmlButton.Select(canvas_area);
-		buttons[1] = new UmlButton.AssociationLine(canvas_area);
-		buttons[2] = new UmlButton.GeneralizationLine(canvas_area);
-		buttons[3] = new UmlButton.CompositionLine(canvas_area);
-		buttons[4] = new UmlButton.Class(canvas_area);
-		buttons[5] = new UmlButton.UseCase(canvas_area);
+		buttons[0] = new SelectButton(canvas_area);
+		buttons[1] = new AssociationLineButton(canvas_area);
+		buttons[2] = new GeneralizationLineButton(canvas_area);
+		buttons[3] = new CompositionLineButton(canvas_area);
+		buttons[4] = new ClazzButton(canvas_area);
+		buttons[5] = new UseCaseButton(canvas_area);
 		for (int i = 0; i < buttons.length; i++) {
 			group.add(buttons[i]);
 			button_panel.addComponent(buttons[i], 0, i, 1, 1, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL);
@@ -31,15 +37,15 @@ public class MainFrame extends GuiFrame {
 		return button_panel;
 	}
 
-	public MainFrame() {
+	public UmlFrame() {
 		this(10);
 	}
 
-	private MainFrame(int margin) {
+	private UmlFrame(int margin) {
 		super(new Dimension(800, 450), false);
 
-		CanvasArea canvas_area = new CanvasArea(this);
-		GuiPanel button_panel = MainFrame.getButtonPanel(canvas_area);
+		UmlCanvas canvas_area = new UmlCanvas(this);
+		GuiPanel button_panel = UmlFrame.getButtonPanel(canvas_area);
 
 		GuiPanel content_pane = new GuiPanel();
 		content_pane.setDefaultMargin(0);
@@ -48,6 +54,6 @@ public class MainFrame extends GuiFrame {
 
 		setContentPane(content_pane);
 		setTitle("XML Editor");
-		setJMenuBar(new MainMenuBar(this, canvas_area));
+		setJMenuBar(new UmlMenuBar(this, canvas_area));
 	}
 }

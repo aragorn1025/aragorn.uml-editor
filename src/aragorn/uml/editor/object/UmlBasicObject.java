@@ -1,4 +1,4 @@
-package aragorn.uml.editor.objects;
+package aragorn.uml.editor.object;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -8,7 +8,7 @@ import aragorn.math.geometry.Coordinate2D;
 import aragorn.math.geometry.Paintable;
 import aragorn.util.MathVector2D;
 
-public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, Paintable {
+public abstract class UmlBasicObject extends UmlObject implements Comparable<UmlBasicObject> {
 
 	private static final int MIN_DEPTH = 0;
 
@@ -64,10 +64,10 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, Pain
 	protected abstract void drawBody(Graphics g, Coordinate2D c);
 
 	private void drawConnectPort(Graphics g, Coordinate2D c) {
-		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlConnectionPort.TOP), connection_port_length, connection_port_length);
-		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlConnectionPort.LEFT), connection_port_length, connection_port_length);
-		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlConnectionPort.BOTTOM), connection_port_length, connection_port_length);
-		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlConnectionPort.RIGHT), connection_port_length, connection_port_length);
+		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPort.TOP), connection_port_length, connection_port_length);
+		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPort.LEFT), connection_port_length, connection_port_length);
+		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPort.BOTTOM), connection_port_length, connection_port_length);
+		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPort.RIGHT), connection_port_length, connection_port_length);
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, Pain
 		return new Rectangle2D.Double(x, y, width, height);
 	}
 
-	Point2D.Double getConnectionPort(UmlConnectionPort connection_port) {
+	Point2D.Double getConnectionPort(UmlPort connection_port) {
 		switch (connection_port) {
 			case TOP:
 				return new Point2D.Double(x + width / 2.0, y);
@@ -90,7 +90,7 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, Pain
 		}
 	}
 
-	private Point2D.Double getConnectionPortCenter(UmlConnectionPort connection_port) {
+	private Point2D.Double getConnectionPortCenter(UmlPort connection_port) {
 		switch (connection_port) {
 			case TOP:
 				return MathVector2D.add(getConnectionPort(connection_port), new MathVector2D(0, -connection_port_length / 2.0 + connection_port_vertical_gap));
@@ -109,26 +109,26 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, Pain
 		return connection_port_length;
 	}
 
-	private Point2D.Double getConnectionPortReferencePoint(UmlConnectionPort connection_port) {
+	private Point2D.Double getConnectionPortReferencePoint(UmlPort connection_port) {
 		return MathVector2D.add(getConnectionPortCenter(connection_port), MathVector2D.getScalarMultiply(new MathVector2D(1, 1), -connection_port_length / 2.0));
 	}
 
-	public UmlConnectionPort getCorrespondingConnectPort(Point point) {
+	public UmlPort getCorrespondingConnectPort(Point point) {
 		if (!isSurround(point))
 			return null;
 		double t = (point.getX() - x) / width;
 		if (t <= 0.5) {
 			if (point.getY() <= y + t * height)
-				return UmlConnectionPort.TOP;
+				return UmlPort.TOP;
 			if (point.getY() > y + (1 - t) * height)
-				return UmlConnectionPort.BOTTOM;
-			return UmlConnectionPort.LEFT;
+				return UmlPort.BOTTOM;
+			return UmlPort.LEFT;
 		} else {
 			if (point.getY() <= y + (1 - t) * height)
-				return UmlConnectionPort.TOP;
+				return UmlPort.TOP;
 			if (point.getY() > y + t * height)
-				return UmlConnectionPort.BOTTOM;
-			return UmlConnectionPort.RIGHT;
+				return UmlPort.BOTTOM;
+			return UmlPort.RIGHT;
 		}
 	}
 
@@ -144,7 +144,7 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, Pain
 		return name;
 	}
 
-	protected boolean isSelected() {
+	public boolean isSelected() {
 		return selected;
 	}
 
@@ -152,7 +152,7 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, Pain
 		return isSurround(new Point2D.Double(point.getX(), point.getY()));
 	}
 
-	protected abstract boolean isSurround(Point2D.Double point);
+	public abstract boolean isSurround(Point2D.Double point);
 
 	public boolean isSurroundedBy(Rectangle2D.Double bounds) {
 		return (x >= bounds.getMinX() && x + width <= bounds.getMaxX() && y >= bounds.getMinY() && y + height <= bounds.getMaxY());
@@ -188,7 +188,7 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, Pain
 		this.selected = selected;
 	}
 
-	void setSize(double width, double height) {
+	protected void setSize(double width, double height) {
 		this.width = width;
 		this.height = height;
 	}

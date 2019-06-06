@@ -1,4 +1,4 @@
-package aragorn.uml.editor.objects;
+package aragorn.uml.editor.object.basic;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import aragorn.math.geometry.Coordinate2D;
+import aragorn.uml.editor.object.UmlBasicObject;
 
-public class UmlCompositeObject extends UmlBasicObject {
+public class CompositeObject extends UmlBasicObject {
 
 	private UmlBasicObject[] sub_objects;
 
 	/** Do shallow copy for copy UML objects. */
-	public UmlCompositeObject(ArrayList<UmlBasicObject> sub_objects) {
+	public CompositeObject(ArrayList<UmlBasicObject> sub_objects) {
 		super();
 		if (sub_objects == null)
 			throw new NullPointerException("The sub-objects should not be null.");
@@ -63,12 +64,12 @@ public class UmlCompositeObject extends UmlBasicObject {
 	}
 
 	@Override
-	protected boolean isSelected() {
+	public boolean isSelected() {
 		return sub_objects[0].isSelected();
 	}
 
 	@Override
-	protected boolean isSurround(Point2D.Double point) {
+	public boolean isSurround(Point2D.Double point) {
 		for (UmlBasicObject sub_object : sub_objects) {
 			if (sub_object.isSurround(point)) {
 				return true;
