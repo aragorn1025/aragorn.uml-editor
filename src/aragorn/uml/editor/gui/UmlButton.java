@@ -19,28 +19,25 @@ public class UmlButton extends JToggleButton implements ActionListener {
 
 	private Color tool_tip_text_color = Color.DARK_GRAY;
 
-	private String function_name;
-
 	private Paintable icon;
 
-	private UmlCanvas canvas_area;
+	private UmlCanvas canvas;
 
-	private UmlMode mouse_adapter;
+	private UmlMode mode;
 
-	protected UmlButton(UmlCanvas canvas_area, UmlMode mouse_adapter, String function_name, Paintable icon) {
-		this.canvas_area = canvas_area;
-		this.mouse_adapter = mouse_adapter;
-		this.function_name = function_name;
+	protected UmlButton(UmlCanvas canvas, UmlMode mode, Paintable icon) {
+		this.canvas = canvas;
+		this.mode = mode;
 		this.icon = icon;
 
 		setSize(50);
-		setToolTipText(this.function_name);
+		setToolTipText(mode.getName());
 		addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		canvas_area.setCanvasMouseAdapter(mouse_adapter);
+		canvas.setCanvasMouseAdapter(mode);
 	}
 
 	private Coordinate2D getFitCoordinate(int margin) {
@@ -52,7 +49,7 @@ public class UmlButton extends JToggleButton implements ActionListener {
 	}
 
 	@Override
-	protected final void paintComponent(Graphics g) {
+	public final void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(isSelected() ? Color.BLACK : Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());

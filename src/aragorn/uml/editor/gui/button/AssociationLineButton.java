@@ -9,6 +9,6 @@ import aragorn.uml.editor.object.line.AssociationLine;
 public class AssociationLineButton extends UmlButton {
 
 	public AssociationLineButton(UmlCanvas canvas_area) {
-		super(canvas_area, new AssociationLineMode(canvas_area), AssociationLine.NAME, AssociationLine.BUTTON_ICON);
+		super(canvas_area, new AssociationLineMode(canvas_area), AssociationLine.BUTTON_ICON);
 	}
 }

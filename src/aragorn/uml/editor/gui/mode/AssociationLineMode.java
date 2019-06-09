@@ -8,7 +8,7 @@ import aragorn.uml.editor.object.line.AssociationLine;
 public class AssociationLineMode extends UmlMode {
 
 	public AssociationLineMode(UmlCanvas parent) {
-		super(parent);
+		super(parent, AssociationLine.NAME);
 	}
 
 	@Override
@@ -21,6 +21,6 @@ public class AssociationLineMode extends UmlMode {
 		defaultMouseReleased(event);
 		if (!isUmlConnectLineShouldBeSet())
 			return;
-		getParent().addUmlConnectionLine(new AssociationLine(getStartingObject(), getStartingConnectionPort(), getEndingObject(), getEndingConnectionPort()));
+		addUmlLineObject(new AssociationLine(getStartingObject(), getStartingConnectionPort(), getEndingObject(), getEndingConnectionPort()));
 	}
 }

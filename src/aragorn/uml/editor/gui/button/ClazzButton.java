@@ -9,6 +9,6 @@ import aragorn.uml.editor.object.basic.Clazz;
 public class ClazzButton extends UmlButton {
 
 	public ClazzButton(UmlCanvas canvas_area) {
-		super(canvas_area, new ClazzMode(canvas_area), Clazz.NAME, Clazz.BUTTON_ICON);
+		super(canvas_area, new ClazzMode(canvas_area), Clazz.BUTTON_ICON);
 	}
 }

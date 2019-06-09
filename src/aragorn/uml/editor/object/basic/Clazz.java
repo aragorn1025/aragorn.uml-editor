@@ -12,7 +12,8 @@ import aragorn.uml.editor.object.UmlBasicObject;
 
 public class Clazz extends UmlBasicObject {
 
-	public static final Paintable BUTTON_ICON = new Clazz(0, 1, 8, 6);
+	public static final Paintable BUTTON_ICON = new Polyline2D(new Point.Double(0, 3), new Point.Double(0, 1), new Point.Double(8, 1), new Point.Double(8, 3),
+			new Point.Double(0, 3), new Point.Double(0, 7), new Point.Double(8, 7), new Point.Double(8, 3), new Point.Double(8, 5), new Point.Double(0, 5));
 
 	public static final String NAME = "class";
 
@@ -34,7 +35,7 @@ public class Clazz extends UmlBasicObject {
 	}
 
 	@Override
-	protected void drawBody(Graphics g, Coordinate2D c) {
+	protected void drawForeground(Graphics g, Coordinate2D c) {
 		Rectangle2D.Double bounds = getBounds();
 		double[] x = new double[2];
 		double[] y = new double[4];
@@ -55,6 +56,7 @@ public class Clazz extends UmlBasicObject {
 		icon.addPoint(new Point2D.Double(x[0], y[0]));
 		icon.addPoint(new Point2D.Double(x[0], y[2]));
 		icon.draw(g, c);
+		super.drawForeground(g, c);
 	}
 
 	@Override

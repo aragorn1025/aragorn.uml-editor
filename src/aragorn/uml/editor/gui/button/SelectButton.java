@@ -14,6 +14,6 @@ public class SelectButton extends UmlButton {
 			new Point2D.Double(603, 1098), new Point2D.Double(747, 1026), new Point2D.Double(594, 720), new Point2D.Double(909, 720));
 
 	public SelectButton(UmlCanvas canvas_area) {
-		super(canvas_area, new SelectMode(canvas_area), "select", SelectButton.ICON);
+		super(canvas_area, new SelectMode(canvas_area), SelectButton.ICON);
 	}
 }

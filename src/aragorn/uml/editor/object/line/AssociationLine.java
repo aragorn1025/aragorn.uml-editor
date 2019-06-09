@@ -6,7 +6,7 @@ import aragorn.math.geometry.LineSegment2D;
 import aragorn.math.geometry.Paintable;
 import aragorn.uml.editor.object.UmlBasicObject;
 import aragorn.uml.editor.object.UmlLineObject;
-import aragorn.uml.editor.object.UmlPort;
+import aragorn.uml.editor.object.UmlPortDirection;
 import aragorn.util.MathVector2D;
 
 public class AssociationLine extends UmlLineObject {
@@ -15,8 +15,7 @@ public class AssociationLine extends UmlLineObject {
 
 	public static final String NAME = "association line";
 
-	public AssociationLine(UmlBasicObject starting_object, UmlPort starting_connection_port, UmlBasicObject ending_object,
-			UmlPort ending_connection_port) {
+	public AssociationLine(UmlBasicObject starting_object, UmlPortDirection starting_connection_port, UmlBasicObject ending_object, UmlPortDirection ending_connection_port) {
 		super(starting_object, starting_connection_port, ending_object, ending_connection_port);
 	}
 

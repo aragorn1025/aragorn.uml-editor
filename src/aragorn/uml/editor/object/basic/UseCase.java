@@ -12,7 +12,7 @@ import aragorn.uml.editor.object.UmlBasicObject;
 
 public class UseCase extends UmlBasicObject {
 
-	public static final Paintable BUTTON_ICON = new UseCase(0, 1, 8, 6);
+	public static final Paintable BUTTON_ICON = new Oval(new Point2D.Double(4, 4), 8, 6);
 
 	public static final String NAME = "use case";
 
@@ -36,9 +36,10 @@ public class UseCase extends UmlBasicObject {
 	}
 
 	@Override
-	protected void drawBody(Graphics g, Coordinate2D c) {
+	protected void drawForeground(Graphics g, Coordinate2D c) {
 		Rectangle2D.Double bounds = getBounds();
 		Paintable.drawOval(g, c, new Point2D.Double(bounds.getCenterX(), bounds.getCenterY()), bounds.getWidth(), bounds.getHeight());
+		super.drawForeground(g, c);
 	}
 
 	@Override

@@ -7,7 +7,7 @@ class Main {
 
 	public static void main(String[] args) {
 		GuiFrame.setDefaultLookAndFeelDecorated(true);
-		GuiFrame main_frame = new UmlFrame();
-		main_frame.setVisible(true);
+		GuiFrame uml_frame = new UmlFrame();
+		uml_frame.setVisible(true);
 	}
 }

@@ -8,11 +8,11 @@ import aragorn.uml.editor.object.basic.Clazz;
 public class ClazzMode extends UmlMode {
 
 	public ClazzMode(UmlCanvas parent) {
-		super(parent);
+		super(parent, Clazz.NAME);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent event) {
-		getParent().addUmlBasicObject(new Clazz(event.getPoint()));
+		addUmlBasicObject(new Clazz(event.getPoint()));
 	}
 }

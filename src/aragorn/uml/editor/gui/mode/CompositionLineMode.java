@@ -8,7 +8,7 @@ import aragorn.uml.editor.object.line.CompositionLine;
 public class CompositionLineMode extends UmlMode {
 
 	public CompositionLineMode(UmlCanvas parent) {
-		super(parent);
+		super(parent, CompositionLine.NAME);
 	}
 
 	@Override
@@ -21,6 +21,6 @@ public class CompositionLineMode extends UmlMode {
 		defaultMouseReleased(event);
 		if (!isUmlConnectLineShouldBeSet())
 			return;
-		getParent().addUmlConnectionLine(new CompositionLine(getStartingObject(), getStartingConnectionPort(), getEndingObject(), getEndingConnectionPort()));
+		addUmlLineObject(new CompositionLine(getStartingObject(), getStartingConnectionPort(), getEndingObject(), getEndingConnectionPort()));
 	}
 }

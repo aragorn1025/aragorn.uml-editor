@@ -9,6 +9,6 @@ import aragorn.uml.editor.object.line.GeneralizationLine;
 public class GeneralizationLineButton extends UmlButton {
 
 	public GeneralizationLineButton(UmlCanvas canvas_area) {
-		super(canvas_area, new GeneralizationLineMode(canvas_area), GeneralizationLine.NAME, GeneralizationLine.BUTTON_ICON);
+		super(canvas_area, new GeneralizationLineMode(canvas_area), GeneralizationLine.BUTTON_ICON);
 	}
 }

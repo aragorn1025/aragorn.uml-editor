@@ -52,22 +52,17 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 	}
 
 	@Override
-	public void draw(Graphics g, Coordinate2D c) {
-		drawBody(g, c);
+	protected void drawForeground(Graphics g, Coordinate2D c) {
 		if (isSelected() && !isUngroupable()) {
 			drawConnectPort(g, c);
 		}
 	}
 
-	public abstract void drawBackground(Graphics g, Coordinate2D c);
-
-	protected abstract void drawBody(Graphics g, Coordinate2D c);
-
 	private void drawConnectPort(Graphics g, Coordinate2D c) {
-		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPort.TOP), connection_port_length, connection_port_length);
-		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPort.LEFT), connection_port_length, connection_port_length);
-		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPort.BOTTOM), connection_port_length, connection_port_length);
-		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPort.RIGHT), connection_port_length, connection_port_length);
+		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPortDirection.TOP), connection_port_length, connection_port_length);
+		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPortDirection.LEFT), connection_port_length, connection_port_length);
+		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPortDirection.BOTTOM), connection_port_length, connection_port_length);
+		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPortDirection.RIGHT), connection_port_length, connection_port_length);
 	}
 
 	@Override
@@ -75,7 +70,7 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 		return new Rectangle2D.Double(x, y, width, height);
 	}
 
-	Point2D.Double getConnectionPort(UmlPort connection_port) {
+	Point2D.Double getConnectionPort(UmlPortDirection connection_port) {
 		switch (connection_port) {
 			case TOP:
 				return new Point2D.Double(x + width / 2.0, y);
@@ -90,7 +85,7 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 		}
 	}
 
-	private Point2D.Double getConnectionPortCenter(UmlPort connection_port) {
+	private Point2D.Double getConnectionPortCenter(UmlPortDirection connection_port) {
 		switch (connection_port) {
 			case TOP:
 				return MathVector2D.add(getConnectionPort(connection_port), new MathVector2D(0, -connection_port_length / 2.0 + connection_port_vertical_gap));
@@ -109,26 +104,26 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 		return connection_port_length;
 	}
 
-	private Point2D.Double getConnectionPortReferencePoint(UmlPort connection_port) {
+	private Point2D.Double getConnectionPortReferencePoint(UmlPortDirection connection_port) {
 		return MathVector2D.add(getConnectionPortCenter(connection_port), MathVector2D.getScalarMultiply(new MathVector2D(1, 1), -connection_port_length / 2.0));
 	}
 
-	public UmlPort getCorrespondingConnectPort(Point point) {
+	public UmlPortDirection getCorrespondingConnectPort(Point point) {
 		if (!isSurround(point))
 			return null;
 		double t = (point.getX() - x) / width;
 		if (t <= 0.5) {
 			if (point.getY() <= y + t * height)
-				return UmlPort.TOP;
+				return UmlPortDirection.TOP;
 			if (point.getY() > y + (1 - t) * height)
-				return UmlPort.BOTTOM;
-			return UmlPort.LEFT;
+				return UmlPortDirection.BOTTOM;
+			return UmlPortDirection.LEFT;
 		} else {
 			if (point.getY() <= y + (1 - t) * height)
-				return UmlPort.TOP;
+				return UmlPortDirection.TOP;
 			if (point.getY() > y + t * height)
-				return UmlPort.BOTTOM;
-			return UmlPort.RIGHT;
+				return UmlPortDirection.BOTTOM;
+			return UmlPortDirection.RIGHT;
 		}
 	}
 

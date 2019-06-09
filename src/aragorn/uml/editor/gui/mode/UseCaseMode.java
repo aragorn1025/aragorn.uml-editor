@@ -8,11 +8,11 @@ import aragorn.uml.editor.object.basic.UseCase;
 public class UseCaseMode extends UmlMode {
 
 	public UseCaseMode(UmlCanvas parent) {
-		super(parent);
+		super(parent, UseCase.NAME);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent event) {
-		getParent().addUmlBasicObject(new UseCase(event.getPoint()));
+		addUmlBasicObject(new UseCase(event.getPoint()));
 	}
 }

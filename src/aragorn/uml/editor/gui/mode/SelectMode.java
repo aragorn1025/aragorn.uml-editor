@@ -11,18 +11,18 @@ import aragorn.util.MathVector2D;
 public class SelectMode extends UmlMode {
 
 	public SelectMode(UmlCanvas parent) {
-		super(parent);
+		super(parent, "select");
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent event) {
-		getParent().clearSelectedUmlBasicObjects();
-		for (int i = 0; i < getParent().getUmlObjectsNumber(); i++) {
-			if (getParent().getUmlBasicObject(i).isSurround(event.getPoint())) {
-				getParent().addSelectedUmlBasicObjects(getParent().getUmlBasicObject(i));
+		clearSelectedUmlBasicObjects();
+		for (int i = 0; i < getUmlObjectsNumber(); i++) {
+			if (getUmlBasicObject(i).isSurround(event.getPoint())) {
+				addSelectedUmlBasicObjects(getUmlBasicObject(i));
 			}
 		}
-		getParent().repaint();
+		repaint();
 	}
 
 	@Override
@@ -40,9 +40,9 @@ public class SelectMode extends UmlMode {
 			double min_y = Math.min(getMousePressedPoint().getY(), event.getPoint().getY());
 			double max_x = Math.max(getMousePressedPoint().getX(), event.getPoint().getX());
 			double max_y = Math.max(getMousePressedPoint().getY(), event.getPoint().getY());
-			getParent().setDraggedBlock(new Rectangle2D.Double(min_x, min_y, max_x - min_x, max_y - min_y));
+			setDraggedBlock(new Rectangle2D.Double(min_x, min_y, max_x - min_x, max_y - min_y));
 		}
-		getParent().repaint();
+		repaint();
 	}
 
 	@Override
@@ -52,28 +52,26 @@ public class SelectMode extends UmlMode {
 
 	@Override
 	public void mouseReleased(MouseEvent event) {
-		if (getParent().getSelectedUmlObjectsNumber() == 1 && getParent().getSelectedUmlBasicObject(0).isSurround(event.getPoint())) {
-
-		} else {
-			getParent().setDraggedBlock(null);
-			Point mouse_released_point = event.getPoint();
-			if (mouse_released_point.equals(getMousePressedPoint())) {
-				resetPressedReleased();
-				return;
-			}
-			getParent().clearSelectedUmlBasicObjects();
-			double min_x = Math.min(getMousePressedPoint().getX(), mouse_released_point.getX());
-			double min_y = Math.min(getMousePressedPoint().getY(), mouse_released_point.getY());
-			double max_x = Math.max(getMousePressedPoint().getX(), mouse_released_point.getX());
-			double max_y = Math.max(getMousePressedPoint().getY(), mouse_released_point.getY());
-			Rectangle2D.Double bounds = new Rectangle2D.Double(min_x, min_y, max_x - min_x, max_y - min_y);
-			for (int i = 0; i < getParent().getUmlObjectsNumber(); i++) {
-				if (getParent().getUmlBasicObject(i).isSurroundedBy(bounds)) {
-					getParent().addSelectedUmlBasicObjects(getParent().getUmlBasicObject(i));
-				}
-			}
+		if (getSelectedUmlObjectsNumber() == 1 && getSelectedUmlBasicObject(0).isSurround(event.getPoint()))
+			return;
+		setDraggedBlock(null);
+		Point mouse_released_point = event.getPoint();
+		if (mouse_released_point.equals(getMousePressedPoint())) {
 			resetPressedReleased();
-			getParent().repaint();
+			return;
 		}
+		clearSelectedUmlBasicObjects();
+		double min_x = Math.min(getMousePressedPoint().getX(), mouse_released_point.getX());
+		double min_y = Math.min(getMousePressedPoint().getY(), mouse_released_point.getY());
+		double max_x = Math.max(getMousePressedPoint().getX(), mouse_released_point.getX());
+		double max_y = Math.max(getMousePressedPoint().getY(), mouse_released_point.getY());
+		Rectangle2D.Double bounds = new Rectangle2D.Double(min_x, min_y, max_x - min_x, max_y - min_y);
+		for (int i = 0; i < getUmlObjectsNumber(); i++) {
+			if (getUmlBasicObject(i).isSurroundedBy(bounds)) {
+				addSelectedUmlBasicObjects(getUmlBasicObject(i));
+			}
+		}
+		resetPressedReleased();
+		repaint();
 	}
 }

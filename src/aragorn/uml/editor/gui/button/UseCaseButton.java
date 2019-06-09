@@ -9,6 +9,6 @@ import aragorn.uml.editor.object.basic.UseCase;
 public class UseCaseButton extends UmlButton {
 
 	public UseCaseButton(UmlCanvas canvas_area) {
-		super(canvas_area, new UseCaseMode(canvas_area), UseCase.NAME, UseCase.BUTTON_ICON);
+		super(canvas_area, new UseCaseMode(canvas_area), UseCase.BUTTON_ICON);
 	}
 }

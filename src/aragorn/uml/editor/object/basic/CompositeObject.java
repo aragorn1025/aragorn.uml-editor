@@ -1,6 +1,5 @@
 package aragorn.uml.editor.object.basic;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -45,18 +44,15 @@ public class CompositeObject extends UmlBasicObject {
 
 	@Override
 	public void drawBackground(Graphics g, Coordinate2D c) {
-		// Do nothing.
 	}
 
 	@Override
-	protected void drawBody(Graphics g, Coordinate2D c) {
+	protected void drawForeground(Graphics g, Coordinate2D c) {
 		Arrays.sort(sub_objects, Collections.reverseOrder());
 		for (UmlBasicObject sub_object : sub_objects) {
-			g.setColor(Color.BLACK);
-			sub_object.drawBackground(g, null);
-			g.setColor(Color.WHITE);
 			sub_object.draw(g, null);
 		}
+		super.drawForeground(g, c);
 	}
 
 	public UmlBasicObject[] getSubObjects() {

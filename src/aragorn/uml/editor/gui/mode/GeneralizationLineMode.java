@@ -8,7 +8,7 @@ import aragorn.uml.editor.object.line.GeneralizationLine;
 public class GeneralizationLineMode extends UmlMode {
 
 	public GeneralizationLineMode(UmlCanvas parent) {
-		super(parent);
+		super(parent, GeneralizationLine.NAME);
 	}
 
 	@Override
@@ -21,6 +21,6 @@ public class GeneralizationLineMode extends UmlMode {
 		defaultMouseReleased(event);
 		if (!isUmlConnectLineShouldBeSet())
 			return;
-		getParent().addUmlConnectionLine(new GeneralizationLine(getStartingObject(), getStartingConnectionPort(), getEndingObject(), getEndingConnectionPort()));
+		addUmlLineObject(new GeneralizationLine(getStartingObject(), getStartingConnectionPort(), getEndingObject(), getEndingConnectionPort()));
 	}
 }

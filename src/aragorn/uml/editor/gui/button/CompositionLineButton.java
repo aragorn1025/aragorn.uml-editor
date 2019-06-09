@@ -9,6 +9,6 @@ import aragorn.uml.editor.object.line.CompositionLine;
 public class CompositionLineButton extends UmlButton {
 
 	public CompositionLineButton(UmlCanvas canvas_area) {
-		super(canvas_area, new CompositionLineMode(canvas_area), CompositionLine.NAME, CompositionLine.BUTTON_ICON);
+		super(canvas_area, new CompositionLineMode(canvas_area), CompositionLine.BUTTON_ICON);
 	}
 }

@@ -1,6 +1,6 @@
 package aragorn.uml.editor.object;
 
-public enum UmlPort {
+public enum UmlPortDirection {
 	TOP,
 	LEFT,
 	BOTTOM,
