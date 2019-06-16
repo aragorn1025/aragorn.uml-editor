@@ -5,8 +5,6 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import aragorn.math.geometry.Coordinate2D;
-import aragorn.math.geometry.Paintable;
-import aragorn.util.MathVector2D;
 
 public abstract class UmlBasicObject extends UmlObject implements Comparable<UmlBasicObject> {
 
@@ -23,12 +21,6 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 	private double height;
 
 	private boolean selected = false;
-
-	private double connection_port_horizontal_gap = 0;
-
-	private double connection_port_vertical_gap = 0;
-
-	private double connection_port_length = 4;
 
 	private int depth;
 
@@ -59,10 +51,10 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 	}
 
 	private void drawConnectPort(Graphics g, Coordinate2D c) {
-		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPortDirection.TOP), connection_port_length, connection_port_length);
-		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPortDirection.LEFT), connection_port_length, connection_port_length);
-		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPortDirection.BOTTOM), connection_port_length, connection_port_length);
-		Paintable.fillRectangle(g, c, getConnectionPortReferencePoint(UmlPortDirection.RIGHT), connection_port_length, connection_port_length);
+		getConnectionPort(UmlPortDirection.TOP).draw(g, c);
+		getConnectionPort(UmlPortDirection.LEFT).draw(g, c);
+		getConnectionPort(UmlPortDirection.BOTTOM).draw(g, c);
+		getConnectionPort(UmlPortDirection.RIGHT).draw(g, c);
 	}
 
 	@Override
@@ -70,42 +62,19 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 		return new Rectangle2D.Double(x, y, width, height);
 	}
 
-	Point2D.Double getConnectionPort(UmlPortDirection connection_port) {
-		switch (connection_port) {
+	UmlPort getConnectionPort(UmlPortDirection port_direction) {
+		switch (port_direction) {
 			case TOP:
-				return new Point2D.Double(x + width / 2.0, y);
+				return new UmlPort(x + width / 2.0, y);
 			case LEFT:
-				return new Point2D.Double(x, y + height / 2.0);
+				return new UmlPort(x, y + height / 2.0);
 			case BOTTOM:
-				return new Point2D.Double(x + width / 2.0, y + height);
+				return new UmlPort(x + width / 2.0, y + height);
 			case RIGHT:
-				return new Point2D.Double(x + width, y + height / 2.0);
+				return new UmlPort(x + width, y + height / 2.0);
 			default:
 				throw new InternalError("Unknown error.");
 		}
-	}
-
-	private Point2D.Double getConnectionPortCenter(UmlPortDirection connection_port) {
-		switch (connection_port) {
-			case TOP:
-				return MathVector2D.add(getConnectionPort(connection_port), new MathVector2D(0, -connection_port_length / 2.0 + connection_port_vertical_gap));
-			case LEFT:
-				return MathVector2D.add(getConnectionPort(connection_port), new MathVector2D(-connection_port_length / 2.0 + connection_port_horizontal_gap, 0));
-			case BOTTOM:
-				return MathVector2D.add(getConnectionPort(connection_port), new MathVector2D(0, connection_port_length / 2.0 - connection_port_vertical_gap));
-			case RIGHT:
-				return MathVector2D.add(getConnectionPort(connection_port), new MathVector2D(connection_port_length / 2.0 - connection_port_horizontal_gap, 0));
-			default:
-				throw new InternalError("Unknown error.");
-		}
-	}
-
-	protected double getConnectionPortLength() {
-		return connection_port_length;
-	}
-
-	private Point2D.Double getConnectionPortReferencePoint(UmlPortDirection connection_port) {
-		return MathVector2D.add(getConnectionPortCenter(connection_port), MathVector2D.getScalarMultiply(new MathVector2D(1, 1), -connection_port_length / 2.0));
 	}
 
 	public UmlPortDirection getCorrespondingConnectPort(Point point) {
@@ -155,14 +124,6 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 
 	public boolean isUngroupable() {
 		return false;
-	}
-
-	protected void setConnectionPortIconHorizontalGap(double connection_port_horizontal_gap) {
-		this.connection_port_horizontal_gap = connection_port_horizontal_gap;
-	}
-
-	protected void setConnectionPortIconVerticalGap(double connection_port_vertical_gap) {
-		this.connection_port_vertical_gap = connection_port_vertical_gap;
 	}
 
 	public void setDepth(int depth) {

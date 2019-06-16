@@ -7,8 +7,10 @@ import aragorn.uml.editor.object.basic.UseCase;
 
 public class UseCaseMode extends UmlMode {
 
+	private static final String NAME = "use case";
+
 	public UseCaseMode(UmlCanvas parent) {
-		super(parent, UseCase.NAME);
+		super(parent, UseCaseMode.NAME);
 	}
 
 	@Override

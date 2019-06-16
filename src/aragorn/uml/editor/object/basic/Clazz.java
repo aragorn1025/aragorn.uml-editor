@@ -12,11 +12,6 @@ import aragorn.uml.editor.object.UmlBasicObject;
 
 public class Clazz extends UmlBasicObject {
 
-	public static final Paintable BUTTON_ICON = new Polyline2D(new Point.Double(0, 3), new Point.Double(0, 1), new Point.Double(8, 1), new Point.Double(8, 3),
-			new Point.Double(0, 3), new Point.Double(0, 7), new Point.Double(8, 7), new Point.Double(8, 3), new Point.Double(8, 5), new Point.Double(0, 5));
-
-	public static final String NAME = "class";
-
 	/** The default size of the object. It is strongly recommend to set the height as the multiple of 3. */
 	private final static Dimension DEFAULT_SIZE = new Dimension(84, 90);
 

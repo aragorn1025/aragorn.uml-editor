@@ -12,17 +12,11 @@ import aragorn.uml.editor.object.UmlBasicObject;
 
 public class UseCase extends UmlBasicObject {
 
-	public static final Paintable BUTTON_ICON = new Oval(new Point2D.Double(4, 4), 8, 6);
-
-	public static final String NAME = "use case";
-
 	/** The default size of the object. It is strongly recommend to set the width and height as the multiple of 2. */
 	private final static Dimension DEFAULT_SIZE = new Dimension(84, 48);
 
 	private UseCase(double x, double y, double width, double height) {
 		super(x, y, width, height);
-		setConnectionPortIconHorizontalGap(width / 2 * (1 - Math.sqrt(1 - Math.pow(getConnectionPortLength() / height, 2))));
-		setConnectionPortIconVerticalGap(height / 2 * (1 - Math.sqrt(1 - Math.pow(getConnectionPortLength() / width, 2))));
 	}
 
 	public UseCase(Point point) {

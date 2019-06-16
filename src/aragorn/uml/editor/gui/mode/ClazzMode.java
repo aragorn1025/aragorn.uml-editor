@@ -7,8 +7,10 @@ import aragorn.uml.editor.object.basic.Clazz;
 
 public class ClazzMode extends UmlMode {
 
+	private static final String NAME = "class";
+
 	public ClazzMode(UmlCanvas parent) {
-		super(parent, Clazz.NAME);
+		super(parent, ClazzMode.NAME);
 	}
 
 	@Override
