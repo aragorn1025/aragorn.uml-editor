@@ -50,6 +50,14 @@ public abstract class UmlLineObject extends UmlObject {
 
 	protected abstract Paintable getArrow(Point2D.Double ending_point, MathVector2D parallel_vector, MathVector2D normal_vector);
 
+	private Paintable getBody() {
+		Point2D.Double starting_point = starting_object.getConnectionPort(starting_connection_port).getCenter();
+		Point2D.Double ending_point = ending_object.getConnectionPort(ending_connection_port).getCenter();
+		MathVector2D parallel_vector = new MathVector2D(starting_point, ending_point);
+		MathVector2D parallel_unit_vector = parallel_vector.getScalarMultiply(1 / parallel_vector.getLength());
+		return new LineSegment2D(starting_point, MathVector2D.add(parallel_vector, parallel_unit_vector.getScalarMultiply(MIN_SEGMENT_LENGTH).getNegative()));
+	}
+
 	@Override
 	public Rectangle2D.Double getBounds() {
 		Rectangle2D.Double arrow_bounds = getArrow().getBounds();
@@ -59,13 +67,5 @@ public abstract class UmlLineObject extends UmlObject {
 		double y_min = Math.min(arrow_bounds.getMinY(), tail_bounds.getMinY());
 		double y_max = Math.max(arrow_bounds.getMaxY(), tail_bounds.getMaxY());
 		return new Rectangle2D.Double(x_min, y_min, x_max - x_min, y_max - y_min);
-	}
-
-	private Paintable getBody() {
-		Point2D.Double starting_point = starting_object.getConnectionPort(starting_connection_port).getCenter();
-		Point2D.Double ending_point = ending_object.getConnectionPort(ending_connection_port).getCenter();
-		MathVector2D parallel_vector = new MathVector2D(starting_point, ending_point);
-		MathVector2D parallel_unit_vector = parallel_vector.getScalarMultiply(1 / parallel_vector.getLength());
-		return new LineSegment2D(starting_point, MathVector2D.add(parallel_vector, parallel_unit_vector.getScalarMultiply(MIN_SEGMENT_LENGTH).getNegative()));
 	}
 }

@@ -16,7 +16,8 @@ public class GeneralizationLine extends UmlLineObject {
 
 	public static final String NAME = "generalization line";
 
-	public GeneralizationLine(UmlBasicObject starting_object, UmlPortDirection starting_connection_port, UmlBasicObject ending_object, UmlPortDirection ending_connection_port) {
+	public GeneralizationLine(UmlBasicObject starting_object, UmlPortDirection starting_connection_port, UmlBasicObject ending_object,
+			UmlPortDirection ending_connection_port) {
 		super(starting_object, starting_connection_port, ending_object, ending_connection_port);
 	}
 

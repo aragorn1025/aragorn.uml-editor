@@ -11,6 +11,15 @@ public abstract class UmlObject implements Paintable {
 
 	private static final Color FOREGROUND_COLOR = Color.WHITE;
 
+	public static Color getBackgroundColor() {
+		return BACKGROUND_COLOR;
+	}
+
+	public static Color getForegroundColor() {
+		return FOREGROUND_COLOR;
+	}
+
+	@Override
 	public final void draw(Graphics g, Coordinate2D c) {
 		g.setColor(BACKGROUND_COLOR);
 		drawBackground(g, c);

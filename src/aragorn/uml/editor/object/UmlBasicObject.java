@@ -43,18 +43,18 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 		return this.depth - compared_uml_basic_object.depth;
 	}
 
-	@Override
-	protected void drawForeground(Graphics g, Coordinate2D c) {
-		if (isSelected() && !isUngroupable()) {
-			drawConnectPort(g, c);
-		}
-	}
-
 	private void drawConnectPort(Graphics g, Coordinate2D c) {
 		getConnectionPort(UmlPortDirection.TOP).draw(g, c);
 		getConnectionPort(UmlPortDirection.LEFT).draw(g, c);
 		getConnectionPort(UmlPortDirection.BOTTOM).draw(g, c);
 		getConnectionPort(UmlPortDirection.RIGHT).draw(g, c);
+	}
+
+	@Override
+	protected void drawForeground(Graphics g, Coordinate2D c) {
+		if (isSelected() && !isUngroupable()) {
+			drawConnectPort(g, c);
+		}
 	}
 
 	@Override

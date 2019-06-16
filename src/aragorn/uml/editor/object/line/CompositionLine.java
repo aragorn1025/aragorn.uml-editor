@@ -16,7 +16,8 @@ public class CompositionLine extends UmlLineObject {
 
 	public static final String NAME = "composition line";
 
-	public CompositionLine(UmlBasicObject starting_object, UmlPortDirection starting_connection_port, UmlBasicObject ending_object, UmlPortDirection ending_connection_port) {
+	public CompositionLine(UmlBasicObject starting_object, UmlPortDirection starting_connection_port, UmlBasicObject ending_object,
+			UmlPortDirection ending_connection_port) {
 		super(starting_object, starting_connection_port, ending_object, ending_connection_port);
 	}
 

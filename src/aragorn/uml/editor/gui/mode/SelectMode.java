@@ -35,12 +35,7 @@ public class SelectMode extends UmlMode {
 			Point2D.Double new_location = MathVector2D.add(getMousePressedObjectInitialLocation(), new MathVector2D(starting_point, ending_point));
 			getStartingObject().setLocation(new_location.getX(), new_location.getY());
 		} else {
-			// set dragged block
-			double min_x = Math.min(getMousePressedPoint().getX(), event.getPoint().getX());
-			double min_y = Math.min(getMousePressedPoint().getY(), event.getPoint().getY());
-			double max_x = Math.max(getMousePressedPoint().getX(), event.getPoint().getX());
-			double max_y = Math.max(getMousePressedPoint().getY(), event.getPoint().getY());
-			setDraggedBlock(new Rectangle2D.Double(min_x, min_y, max_x - min_x, max_y - min_y));
+			setDraggedBoxCurrentPoint(event.getPoint());
 		}
 		repaint();
 	}
@@ -48,13 +43,16 @@ public class SelectMode extends UmlMode {
 	@Override
 	public void mousePressed(MouseEvent event) {
 		defaultMousePressed(event);
+		setDraggedBoxPressedPoint(event.getPoint());
+		setDraggedBoxCurrentPoint(null);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent event) {
+		setDraggedBoxPressedPoint(null);
+		setDraggedBoxCurrentPoint(null);
 		if (getSelectedUmlObjectsNumber() == 1 && getSelectedUmlBasicObject(0).isSurround(event.getPoint()))
 			return;
-		setDraggedBlock(null);
 		Point mouse_released_point = event.getPoint();
 		if (mouse_released_point.equals(getMousePressedPoint())) {
 			resetPressedReleased();

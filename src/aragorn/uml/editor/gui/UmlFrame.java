@@ -25,7 +25,7 @@ public class UmlFrame extends GuiFrame {
 		content_pane.addComponent(canvas_area, 1, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(margin, 0, margin, margin));
 
 		setContentPane(content_pane);
-		setTitle("XML Editor");
+		setTitle("UML Editor");
 		setJMenuBar(new UmlMenuBar(this, canvas_area));
 	}
 }

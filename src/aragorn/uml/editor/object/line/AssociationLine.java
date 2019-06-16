@@ -15,7 +15,8 @@ public class AssociationLine extends UmlLineObject {
 
 	public static final String NAME = "association line";
 
-	public AssociationLine(UmlBasicObject starting_object, UmlPortDirection starting_connection_port, UmlBasicObject ending_object, UmlPortDirection ending_connection_port) {
+	public AssociationLine(UmlBasicObject starting_object, UmlPortDirection starting_connection_port, UmlBasicObject ending_object,
+			UmlPortDirection ending_connection_port) {
 		super(starting_object, starting_connection_port, ending_object, ending_connection_port);
 	}
 

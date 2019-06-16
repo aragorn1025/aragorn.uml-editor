@@ -3,7 +3,6 @@ package aragorn.uml.editor.gui;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import javax.swing.event.MouseInputAdapter;
 import aragorn.uml.editor.object.UmlBasicObject;
 import aragorn.uml.editor.object.UmlLineObject;
@@ -138,7 +137,11 @@ public class UmlMode extends MouseInputAdapter {
 		mouse_released_object = null;
 	}
 
-	protected void setDraggedBlock(Rectangle2D.Double dragged_block) {
-		parent.setDraggedBlock(dragged_block);
+	protected void setDraggedBoxCurrentPoint(Point current_point) {
+		parent.setDraggedBoxCurrentPoint(current_point);
+	}
+
+	protected void setDraggedBoxPressedPoint(Point pressed_point) {
+		parent.setDraggedBoxPressedPoint(pressed_point);
 	}
 }

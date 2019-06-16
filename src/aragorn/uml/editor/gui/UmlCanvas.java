@@ -1,15 +1,14 @@
 package aragorn.uml.editor.gui;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
-import aragorn.math.geometry.Paintable;
 import aragorn.uml.editor.object.UmlBasicObject;
+import aragorn.uml.editor.object.UmlDraggedBox;
 import aragorn.uml.editor.object.UmlLineObject;
+import aragorn.uml.editor.object.UmlObject;
 import aragorn.uml.editor.object.basic.CompositeObject;
 
 @SuppressWarnings("serial")
@@ -23,16 +22,16 @@ public class UmlCanvas extends Canvas {
 
 	private UmlMode mode = null;
 
-	private Rectangle2D.Double dragged_block = null;
-
 	private int depth_counter = -1;
 
 	private UmlFrame parent;
 
+	private UmlDraggedBox dragged_box = new UmlDraggedBox();
+
 	UmlCanvas(UmlFrame parent) {
 		super();
 		this.parent = parent;
-		setBackground(Color.BLACK);
+		setBackground(UmlObject.getBackgroundColor());
 	}
 
 	void addSelectedUmlBasicObjects(UmlBasicObject uml_basic_object) {
@@ -102,14 +101,10 @@ public class UmlCanvas extends Canvas {
 		for (UmlBasicObject uml_object : uml_basic_objects) {
 			uml_object.draw(g, null);
 		}
-		g.setColor(Color.WHITE);
 		for (UmlLineObject uml_object : uml_line_objects) {
 			uml_object.draw(g, null);
 		}
-		if (dragged_block == null)
-			return;
-		g.setColor(Color.GREEN);
-		Paintable.drawRectangle(g, null, new Point2D.Double(dragged_block.getX(), dragged_block.getY()), dragged_block.getWidth(), dragged_block.getHeight());
+		dragged_box.draw(g, null);
 	}
 
 	void setCanvasMouseAdapter(UmlMode mouse_adapter) {
@@ -129,8 +124,12 @@ public class UmlCanvas extends Canvas {
 		repaint();
 	}
 
-	void setDraggedBlock(Rectangle2D.Double dragged_block) {
-		this.dragged_block = dragged_block;
+	void setDraggedBoxCurrentPoint(Point current_point) {
+		dragged_box.setCurrentPoint(current_point);
+	}
+
+	void setDraggedBoxPressedPoint(Point pressed_point) {
+		dragged_box.setPressedPoint(pressed_point);
 	}
 
 	void ungroup() {
