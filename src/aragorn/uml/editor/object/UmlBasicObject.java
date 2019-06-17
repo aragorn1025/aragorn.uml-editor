@@ -8,6 +8,14 @@ import aragorn.math.geometry.Coordinate2D;
 
 public abstract class UmlBasicObject extends UmlObject implements Comparable<UmlBasicObject> {
 
+	private static final int RIGHT = 0;
+
+	private static final int TOP = 1;
+
+	private static final int LEFT = 2;
+
+	private static final int BOTTOM = 3;
+
 	private static final int MIN_DEPTH = 0;
 
 	private static final int MAX_DEPTH = 99;
@@ -26,6 +34,8 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 
 	private String name = null;
 
+	private UmlPort[] ports = new UmlPort[4];
+
 	protected UmlBasicObject() {
 		this(0, 0, 0, 0);
 	}
@@ -36,6 +46,11 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 		this.width = width;
 		this.height = height;
 		setDepth(UmlBasicObject.MIN_DEPTH);
+
+		for (int i = 0; i < ports.length; i++) {
+			ports[i] = new UmlPort();
+		}
+		resetPorts();
 	}
 
 	@Override
@@ -44,10 +59,9 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 	}
 
 	private void drawConnectPort(Graphics g, Coordinate2D c) {
-		getConnectionPort(UmlPortDirection.TOP).draw(g, c);
-		getConnectionPort(UmlPortDirection.LEFT).draw(g, c);
-		getConnectionPort(UmlPortDirection.BOTTOM).draw(g, c);
-		getConnectionPort(UmlPortDirection.RIGHT).draw(g, c);
+		for (UmlPort port : ports) {
+			port.draw(g, c);
+		}
 	}
 
 	@Override
@@ -65,13 +79,13 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 	UmlPort getConnectionPort(UmlPortDirection port_direction) {
 		switch (port_direction) {
 			case TOP:
-				return new UmlPort(x + width / 2.0, y);
+				return ports[UmlBasicObject.TOP];
 			case LEFT:
-				return new UmlPort(x, y + height / 2.0);
+				return ports[UmlBasicObject.LEFT];
 			case BOTTOM:
-				return new UmlPort(x + width / 2.0, y + height);
+				return ports[UmlBasicObject.BOTTOM];
 			case RIGHT:
-				return new UmlPort(x + width, y + height / 2.0);
+				return ports[UmlBasicObject.RIGHT];
 			default:
 				throw new InternalError("Unknown error.");
 		}
@@ -126,6 +140,13 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 		return false;
 	}
 
+	private void resetPorts() {
+		ports[UmlBasicObject.RIGHT].setLocation(x + width, y + height / 2.0);
+		ports[UmlBasicObject.TOP].setLocation(x + width / 2.0, y);
+		ports[UmlBasicObject.LEFT].setLocation(x, y + height / 2.0);
+		ports[UmlBasicObject.BOTTOM].setLocation(x + width / 2.0, y + height);
+	}
+
 	public void setDepth(int depth) {
 		int diff = UmlBasicObject.MAX_DEPTH - UmlBasicObject.MIN_DEPTH + 1;
 		this.depth = ((depth - UmlBasicObject.MIN_DEPTH) % diff + diff) % diff + UmlBasicObject.MIN_DEPTH;
@@ -134,6 +155,7 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 	public void setLocation(double x, double y) {
 		this.x = x;
 		this.y = y;
+		resetPorts();
 	}
 
 	public void setName(String name) {

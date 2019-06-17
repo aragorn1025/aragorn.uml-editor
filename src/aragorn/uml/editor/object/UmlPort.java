@@ -21,13 +21,12 @@ public class UmlPort extends UmlObject {
 
 	private double h;
 
-	UmlPort(double x, double y) {
-		this(x, y, DEFAULT_SIZE.getWidth(), DEFAULT_SIZE.getHeight());
+	UmlPort() {
+		this(0, 0, DEFAULT_SIZE.getWidth(), DEFAULT_SIZE.getHeight());
 	}
 
 	private UmlPort(double x, double y, double w, double h) {
-		this.x = x;
-		this.y = y;
+		setLocation(x, y);
 		this.w = w;
 		this.h = h;
 	}
@@ -48,5 +47,10 @@ public class UmlPort extends UmlObject {
 
 	Point2D.Double getCenter() {
 		return new Point2D.Double(x, y);
+	}
+
+	public void setLocation(double x, double y) {
+		this.x = x;
+		this.y = y;
 	}
 }
