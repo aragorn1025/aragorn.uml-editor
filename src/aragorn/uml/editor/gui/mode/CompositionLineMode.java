@@ -21,6 +21,6 @@ public class CompositionLineMode extends UmlMode {
 		defaultMouseReleased(event);
 		if (!isUmlConnectLineShouldBeSet())
 			return;
-		addUmlLineObject(new CompositionLine(getStartingObject(), getStartingConnectionPort(), getEndingObject(), getEndingConnectionPort()));
+		addUmlLineObject(new CompositionLine(getStartingPort(), getEndingPort()));
 	}
 }

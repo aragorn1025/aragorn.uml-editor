@@ -4,9 +4,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import aragorn.math.geometry.Paintable;
 import aragorn.math.geometry.Polyline2D;
-import aragorn.uml.editor.object.UmlBasicObject;
 import aragorn.uml.editor.object.UmlLineObject;
-import aragorn.uml.editor.object.UmlPortDirection;
+import aragorn.uml.editor.object.UmlPort;
 import aragorn.util.MathVector2D;
 
 public class GeneralizationLine extends UmlLineObject {
@@ -16,9 +15,8 @@ public class GeneralizationLine extends UmlLineObject {
 
 	public static final String NAME = "generalization line";
 
-	public GeneralizationLine(UmlBasicObject starting_object, UmlPortDirection starting_connection_port, UmlBasicObject ending_object,
-			UmlPortDirection ending_connection_port) {
-		super(starting_object, starting_connection_port, ending_object, ending_connection_port);
+	public GeneralizationLine(UmlPort starting_port, UmlPort ending_port) {
+		super(starting_port, ending_port);
 	}
 
 	@Override

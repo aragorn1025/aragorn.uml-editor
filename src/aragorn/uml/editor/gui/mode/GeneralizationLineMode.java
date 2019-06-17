@@ -21,6 +21,6 @@ public class GeneralizationLineMode extends UmlMode {
 		defaultMouseReleased(event);
 		if (!isUmlConnectLineShouldBeSet())
 			return;
-		addUmlLineObject(new GeneralizationLine(getStartingObject(), getStartingConnectionPort(), getEndingObject(), getEndingConnectionPort()));
+		addUmlLineObject(new GeneralizationLine(getStartingPort(), getEndingPort()));
 	}
 }

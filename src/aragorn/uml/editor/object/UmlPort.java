@@ -45,11 +45,11 @@ public class UmlPort extends UmlObject {
 		return new Rectangle2D.Double(x, y, w, h);
 	}
 
-	Point2D.Double getCenter() {
+	Point2D.Double getLocation() {
 		return new Point2D.Double(x, y);
 	}
 
-	public void setLocation(double x, double y) {
+	void setLocation(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}

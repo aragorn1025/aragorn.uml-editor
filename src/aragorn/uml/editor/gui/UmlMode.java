@@ -6,17 +6,17 @@ import java.awt.geom.Point2D;
 import javax.swing.event.MouseInputAdapter;
 import aragorn.uml.editor.object.UmlBasicObject;
 import aragorn.uml.editor.object.UmlLineObject;
-import aragorn.uml.editor.object.UmlPortDirection;
+import aragorn.uml.editor.object.UmlPort;
 
 public class UmlMode extends MouseInputAdapter {
 
 	private UmlCanvas parent;
 
+	private Point mouse_pressed_point = null;
+
 	private UmlBasicObject mouse_pressed_object = null;
 
 	private Point2D.Double mouse_pressed_object_initial_location = null;
-
-	private Point mouse_pressed_point = null;
 
 	private Point mouse_released_point = null;
 
@@ -73,12 +73,12 @@ public class UmlMode extends MouseInputAdapter {
 		resetPressedReleased();
 	}
 
-	protected UmlPortDirection getEndingConnectionPort() {
-		return getEndingObject().getCorrespondingConnectPort(mouse_released_point);
-	}
-
 	protected UmlBasicObject getEndingObject() {
 		return mouse_released_object;
+	}
+
+	protected UmlPort getEndingPort() {
+		return getEndingObject().getCorrespondingPort(mouse_released_point);
 	}
 
 	protected Point2D.Double getMousePressedObjectInitialLocation() {
@@ -101,12 +101,12 @@ public class UmlMode extends MouseInputAdapter {
 		return parent.getSelectedUmlObjectsNumber();
 	}
 
-	protected UmlPortDirection getStartingConnectionPort() {
-		return getStartingObject().getCorrespondingConnectPort(mouse_pressed_point);
-	}
-
 	protected UmlBasicObject getStartingObject() {
 		return mouse_pressed_object;
+	}
+
+	protected UmlPort getStartingPort() {
+		return getStartingObject().getCorrespondingPort(mouse_pressed_point);
 	}
 
 	protected UmlBasicObject getUmlBasicObject(int index) {
@@ -122,7 +122,7 @@ public class UmlMode extends MouseInputAdapter {
 			return false;
 		if (mouse_pressed_object == null && mouse_released_object == null)
 			return false;
-		return (!getStartingObject().equals(getEndingObject()) || !getStartingConnectionPort().equals(getEndingConnectionPort()));
+		return (!getStartingObject().equals(getEndingObject()) || !getStartingPort().equals(getEndingPort()));
 	}
 
 	protected void repaint() {

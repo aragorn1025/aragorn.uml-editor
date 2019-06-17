@@ -21,6 +21,6 @@ public class AssociationLineMode extends UmlMode {
 		defaultMouseReleased(event);
 		if (!isUmlConnectLineShouldBeSet())
 			return;
-		addUmlLineObject(new AssociationLine(getStartingObject(), getStartingConnectionPort(), getEndingObject(), getEndingConnectionPort()));
+		addUmlLineObject(new AssociationLine(getStartingPort(), getEndingPort()));
 	}
 }

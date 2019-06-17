@@ -58,16 +58,16 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 		return this.depth - compared_uml_basic_object.depth;
 	}
 
-	private void drawConnectPort(Graphics g, Coordinate2D c) {
-		for (UmlPort port : ports) {
-			port.draw(g, c);
-		}
-	}
-
 	@Override
 	protected void drawForeground(Graphics g, Coordinate2D c) {
 		if (isSelected() && !isUngroupable()) {
-			drawConnectPort(g, c);
+			drawPorts(g, c);
+		}
+	}
+
+	private void drawPorts(Graphics g, Coordinate2D c) {
+		for (UmlPort port : ports) {
+			port.draw(g, c);
 		}
 	}
 
@@ -76,37 +76,22 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 		return new Rectangle2D.Double(x, y, width, height);
 	}
 
-	UmlPort getConnectionPort(UmlPortDirection port_direction) {
-		switch (port_direction) {
-			case TOP:
-				return ports[UmlBasicObject.TOP];
-			case LEFT:
-				return ports[UmlBasicObject.LEFT];
-			case BOTTOM:
-				return ports[UmlBasicObject.BOTTOM];
-			case RIGHT:
-				return ports[UmlBasicObject.RIGHT];
-			default:
-				throw new InternalError("Unknown error.");
-		}
-	}
-
-	public UmlPortDirection getCorrespondingConnectPort(Point point) {
+	public UmlPort getCorrespondingPort(Point point) {
 		if (!isSurround(point))
 			return null;
 		double t = (point.getX() - x) / width;
 		if (t <= 0.5) {
 			if (point.getY() <= y + t * height)
-				return UmlPortDirection.TOP;
+				return ports[UmlBasicObject.TOP];
 			if (point.getY() > y + (1 - t) * height)
-				return UmlPortDirection.BOTTOM;
-			return UmlPortDirection.LEFT;
+				return ports[UmlBasicObject.BOTTOM];
+			return ports[UmlBasicObject.LEFT];
 		} else {
 			if (point.getY() <= y + (1 - t) * height)
-				return UmlPortDirection.TOP;
+				return ports[UmlBasicObject.TOP];
 			if (point.getY() > y + t * height)
-				return UmlPortDirection.BOTTOM;
-			return UmlPortDirection.RIGHT;
+				return ports[UmlBasicObject.BOTTOM];
+			return ports[UmlBasicObject.RIGHT];
 		}
 	}
 

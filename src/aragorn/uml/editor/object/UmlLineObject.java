@@ -13,20 +13,13 @@ public abstract class UmlLineObject extends UmlObject {
 	/** The minimum length of the segment. It is strongly recommend to set it as the multiple of 2. */
 	private static final int MIN_SEGMENT_LENGTH = 16;
 
-	private UmlPortDirection starting_connection_port;
+	private UmlPort starting_port;
 
-	private UmlPortDirection ending_connection_port;
+	private UmlPort ending_port;
 
-	private UmlBasicObject starting_object;
-
-	private UmlBasicObject ending_object;
-
-	protected UmlLineObject(UmlBasicObject starting_object, UmlPortDirection starting_connection_port, UmlBasicObject ending_object,
-			UmlPortDirection ending_connection_port) {
-		this.starting_object = starting_object;
-		this.ending_object = ending_object;
-		this.starting_connection_port = starting_connection_port;
-		this.ending_connection_port = ending_connection_port;
+	protected UmlLineObject(UmlPort starting_port, UmlPort ending_port) {
+		this.starting_port = starting_port;
+		this.ending_port = ending_port;
 	}
 
 	@Override
@@ -40,8 +33,8 @@ public abstract class UmlLineObject extends UmlObject {
 	}
 
 	private Paintable getArrow() {
-		Point2D.Double starting_point = starting_object.getConnectionPort(starting_connection_port).getCenter();
-		Point2D.Double ending_point = ending_object.getConnectionPort(ending_connection_port).getCenter();
+		Point2D.Double starting_point = starting_port.getLocation();
+		Point2D.Double ending_point = ending_port.getLocation();
 		MathVector2D parallel_vector = new MathVector2D(starting_point, ending_point);
 		MathVector2D parallel_unit_vector = parallel_vector.getScalarMultiply(1 / parallel_vector.getLength());
 		MathVector2D normal_unit_vector = new MathVector2D(-parallel_unit_vector.getY(), parallel_unit_vector.getX());
@@ -51,8 +44,8 @@ public abstract class UmlLineObject extends UmlObject {
 	protected abstract Paintable getArrow(Point2D.Double ending_point, MathVector2D parallel_vector, MathVector2D normal_vector);
 
 	private Paintable getBody() {
-		Point2D.Double starting_point = starting_object.getConnectionPort(starting_connection_port).getCenter();
-		Point2D.Double ending_point = ending_object.getConnectionPort(ending_connection_port).getCenter();
+		Point2D.Double starting_point = starting_port.getLocation();
+		Point2D.Double ending_point = ending_port.getLocation();
 		MathVector2D parallel_vector = new MathVector2D(starting_point, ending_point);
 		MathVector2D parallel_unit_vector = parallel_vector.getScalarMultiply(1 / parallel_vector.getLength());
 		return new LineSegment2D(starting_point, MathVector2D.add(parallel_vector, parallel_unit_vector.getScalarMultiply(MIN_SEGMENT_LENGTH).getNegative()));
