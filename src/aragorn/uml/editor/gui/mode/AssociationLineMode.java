@@ -7,8 +7,10 @@ import aragorn.uml.editor.object.line.AssociationLine;
 
 public class AssociationLineMode extends UmlMode {
 
+	private static final String NAME = "association line";
+
 	public AssociationLineMode(UmlCanvas parent) {
-		super(parent, AssociationLine.NAME);
+		super(parent, AssociationLineMode.NAME);
 	}
 
 	@Override

@@ -7,8 +7,10 @@ import aragorn.uml.editor.object.line.CompositionLine;
 
 public class CompositionLineMode extends UmlMode {
 
+	private static final String NAME = "composition line";
+
 	public CompositionLineMode(UmlCanvas parent) {
-		super(parent, CompositionLine.NAME);
+		super(parent, CompositionLineMode.NAME);
 	}
 
 	@Override
