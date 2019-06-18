@@ -14,19 +14,19 @@ import aragorn.uml.editor.object.basic.CompositeObject;
 @SuppressWarnings("serial")
 public class UmlCanvas extends Canvas {
 
-	private ArrayList<UmlLineObject> uml_line_objects = new ArrayList<>();
-
-	private ArrayList<UmlBasicObject> uml_basic_objects = new ArrayList<>();
-
-	private ArrayList<UmlBasicObject> selected_uml_basic_objects = new ArrayList<>();
+	private UmlFrame parent;
 
 	private UmlMode mode = null;
 
-	private int depth_counter = -1;
-
-	private UmlFrame parent;
-
 	private UmlDraggedBox dragged_box = new UmlDraggedBox();
+
+	private ArrayList<UmlBasicObject> uml_basic_objects = new ArrayList<>();
+
+	private ArrayList<UmlLineObject> uml_line_objects = new ArrayList<>();
+
+	private ArrayList<UmlBasicObject> selected_uml_basic_objects = new ArrayList<>();
+
+	private int depth_counter = -1;
 
 	UmlCanvas(UmlFrame parent) {
 		super();

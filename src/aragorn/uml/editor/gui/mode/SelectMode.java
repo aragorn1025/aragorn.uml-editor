@@ -42,7 +42,7 @@ public class SelectMode extends UmlMode {
 
 	@Override
 	public void mousePressed(MouseEvent event) {
-		defaultMousePressed(event);
+		super.mousePressed(event);
 		setDraggedBoxPressedPoint(event.getPoint());
 		setDraggedBoxCurrentPoint(null);
 	}

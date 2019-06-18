@@ -12,17 +12,17 @@ public class UmlMode extends MouseInputAdapter {
 
 	private UmlCanvas parent;
 
+	private String name;
+
 	private Point mouse_pressed_point = null;
-
-	private UmlBasicObject mouse_pressed_object = null;
-
-	private Point2D.Double mouse_pressed_object_initial_location = null;
 
 	private Point mouse_released_point = null;
 
+	private UmlBasicObject mouse_pressed_object = null;
+
 	private UmlBasicObject mouse_released_object = null;
 
-	private String name;
+	private Point2D.Double mouse_pressed_object_initial_location = null;
 
 	protected UmlMode(UmlCanvas parent, String name) {
 		this.parent = parent;
@@ -43,34 +43,6 @@ public class UmlMode extends MouseInputAdapter {
 
 	protected void clearSelectedUmlBasicObjects() {
 		parent.clearSelectedUmlBasicObjects();
-	}
-
-	protected void defaultMousePressed(MouseEvent event) {
-		resetPressedReleased();
-		mouse_pressed_point = event.getPoint();
-		for (int i = parent.getUmlObjectsNumber() - 1; i >= 0; i--) {
-			if (parent.getUmlBasicObject(i).isSurround(mouse_pressed_point)) {
-				mouse_pressed_object = parent.getUmlBasicObject(i);
-				mouse_pressed_object_initial_location = mouse_pressed_object.getLocation();
-				return;
-			}
-		}
-	}
-
-	protected void defaultMouseReleased(MouseEvent event) {
-		if (mouse_pressed_point == null || mouse_pressed_object == null) {
-			resetPressedReleased();
-			return;
-		}
-		mouse_released_point = event.getPoint();
-		mouse_released_object = null;
-		for (int i = parent.getUmlObjectsNumber() - 1; i >= 0; i--) {
-			if (parent.getUmlBasicObject(i).isSurround(mouse_released_point)) {
-				mouse_released_object = parent.getUmlBasicObject(i);
-				return;
-			}
-		}
-		resetPressedReleased();
 	}
 
 	protected UmlBasicObject getEndingObject() {
@@ -123,6 +95,36 @@ public class UmlMode extends MouseInputAdapter {
 		if (mouse_pressed_object == null && mouse_released_object == null)
 			return false;
 		return (!getStartingObject().equals(getEndingObject()) || !getStartingPort().equals(getEndingPort()));
+	}
+
+	@Override
+	public void mousePressed(MouseEvent event) {
+		resetPressedReleased();
+		mouse_pressed_point = event.getPoint();
+		for (int i = parent.getUmlObjectsNumber() - 1; i >= 0; i--) {
+			if (parent.getUmlBasicObject(i).isSurround(mouse_pressed_point)) {
+				mouse_pressed_object = parent.getUmlBasicObject(i);
+				mouse_pressed_object_initial_location = mouse_pressed_object.getLocation();
+				return;
+			}
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent event) {
+		if (mouse_pressed_point == null || mouse_pressed_object == null) {
+			resetPressedReleased();
+			return;
+		}
+		mouse_released_point = event.getPoint();
+		mouse_released_object = null;
+		for (int i = parent.getUmlObjectsNumber() - 1; i >= 0; i--) {
+			if (parent.getUmlBasicObject(i).isSurround(mouse_released_point)) {
+				mouse_released_object = parent.getUmlBasicObject(i);
+				return;
+			}
+		}
+		resetPressedReleased();
 	}
 
 	protected void repaint() {

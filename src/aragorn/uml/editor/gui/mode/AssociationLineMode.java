@@ -14,13 +14,8 @@ public class AssociationLineMode extends UmlMode {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent event) {
-		defaultMousePressed(event);
-	}
-
-	@Override
 	public void mouseReleased(MouseEvent event) {
-		defaultMouseReleased(event);
+		super.mouseReleased(event);
 		if (!isUmlConnectLineShouldBeSet())
 			return;
 		addUmlLineObject(new AssociationLine(getStartingPort(), getEndingPort()));

@@ -8,6 +8,10 @@ import aragorn.math.geometry.Coordinate2D;
 
 public abstract class UmlBasicObject extends UmlObject implements Comparable<UmlBasicObject> {
 
+	private static final int MIN_DEPTH = 0;
+
+	private static final int MAX_DEPTH = 99;
+
 	private static final int RIGHT = 0;
 
 	private static final int TOP = 1;
@@ -16,23 +20,19 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 
 	private static final int BOTTOM = 3;
 
-	private static final int MIN_DEPTH = 0;
-
-	private static final int MAX_DEPTH = 99;
-
 	private double x;
 
 	private double y;
 
-	private double width;
+	private double w;
 
-	private double height;
-
-	private boolean selected = false;
+	private double h;
 
 	private int depth;
 
 	private String name = null;
+
+	private boolean selected = false;
 
 	private UmlPort[] ports = new UmlPort[4];
 
@@ -40,13 +40,14 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 		this(0, 0, 0, 0);
 	}
 
-	protected UmlBasicObject(double x, double y, double width, double height) {
+	protected UmlBasicObject(double x, double y, double w, double h) {
 		this.x = x;
 		this.y = y;
-		this.width = width;
-		this.height = height;
-		setDepth(UmlBasicObject.MIN_DEPTH);
+		this.w = w;
+		this.h = h;
 
+		setDepth(UmlBasicObject.MIN_DEPTH);
+		setSize(w, h);
 		for (int i = 0; i < ports.length; i++) {
 			ports[i] = new UmlPort();
 		}
@@ -73,23 +74,23 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 
 	@Override
 	public Rectangle2D.Double getBounds() {
-		return new Rectangle2D.Double(x, y, width, height);
+		return new Rectangle2D.Double(x, y, w, h);
 	}
 
 	public UmlPort getCorrespondingPort(Point point) {
 		if (!isSurround(point))
 			return null;
-		double t = (point.getX() - x) / width;
+		double t = (point.getX() - x) / w;
 		if (t <= 0.5) {
-			if (point.getY() <= y + t * height)
+			if (point.getY() <= y + t * h)
 				return ports[UmlBasicObject.TOP];
-			if (point.getY() > y + (1 - t) * height)
+			if (point.getY() > y + (1 - t) * h)
 				return ports[UmlBasicObject.BOTTOM];
 			return ports[UmlBasicObject.LEFT];
 		} else {
-			if (point.getY() <= y + (1 - t) * height)
+			if (point.getY() <= y + (1 - t) * h)
 				return ports[UmlBasicObject.TOP];
-			if (point.getY() > y + t * height)
+			if (point.getY() > y + t * h)
 				return ports[UmlBasicObject.BOTTOM];
 			return ports[UmlBasicObject.RIGHT];
 		}
@@ -118,7 +119,7 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 	public abstract boolean isSurround(Point2D.Double point);
 
 	public boolean isSurroundedBy(Rectangle2D.Double bounds) {
-		return (x >= bounds.getMinX() && x + width <= bounds.getMaxX() && y >= bounds.getMinY() && y + height <= bounds.getMaxY());
+		return (x >= bounds.getMinX() && x + w <= bounds.getMaxX() && y >= bounds.getMinY() && y + h <= bounds.getMaxY());
 	}
 
 	public boolean isUngroupable() {
@@ -126,10 +127,10 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 	}
 
 	private void resetPorts() {
-		ports[UmlBasicObject.RIGHT].setLocation(x + width, y + height / 2.0);
-		ports[UmlBasicObject.TOP].setLocation(x + width / 2.0, y);
-		ports[UmlBasicObject.LEFT].setLocation(x, y + height / 2.0);
-		ports[UmlBasicObject.BOTTOM].setLocation(x + width / 2.0, y + height);
+		ports[UmlBasicObject.RIGHT].setLocation(x + w, y + h / 2.0);
+		ports[UmlBasicObject.TOP].setLocation(x + w / 2.0, y);
+		ports[UmlBasicObject.LEFT].setLocation(x, y + h / 2.0);
+		ports[UmlBasicObject.BOTTOM].setLocation(x + w / 2.0, y + h);
 	}
 
 	public void setDepth(int depth) {
@@ -152,7 +153,7 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 	}
 
 	protected void setSize(double width, double height) {
-		this.width = width;
-		this.height = height;
+		this.w = width;
+		this.h = height;
 	}
 }

@@ -9,7 +9,7 @@ import aragorn.math.geometry.Paintable;
 
 public class UmlPort extends UmlObject {
 
-	public static Dimension DEFAULT_SIZE = new Dimension(4, 4);
+	private static Dimension DEFAULT_SIZE = new Dimension(4, 4);
 
 	/* The x-axis value of the location of the port. */
 	private double x;

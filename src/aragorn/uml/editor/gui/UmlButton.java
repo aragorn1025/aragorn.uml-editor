@@ -17,13 +17,13 @@ public class UmlButton extends JToggleButton implements ActionListener {
 		return Integer.toHexString(color.getRGB()).substring(2);
 	}
 
-	private Color tool_tip_text_color = Color.DARK_GRAY;
-
-	private Paintable icon;
-
 	private UmlCanvas canvas;
 
 	private UmlMode mode;
+
+	private Paintable icon;
+
+	private Color tool_tip_text_color = Color.DARK_GRAY;
 
 	protected UmlButton(UmlCanvas canvas, UmlMode mode, Paintable icon) {
 		this.canvas = canvas;
