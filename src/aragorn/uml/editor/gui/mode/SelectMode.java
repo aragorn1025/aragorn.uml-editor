@@ -35,7 +35,7 @@ public class SelectMode extends UmlMode {
 			Point2D.Double new_location = MathVector2D.add(getMousePressedObjectInitialLocation(), new MathVector2D(starting_point, ending_point));
 			getStartingObject().setLocation(new_location.getX(), new_location.getY());
 		} else {
-			getParent().setDraggedBoxCurrentPoint(event.getPoint());
+			getParent().getDraggedBox().setCurrentPoint(event.getPoint());
 		}
 		getParent().repaint();
 	}
@@ -43,14 +43,14 @@ public class SelectMode extends UmlMode {
 	@Override
 	public void mousePressed(MouseEvent event) {
 		super.mousePressed(event);
-		getParent().setDraggedBoxPressedPoint(event.getPoint());
-		getParent().setDraggedBoxCurrentPoint(event.getPoint());
+		getParent().getDraggedBox().setPressedPoint(event.getPoint());
+		getParent().getDraggedBox().setCurrentPoint(event.getPoint());
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent event) {
-		getParent().setDraggedBoxPressedPoint(null);
-		getParent().setDraggedBoxCurrentPoint(null);
+		getParent().getDraggedBox().setPressedPoint(null);
+		getParent().getDraggedBox().setCurrentPoint(null);
 		if (getParent().getSelectedUmlObjectsNumber() == 1 && getParent().getSelectedUmlBasicObject(0).isSurround(event.getPoint()))
 			return;
 		Point mouse_released_point = event.getPoint();

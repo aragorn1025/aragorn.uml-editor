@@ -2,13 +2,12 @@ package aragorn.uml.editor.gui;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
+import aragorn.uml.editor.object.Drawable;
 import aragorn.uml.editor.object.UmlBasicObject;
 import aragorn.uml.editor.object.UmlDraggedBox;
 import aragorn.uml.editor.object.UmlLineObject;
-import aragorn.uml.editor.object.Drawable;
 import aragorn.uml.editor.object.basic.CompositeObject;
 
 @SuppressWarnings("serial")
@@ -60,6 +59,10 @@ public class UmlCanvas extends Canvas {
 			selected_uml_basic_objects.get(i).setSelected(false);
 		}
 		selected_uml_basic_objects.clear();
+	}
+
+	public UmlDraggedBox getDraggedBox() {
+		return dragged_box;
 	}
 
 	@Override
@@ -122,14 +125,6 @@ public class UmlCanvas extends Canvas {
 		addMouseMotionListener(this.mode);
 		clearSelectedUmlBasicObjects();
 		repaint();
-	}
-
-	public void setDraggedBoxCurrentPoint(Point current_point) {
-		dragged_box.setCurrentPoint(current_point);
-	}
-
-	public void setDraggedBoxPressedPoint(Point pressed_point) {
-		dragged_box.setPressedPoint(pressed_point);
 	}
 
 	public void ungroup() {
