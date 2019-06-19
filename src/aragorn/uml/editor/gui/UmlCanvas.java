@@ -34,12 +34,12 @@ public class UmlCanvas extends Canvas {
 		setBackground(Drawable.BACKGROUND_COLOR);
 	}
 
-	void addSelectedUmlBasicObjects(UmlBasicObject uml_basic_object) {
+	public void addSelectedUmlBasicObjects(UmlBasicObject uml_basic_object) {
 		uml_basic_object.setSelected(true);
 		selected_uml_basic_objects.add(uml_basic_object);
 	}
 
-	void addUmlBasicObject(UmlBasicObject uml_basic_object) {
+	public void addUmlBasicObject(UmlBasicObject uml_basic_object) {
 		if (uml_basic_object != null) {
 			uml_basic_object.setDepth(depth_counter);
 			depth_counter = uml_basic_object.getDepth() - 1;
@@ -48,14 +48,14 @@ public class UmlCanvas extends Canvas {
 		}
 	}
 
-	void addUmlLineObject(UmlLineObject uml_line_object) {
+	public void addUmlLineObject(UmlLineObject uml_line_object) {
 		if (uml_line_object != null) {
 			uml_line_objects.add(uml_line_object);
 			repaint();
 		}
 	}
 
-	void clearSelectedUmlBasicObjects() {
+	public void clearSelectedUmlBasicObjects() {
 		for (int i = 0; i < selected_uml_basic_objects.size(); i++) {
 			selected_uml_basic_objects.get(i).setSelected(false);
 		}
@@ -67,23 +67,23 @@ public class UmlCanvas extends Canvas {
 		return parent;
 	}
 
-	UmlBasicObject getSelectedUmlBasicObject(int index) {
+	public UmlBasicObject getSelectedUmlBasicObject(int index) {
 		return selected_uml_basic_objects.get(index);
 	}
 
-	int getSelectedUmlObjectsNumber() {
+	public int getSelectedUmlObjectsNumber() {
 		return selected_uml_basic_objects.size();
 	}
 
-	UmlBasicObject getUmlBasicObject(int index) {
+	public UmlBasicObject getUmlBasicObject(int index) {
 		return uml_basic_objects.get(index);
 	}
 
-	int getUmlObjectsNumber() {
+	public int getUmlObjectsNumber() {
 		return uml_basic_objects.size();
 	}
 
-	void group() {
+	public void group() {
 		if (selected_uml_basic_objects.size() == 0)
 			return;
 		CompositeObject composite_object = new CompositeObject(selected_uml_basic_objects);
@@ -124,15 +124,15 @@ public class UmlCanvas extends Canvas {
 		repaint();
 	}
 
-	void setDraggedBoxCurrentPoint(Point current_point) {
+	public void setDraggedBoxCurrentPoint(Point current_point) {
 		dragged_box.setCurrentPoint(current_point);
 	}
 
-	void setDraggedBoxPressedPoint(Point pressed_point) {
+	public void setDraggedBoxPressedPoint(Point pressed_point) {
 		dragged_box.setPressedPoint(pressed_point);
 	}
 
-	void ungroup() {
+	public void ungroup() {
 		if (selected_uml_basic_objects.size() != 1 || !selected_uml_basic_objects.get(0).isUngroupable())
 			return;
 		CompositeObject group = (CompositeObject) selected_uml_basic_objects.get(0);

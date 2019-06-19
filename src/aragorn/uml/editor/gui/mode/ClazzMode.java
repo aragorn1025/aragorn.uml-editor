@@ -15,6 +15,6 @@ public class ClazzMode extends UmlMode {
 
 	@Override
 	public void mouseClicked(MouseEvent event) {
-		addUmlBasicObject(new Clazz(event.getPoint()));
+		getParent().addUmlBasicObject(new Clazz(event.getPoint()));
 	}
 }

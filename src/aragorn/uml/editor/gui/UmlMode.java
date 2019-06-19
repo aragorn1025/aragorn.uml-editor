@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import javax.swing.event.MouseInputAdapter;
 import aragorn.uml.editor.object.UmlBasicObject;
-import aragorn.uml.editor.object.UmlLineObject;
 import aragorn.uml.editor.object.UmlPort;
 
 public class UmlMode extends MouseInputAdapter {
@@ -29,22 +28,6 @@ public class UmlMode extends MouseInputAdapter {
 		this.name = name;
 	}
 
-	protected void addSelectedUmlBasicObjects(UmlBasicObject uml_basic_object) {
-		parent.addSelectedUmlBasicObjects(uml_basic_object);
-	}
-
-	protected void addUmlBasicObject(UmlBasicObject uml_basic_object) {
-		parent.addUmlBasicObject(uml_basic_object);
-	}
-
-	protected void addUmlLineObject(UmlLineObject uml_line_object) {
-		parent.addUmlLineObject(uml_line_object);
-	}
-
-	protected void clearSelectedUmlBasicObjects() {
-		parent.clearSelectedUmlBasicObjects();
-	}
-
 	protected UmlBasicObject getEndingObject() {
 		return mouse_released_object;
 	}
@@ -65,12 +48,8 @@ public class UmlMode extends MouseInputAdapter {
 		return name;
 	}
 
-	protected UmlBasicObject getSelectedUmlBasicObject(int index) {
-		return parent.getSelectedUmlBasicObject(index);
-	}
-
-	protected int getSelectedUmlObjectsNumber() {
-		return parent.getSelectedUmlObjectsNumber();
+	protected UmlCanvas getParent() {
+		return parent;
 	}
 
 	protected UmlBasicObject getStartingObject() {
@@ -79,14 +58,6 @@ public class UmlMode extends MouseInputAdapter {
 
 	protected UmlPort getStartingPort() {
 		return getStartingObject().getCorrespondingPort(mouse_pressed_point);
-	}
-
-	protected UmlBasicObject getUmlBasicObject(int index) {
-		return parent.getUmlBasicObject(index);
-	}
-
-	protected int getUmlObjectsNumber() {
-		return parent.getUmlObjectsNumber();
 	}
 
 	protected boolean isUmlConnectLineShouldBeSet() {
@@ -127,23 +98,11 @@ public class UmlMode extends MouseInputAdapter {
 		resetPressedReleased();
 	}
 
-	protected void repaint() {
-		parent.repaint();
-	}
-
 	protected void resetPressedReleased() {
 		mouse_pressed_point = null;
 		mouse_released_point = null;
 		mouse_pressed_object_initial_location = null;
 		mouse_pressed_object = null;
 		mouse_released_object = null;
-	}
-
-	protected void setDraggedBoxCurrentPoint(Point current_point) {
-		parent.setDraggedBoxCurrentPoint(current_point);
-	}
-
-	protected void setDraggedBoxPressedPoint(Point pressed_point) {
-		parent.setDraggedBoxPressedPoint(pressed_point);
 	}
 }

@@ -16,13 +16,13 @@ public class SelectMode extends UmlMode {
 
 	@Override
 	public void mouseClicked(MouseEvent event) {
-		clearSelectedUmlBasicObjects();
-		for (int i = 0; i < getUmlObjectsNumber(); i++) {
-			if (getUmlBasicObject(i).isSurround(event.getPoint())) {
-				addSelectedUmlBasicObjects(getUmlBasicObject(i));
+		getParent().clearSelectedUmlBasicObjects();
+		for (int i = 0; i < getParent().getUmlObjectsNumber(); i++) {
+			if (getParent().getUmlBasicObject(i).isSurround(event.getPoint())) {
+				getParent().addSelectedUmlBasicObjects(getParent().getUmlBasicObject(i));
 			}
 		}
-		repaint();
+		getParent().repaint();
 	}
 
 	@Override
@@ -35,37 +35,37 @@ public class SelectMode extends UmlMode {
 			Point2D.Double new_location = MathVector2D.add(getMousePressedObjectInitialLocation(), new MathVector2D(starting_point, ending_point));
 			getStartingObject().setLocation(new_location.getX(), new_location.getY());
 		} else {
-			setDraggedBoxCurrentPoint(event.getPoint());
+			getParent().setDraggedBoxCurrentPoint(event.getPoint());
 		}
-		repaint();
+		getParent().repaint();
 	}
 
 	@Override
 	public void mousePressed(MouseEvent event) {
 		super.mousePressed(event);
-		setDraggedBoxPressedPoint(event.getPoint());
-		setDraggedBoxCurrentPoint(event.getPoint());
+		getParent().setDraggedBoxPressedPoint(event.getPoint());
+		getParent().setDraggedBoxCurrentPoint(event.getPoint());
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent event) {
-		setDraggedBoxPressedPoint(null);
-		setDraggedBoxCurrentPoint(null);
-		if (getSelectedUmlObjectsNumber() == 1 && getSelectedUmlBasicObject(0).isSurround(event.getPoint()))
+		getParent().setDraggedBoxPressedPoint(null);
+		getParent().setDraggedBoxCurrentPoint(null);
+		if (getParent().getSelectedUmlObjectsNumber() == 1 && getParent().getSelectedUmlBasicObject(0).isSurround(event.getPoint()))
 			return;
 		Point mouse_released_point = event.getPoint();
 		if (mouse_released_point.equals(getMousePressedPoint())) {
 			resetPressedReleased();
 			return;
 		}
-		clearSelectedUmlBasicObjects();
+		getParent().clearSelectedUmlBasicObjects();
 		UmlDraggedBox dragged_box = new UmlDraggedBox(getMousePressedPoint(), event.getPoint());
-		for (int i = 0; i < getUmlObjectsNumber(); i++) {
-			if (getUmlBasicObject(i).isSurroundedBy(dragged_box)) {
-				addSelectedUmlBasicObjects(getUmlBasicObject(i));
+		for (int i = 0; i < getParent().getUmlObjectsNumber(); i++) {
+			if (getParent().getUmlBasicObject(i).isSurroundedBy(dragged_box)) {
+				getParent().addSelectedUmlBasicObjects(getParent().getUmlBasicObject(i));
 			}
 		}
 		resetPressedReleased();
-		repaint();
+		getParent().repaint();
 	}
 }

@@ -12,6 +12,6 @@ public class GroupSubmode extends UmlSubmode {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		group();
+		getParent().group();
 	}
 }

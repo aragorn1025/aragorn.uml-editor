@@ -18,6 +18,6 @@ public class AssociationLineMode extends UmlMode {
 		super.mouseReleased(event);
 		if (!isUmlConnectLineShouldBeSet())
 			return;
-		addUmlLineObject(new AssociationLine(getStartingPort(), getEndingPort()));
+		getParent().addUmlLineObject(new AssociationLine(getStartingPort(), getEndingPort()));
 	}
 }

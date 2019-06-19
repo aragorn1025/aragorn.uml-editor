@@ -15,6 +15,6 @@ public class UseCaseMode extends UmlMode {
 
 	@Override
 	public void mouseClicked(MouseEvent event) {
-		addUmlBasicObject(new UseCase(event.getPoint()));
+		getParent().addUmlBasicObject(new UseCase(event.getPoint()));
 	}
 }

@@ -18,6 +18,6 @@ public class GeneralizationLineMode extends UmlMode {
 		super.mouseReleased(event);
 		if (!isUmlConnectLineShouldBeSet())
 			return;
-		addUmlLineObject(new GeneralizationLine(getStartingPort(), getEndingPort()));
+		getParent().addUmlLineObject(new GeneralizationLine(getStartingPort(), getEndingPort()));
 	}
 }

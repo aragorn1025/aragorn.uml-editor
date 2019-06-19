@@ -13,24 +13,24 @@ public class ChangeBasicObjectNameSubmode extends UmlSubmode {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		switch (getSelectedUmlObjectsNumber()) {
+		switch (getParent().getSelectedUmlObjectsNumber()) {
 			case 0:
-				echo("No basic object is selected.", JOptionPane.WARNING_MESSAGE);
+				getParent().getParent().echo("No basic object is selected.", JOptionPane.WARNING_MESSAGE);
 				break;
 			case 1:
-				String name = showInputDialog(getMessage(), "Change Name", JOptionPane.QUESTION_MESSAGE);
+				String name = JOptionPane.showInputDialog(getParent().getParent(), getMessage(), "Change Name", JOptionPane.QUESTION_MESSAGE);
 				if (name != null) {
-					getSelectedUmlBasicObject(0).setName(name);
+					getParent().getSelectedUmlBasicObject(0).setName(name);
 				}
 				break;
 			default:
-				echo("Too many basic objects are selected.", JOptionPane.WARNING_MESSAGE);
+				getParent().getParent().echo("Too many basic objects are selected.", JOptionPane.WARNING_MESSAGE);
 				break;
 		}
 	}
 
 	private String getMessage() {
-		String name = getSelectedUmlBasicObject(0).getName();
+		String name = getParent().getSelectedUmlBasicObject(0).getName();
 		if (name == null) {
 			return new String("Please enter the new name:");
 		} else {
