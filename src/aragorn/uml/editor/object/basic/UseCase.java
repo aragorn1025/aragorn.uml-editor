@@ -30,7 +30,7 @@ public class UseCase extends UmlBasicObject {
 	}
 
 	@Override
-	protected void drawForeground(Graphics g, Coordinate2D c) {
+	public void drawForeground(Graphics g, Coordinate2D c) {
 		Rectangle2D.Double bounds = getBounds();
 		Paintable.drawOval(g, c, new Point2D.Double(bounds.getCenterX(), bounds.getCenterY()), bounds.getWidth(), bounds.getHeight());
 		super.drawForeground(g, c);

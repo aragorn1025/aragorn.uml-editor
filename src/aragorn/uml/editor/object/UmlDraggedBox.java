@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 import aragorn.math.geometry.Coordinate2D;
 import aragorn.math.geometry.Paintable;
 
-public class UmlDraggedBox extends UmlObject {
+public class UmlDraggedBox implements Drawable {
 
 	private static Color DRAGGED_BOX_COLOR = Color.GREEN;
 
@@ -20,11 +20,11 @@ public class UmlDraggedBox extends UmlObject {
 	}
 
 	@Override
-	protected void drawBackground(Graphics g, Coordinate2D c) {
+	public void drawBackground(Graphics g, Coordinate2D c) {
 	}
 
 	@Override
-	protected void drawForeground(Graphics g, Coordinate2D c) {
+	public void drawForeground(Graphics g, Coordinate2D c) {
 		if (isNull())
 			return;
 		Rectangle.Double bounds = getBounds();

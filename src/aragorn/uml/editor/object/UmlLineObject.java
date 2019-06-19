@@ -8,7 +8,7 @@ import aragorn.math.geometry.LineSegment2D;
 import aragorn.math.geometry.Paintable;
 import aragorn.util.MathVector2D;
 
-public abstract class UmlLineObject extends UmlObject {
+public abstract class UmlLineObject implements Drawable {
 
 	/** The minimum length of the segment. It is strongly recommend to set it as the multiple of 2. */
 	private static final int MIN_SEGMENT_LENGTH = 16;
@@ -23,11 +23,11 @@ public abstract class UmlLineObject extends UmlObject {
 	}
 
 	@Override
-	protected final void drawBackground(Graphics g, Coordinate2D c) {
+	public final void drawBackground(Graphics g, Coordinate2D c) {
 	}
 
 	@Override
-	protected final void drawForeground(Graphics g, Coordinate2D c) {
+	public final void drawForeground(Graphics g, Coordinate2D c) {
 		getArrow().draw(g, c);
 		getBody().draw(g, c);
 	}

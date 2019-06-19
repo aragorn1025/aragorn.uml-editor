@@ -47,7 +47,7 @@ public class CompositeObject extends UmlBasicObject {
 	}
 
 	@Override
-	protected void drawForeground(Graphics g, Coordinate2D c) {
+	public void drawForeground(Graphics g, Coordinate2D c) {
 		Arrays.sort(sub_objects, Collections.reverseOrder());
 		for (UmlBasicObject sub_object : sub_objects) {
 			sub_object.draw(g, null);

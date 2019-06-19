@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import aragorn.math.geometry.Coordinate2D;
 
-public abstract class UmlBasicObject extends UmlObject implements Comparable<UmlBasicObject> {
+public abstract class UmlBasicObject implements Drawable, Comparable<UmlBasicObject> {
 
 	private static final int MIN_DEPTH = 0;
 
@@ -60,7 +60,7 @@ public abstract class UmlBasicObject extends UmlObject implements Comparable<Uml
 	}
 
 	@Override
-	protected void drawForeground(Graphics g, Coordinate2D c) {
+	public void drawForeground(Graphics g, Coordinate2D c) {
 		if (isSelected() && !isUngroupable()) {
 			drawPorts(g, c);
 		}

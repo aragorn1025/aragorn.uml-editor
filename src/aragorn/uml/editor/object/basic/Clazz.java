@@ -30,7 +30,7 @@ public class Clazz extends UmlBasicObject {
 	}
 
 	@Override
-	protected void drawForeground(Graphics g, Coordinate2D c) {
+	public void drawForeground(Graphics g, Coordinate2D c) {
 		Rectangle2D.Double bounds = getBounds();
 		double[] x = new double[2];
 		double[] y = new double[4];

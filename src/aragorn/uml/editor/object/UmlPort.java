@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import aragorn.math.geometry.Coordinate2D;
 import aragorn.math.geometry.Paintable;
 
-public class UmlPort extends UmlObject {
+public class UmlPort implements Drawable {
 
 	private static Dimension DEFAULT_SIZE = new Dimension(4, 4);
 
@@ -32,11 +32,11 @@ public class UmlPort extends UmlObject {
 	}
 
 	@Override
-	protected void drawBackground(Graphics g, Coordinate2D c) {
+	public void drawBackground(Graphics g, Coordinate2D c) {
 	}
 
 	@Override
-	protected void drawForeground(Graphics g, Coordinate2D c) {
+	public void drawForeground(Graphics g, Coordinate2D c) {
 		Paintable.fillRectangle(g, c, new Point2D.Double(x - w / 2, y - h / 2), w, h);
 	}
 

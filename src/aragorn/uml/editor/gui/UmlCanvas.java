@@ -8,7 +8,7 @@ import java.util.Collections;
 import aragorn.uml.editor.object.UmlBasicObject;
 import aragorn.uml.editor.object.UmlDraggedBox;
 import aragorn.uml.editor.object.UmlLineObject;
-import aragorn.uml.editor.object.UmlObject;
+import aragorn.uml.editor.object.Drawable;
 import aragorn.uml.editor.object.basic.CompositeObject;
 
 @SuppressWarnings("serial")
@@ -31,7 +31,7 @@ public class UmlCanvas extends Canvas {
 	UmlCanvas(UmlFrame parent) {
 		super();
 		this.parent = parent;
-		setBackground(UmlObject.getBackgroundColor());
+		setBackground(Drawable.BACKGROUND_COLOR);
 	}
 
 	void addSelectedUmlBasicObjects(UmlBasicObject uml_basic_object) {
