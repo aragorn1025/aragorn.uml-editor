@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import aragorn.math.geometry.Coordinate2D;
 
-public abstract class UmlBasicObject implements Drawable, Comparable<UmlBasicObject> {
+public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, Drawable, Selectable {
 
 	private static final int MIN_DEPTH = 0;
 
@@ -108,17 +108,14 @@ public abstract class UmlBasicObject implements Drawable, Comparable<UmlBasicObj
 		return name;
 	}
 
+	@Override
 	public boolean isSelected() {
 		return selected;
 	}
 
-	public boolean isSurround(Point point) {
-		return isSurround(new Point2D.Double(point.getX(), point.getY()));
-	}
-
-	public abstract boolean isSurround(Point2D.Double point);
-
-	public boolean isSurroundedBy(Rectangle2D.Double bounds) {
+	@Override
+	public boolean isSurroundedBy(UmlDraggedBox dragged_box) {
+		Rectangle2D.Double bounds = dragged_box.getBounds();
 		return (x >= bounds.getMinX() && x + w <= bounds.getMaxX() && y >= bounds.getMinY() && y + h <= bounds.getMaxY());
 	}
 
@@ -148,6 +145,7 @@ public abstract class UmlBasicObject implements Drawable, Comparable<UmlBasicObj
 		this.name = name;
 	}
 
+	@Override
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}

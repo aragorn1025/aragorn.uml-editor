@@ -3,9 +3,9 @@ package aragorn.uml.editor.gui.mode;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import aragorn.uml.editor.gui.UmlCanvas;
 import aragorn.uml.editor.gui.UmlMode;
+import aragorn.uml.editor.object.UmlDraggedBox;
 import aragorn.util.MathVector2D;
 
 public class SelectMode extends UmlMode {
@@ -44,7 +44,7 @@ public class SelectMode extends UmlMode {
 	public void mousePressed(MouseEvent event) {
 		super.mousePressed(event);
 		setDraggedBoxPressedPoint(event.getPoint());
-		setDraggedBoxCurrentPoint(null);
+		setDraggedBoxCurrentPoint(event.getPoint());
 	}
 
 	@Override
@@ -59,13 +59,9 @@ public class SelectMode extends UmlMode {
 			return;
 		}
 		clearSelectedUmlBasicObjects();
-		double min_x = Math.min(getMousePressedPoint().getX(), mouse_released_point.getX());
-		double min_y = Math.min(getMousePressedPoint().getY(), mouse_released_point.getY());
-		double max_x = Math.max(getMousePressedPoint().getX(), mouse_released_point.getX());
-		double max_y = Math.max(getMousePressedPoint().getY(), mouse_released_point.getY());
-		Rectangle2D.Double bounds = new Rectangle2D.Double(min_x, min_y, max_x - min_x, max_y - min_y);
+		UmlDraggedBox dragged_box = new UmlDraggedBox(getMousePressedPoint(), event.getPoint());
 		for (int i = 0; i < getUmlObjectsNumber(); i++) {
-			if (getUmlBasicObject(i).isSurroundedBy(bounds)) {
+			if (getUmlBasicObject(i).isSurroundedBy(dragged_box)) {
 				addSelectedUmlBasicObjects(getUmlBasicObject(i));
 			}
 		}

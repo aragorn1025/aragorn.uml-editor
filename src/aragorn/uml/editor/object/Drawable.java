@@ -19,7 +19,7 @@ public interface Drawable extends Paintable {
 		drawForeground(g, c);
 	}
 
-	public void drawBackground(Graphics g, Coordinate2D c);
+	public abstract void drawBackground(Graphics g, Coordinate2D c);
 
-	public void drawForeground(Graphics g, Coordinate2D c);
+	public abstract void drawForeground(Graphics g, Coordinate2D c);
 }

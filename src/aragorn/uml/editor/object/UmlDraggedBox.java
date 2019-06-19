@@ -16,7 +16,12 @@ public class UmlDraggedBox implements Drawable {
 	private Point current_point;
 
 	public UmlDraggedBox() {
-		reset();
+		this(null, null);
+	}
+
+	public UmlDraggedBox(Point pressed_point, Point current_point) {
+		this.pressed_point = pressed_point;
+		this.current_point = current_point;
 	}
 
 	@Override
@@ -45,11 +50,6 @@ public class UmlDraggedBox implements Drawable {
 
 	private boolean isNull() {
 		return pressed_point == null || current_point == null || pressed_point.equals(current_point);
-	}
-
-	private void reset() {
-		setPressedPoint(null);
-		setCurrentPoint(null);
 	}
 
 	public void setCurrentPoint(Point current_point) {
