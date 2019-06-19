@@ -32,8 +32,9 @@ public class SelectMode extends UmlMode {
 		if (getStartingObject() != null) {
 			Point2D.Double starting_point = new Point2D.Double(getMousePressedPoint().getX(), getMousePressedPoint().getY());
 			Point2D.Double ending_point = new Point2D.Double(event.getPoint().getX(), event.getPoint().getY());
-			Point2D.Double new_location = MathVector2D.add(getMousePressedObjectInitialLocation(), new MathVector2D(starting_point, ending_point));
-			getStartingObject().setLocation(new_location.getX(), new_location.getY());
+			// Point2D.Double new_location = MathVector2D.add(getMousePressedObjectInitialLocation(), new MathVector2D(starting_point, ending_point));
+			// getStartingObject().setLocation(new_location.getX(), new_location.getY());
+			getStartingObject().move(new MathVector2D(starting_point, ending_point));
 		} else {
 			getParent().getDraggedBox().setCurrentPoint(event.getPoint());
 		}

@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import aragorn.math.geometry.Coordinate2D;
+import aragorn.util.MathVector2D;
 
 public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, Drawable, Selectable {
 
@@ -135,7 +136,14 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, Draw
 		this.depth = ((depth - UmlBasicObject.MIN_DEPTH) % diff + diff) % diff + UmlBasicObject.MIN_DEPTH;
 	}
 
-	public void setLocation(double x, double y) {
+	@Override
+	public void move(MathVector2D vector) {
+		x = x + vector.getX();
+		y = y + vector.getY();
+		resetPorts();
+	}
+
+	public void setLocation2(double x, double y) {
 		this.x = x;
 		this.y = y;
 		resetPorts();
