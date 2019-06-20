@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import javax.swing.event.MouseInputAdapter;
 import aragorn.uml.editor.object.UmlBasicObject;
 import aragorn.uml.editor.object.UmlPort;
+import aragorn.util.MathVector2D;
 
 public class UmlMode extends MouseInputAdapter {
 
@@ -17,11 +18,11 @@ public class UmlMode extends MouseInputAdapter {
 
 	private Point mouse_released_point = null;
 
-	private UmlBasicObject mouse_pressed_object = null;
+	private UmlBasicObject starting_object = null;
 
-	private UmlBasicObject mouse_released_object = null;
+	private UmlBasicObject ending_object = null;
 
-	private Point2D.Double mouse_pressed_object_initial_location = null;
+	private MathVector2D starting_object_vector = null;
 
 	protected UmlMode(UmlCanvas parent, String name) {
 		this.parent = parent;
@@ -29,15 +30,11 @@ public class UmlMode extends MouseInputAdapter {
 	}
 
 	protected UmlBasicObject getEndingObject() {
-		return mouse_released_object;
+		return ending_object;
 	}
 
 	protected UmlPort getEndingPort() {
 		return getEndingObject().getCorrespondingPort(mouse_released_point);
-	}
-
-	protected Point2D.Double getMousePressedObjectInitialLocation() {
-		return mouse_pressed_object_initial_location;
 	}
 
 	protected Point getMousePressedPoint() {
@@ -53,7 +50,11 @@ public class UmlMode extends MouseInputAdapter {
 	}
 
 	protected UmlBasicObject getStartingObject() {
-		return mouse_pressed_object;
+		return starting_object;
+	}
+
+	protected MathVector2D getStartingObjectVector() {
+		return starting_object_vector;
 	}
 
 	protected UmlPort getStartingPort() {
@@ -63,19 +64,20 @@ public class UmlMode extends MouseInputAdapter {
 	protected boolean isUmlConnectLineShouldBeSet() {
 		if (mouse_pressed_point == null || mouse_released_point == null)
 			return false;
-		if (mouse_pressed_object == null && mouse_released_object == null)
+		if (starting_object == null || ending_object == null)
 			return false;
-		return (!getStartingObject().equals(getEndingObject()) || !getStartingPort().equals(getEndingPort()));
+		return !getStartingPort().equals(getEndingPort());
 	}
 
 	@Override
 	public void mousePressed(MouseEvent event) {
-		resetPressedReleased();
+		resetPressed();
+		resetReleased();
 		mouse_pressed_point = event.getPoint();
 		for (int i = parent.getUmlObjectsNumber() - 1; i >= 0; i--) {
 			if (parent.getUmlBasicObject(i).isSurround(mouse_pressed_point)) {
-				mouse_pressed_object = parent.getUmlBasicObject(i);
-				mouse_pressed_object_initial_location = mouse_pressed_object.getLocation();
+				starting_object = parent.getUmlBasicObject(i);
+				setStartingObjectVector();
 				return;
 			}
 		}
@@ -83,26 +85,33 @@ public class UmlMode extends MouseInputAdapter {
 
 	@Override
 	public void mouseReleased(MouseEvent event) {
-		if (mouse_pressed_point == null || mouse_pressed_object == null) {
-			resetPressedReleased();
-			return;
-		}
+		resetReleased();
 		mouse_released_point = event.getPoint();
-		mouse_released_object = null;
 		for (int i = parent.getUmlObjectsNumber() - 1; i >= 0; i--) {
 			if (parent.getUmlBasicObject(i).isSurround(mouse_released_point)) {
-				mouse_released_object = parent.getUmlBasicObject(i);
+				ending_object = parent.getUmlBasicObject(i);
 				return;
 			}
 		}
-		resetPressedReleased();
 	}
 
-	protected void resetPressedReleased() {
-		mouse_pressed_point = null;
+	private void resetPressed() {
 		mouse_released_point = null;
-		mouse_pressed_object_initial_location = null;
-		mouse_pressed_object = null;
-		mouse_released_object = null;
+		ending_object = null;
+	}
+
+	private void resetReleased() {
+		mouse_pressed_point = null;
+		starting_object = null;
+		starting_object_vector = null;
+	}
+
+	private void setStartingObjectVector() {
+		if (mouse_pressed_point == null || starting_object == null) {
+			starting_object_vector = null;
+		} else {
+			Point2D.Double p = new Point2D.Double(mouse_pressed_point.getX(), mouse_pressed_point.getY());
+			starting_object_vector = new MathVector2D(starting_object.getLocation(), p);
+		}
 	}
 }

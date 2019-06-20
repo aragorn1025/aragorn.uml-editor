@@ -2,7 +2,6 @@ package aragorn.uml.editor.object;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
-import aragorn.util.MathVector2D;
 
 public interface Selectable {
 
@@ -16,7 +15,7 @@ public interface Selectable {
 
 	public abstract boolean isSurroundedBy(UmlDraggedBox bounds);
 
-	public abstract void move(MathVector2D vector);
+	public abstract void setLocation(double x, double y);
 
 	public abstract void setSelected(boolean selected);
 }

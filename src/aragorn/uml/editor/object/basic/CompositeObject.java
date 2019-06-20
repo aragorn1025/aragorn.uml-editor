@@ -38,7 +38,7 @@ public class CompositeObject extends UmlBasicObject {
 			y_max = Math.max(y_max, this.sub_objects[i].getBounds().getMaxY());
 			depth_max = Math.max(depth_max, this.sub_objects[i].getDepth());
 		}
-		move(new MathVector2D(x_min, y_min));
+		super.setLocation(x_min, y_min);
 		setSize(x_max - x_min, y_max - y_min);
 		setDepth(depth_max);
 	}
@@ -80,11 +80,11 @@ public class CompositeObject extends UmlBasicObject {
 		return true;
 	}
 
-	@Override
-	public void move(MathVector2D vector) {
-		super.move(vector);
+	public void setLocation(double x, double y) {
+		MathVector2D vector = new MathVector2D(getLocation(), new Point2D.Double(x, y));
+		super.setLocation(x, y);
 		for (UmlBasicObject sub_object : sub_objects) {
-			sub_object.move(vector);
+			sub_object.setLocation(sub_object.getLocation().getX() + vector.getX(), sub_object.getLocation().getY() + vector.getY());
 		}
 	}
 

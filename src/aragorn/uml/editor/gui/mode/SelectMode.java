@@ -29,12 +29,10 @@ public class SelectMode extends UmlMode {
 	public void mouseDragged(MouseEvent event) {
 		if (getMousePressedPoint() == null)
 			throw new InternalError("Unknown error.");
-		if (getStartingObject() != null) {
-			Point2D.Double starting_point = new Point2D.Double(getMousePressedPoint().getX(), getMousePressedPoint().getY());
-			Point2D.Double ending_point = new Point2D.Double(event.getPoint().getX(), event.getPoint().getY());
-			// Point2D.Double new_location = MathVector2D.add(getMousePressedObjectInitialLocation(), new MathVector2D(starting_point, ending_point));
-			// getStartingObject().setLocation(new_location.getX(), new_location.getY());
-			getStartingObject().move(new MathVector2D(starting_point, ending_point));
+		if (getParent().getSelectedUmlObjectsNumber() == 1 && getParent().getSelectedUmlBasicObject(0) == getStartingObject()) {
+			Point2D.Double current_point = new Point2D.Double(event.getPoint().getX(), event.getPoint().getY());
+			Point2D.Double new_location = MathVector2D.add(current_point, getStartingObjectVector().getNegative());
+			getStartingObject().setLocation(new_location.getX(), new_location.getY());
 		} else {
 			getParent().getDraggedBox().setCurrentPoint(event.getPoint());
 		}
@@ -56,7 +54,6 @@ public class SelectMode extends UmlMode {
 			return;
 		Point mouse_released_point = event.getPoint();
 		if (mouse_released_point.equals(getMousePressedPoint())) {
-			resetPressedReleased();
 			return;
 		}
 		getParent().clearSelectedUmlBasicObjects();
@@ -66,7 +63,6 @@ public class SelectMode extends UmlMode {
 				getParent().addSelectedUmlBasicObjects(getParent().getUmlBasicObject(i));
 			}
 		}
-		resetPressedReleased();
 		getParent().repaint();
 	}
 }
