@@ -15,6 +15,8 @@ public class Clazz extends UmlBasicObject {
 	/** The default size of the object. It is strongly recommend to set the height as the multiple of 3. */
 	private final static Dimension DEFAULT_SIZE = new Dimension(84, 90);
 
+	private final static Point DEFAULT_NAME_LOCATION = new Point(30, 20);
+
 	private Clazz(double x, double y, double width, double height) {
 		super(x, y, width, height);
 	}
@@ -51,6 +53,7 @@ public class Clazz extends UmlBasicObject {
 		icon.addPoint(new Point2D.Double(x[0], y[0]));
 		icon.addPoint(new Point2D.Double(x[0], y[2]));
 		icon.draw(g, c);
+		g.drawString(getName(), (int) (getLocation().getX() + DEFAULT_NAME_LOCATION.getX()), (int) (getLocation().getY() + DEFAULT_NAME_LOCATION.getY()));
 		super.drawForeground(g, c);
 	}
 

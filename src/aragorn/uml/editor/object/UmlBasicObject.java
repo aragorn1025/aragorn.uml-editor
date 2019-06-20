@@ -105,6 +105,8 @@ public abstract class UmlBasicObject implements Comparable<UmlBasicObject>, Draw
 	}
 
 	public String getName() {
+		if (name == null)
+			return "";
 		return name;
 	}
 

@@ -21,6 +21,7 @@ public class ChangeBasicObjectNameSubmode extends UmlSubmode {
 				String name = JOptionPane.showInputDialog(getParent().getParent(), getMessage(), "Change Name", JOptionPane.QUESTION_MESSAGE);
 				if (name != null) {
 					getParent().getSelectedUmlBasicObject(0).setName(name);
+					getParent().repaint();
 				}
 				break;
 			default:
@@ -31,7 +32,7 @@ public class ChangeBasicObjectNameSubmode extends UmlSubmode {
 
 	private String getMessage() {
 		String name = getParent().getSelectedUmlBasicObject(0).getName();
-		if (name == null) {
+		if (name == "") {
 			return new String("Please enter the new name:");
 		} else {
 			return String.format("The name of the selected is %s.%nPlease enter the new name:", name);
