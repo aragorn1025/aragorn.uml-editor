@@ -96,14 +96,14 @@ public class UmlMode extends MouseInputAdapter {
 	}
 
 	private void resetPressed() {
-		mouse_released_point = null;
-		ending_object = null;
-	}
-
-	private void resetReleased() {
 		mouse_pressed_point = null;
 		starting_object = null;
 		starting_object_vector = null;
+	}
+
+	private void resetReleased() {
+		mouse_released_point = null;
+		ending_object = null;
 	}
 
 	private void setStartingObjectVector() {
